@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "MyProject",
+			"Path": "C:\\Users\\Recov\\Desktop\\3D game prototype\\3D Games Prototyping\\MyProject 4.24\\Source\\MyProject.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "MyProjectEditor",
+			"Path": "C:\\Users\\Recov\\Desktop\\3D game prototype\\3D Games Prototyping\\MyProject 4.24\\Source\\MyProjectEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

@@ -1,0 +1,19 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-MyProject-0005.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping\MyProject 4.24\Intermediate\Build\Win64\MyProjectEditor\Development\Engine\SharedPCH.Engine.h.obj"
+"C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping\MyProject 4.24\Intermediate\Build\Win64\UE4Editor\Development\MyProject\MyProjectGameModeBase.cpp.obj"
+"C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping\MyProject 4.24\Intermediate\Build\Win64\UE4Editor\Development\MyProject\APlayerCharacterMovement.cpp.obj"
+"C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping\MyProject 4.24\Intermediate\Build\Win64\UE4Editor\Development\MyProject\PlayerCharacter.cpp.obj"
+"C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping\MyProject 4.24\Intermediate\Build\Win64\UE4Editor\Development\MyProject\MyProject.cpp.obj"
+"C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping\MyProject 4.24\Intermediate\Build\Win64\UE4Editor\Development\MyProject\MyProject.init.gen.cpp.obj"
+"C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping\MyProject 4.24\Intermediate\Build\Win64\UE4Editor\Development\MyProject\MyProjectGameModeBase.gen.cpp.obj"
+"C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping\MyProject 4.24\Intermediate\Build\Win64\UE4Editor\Development\MyProject\PlayerCharacter.gen.cpp.obj"
+"C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping\MyProject 4.24\Intermediate\Build\Win64\UE4Editor\Development\MyProject\Default.rc2.res"
+/OUT:"C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping\MyProject 4.24\Intermediate\Build\Win64\UE4Editor\Development\MyProject\UE4Editor-MyProject-0005.lib"
+/INCLUDE:IMPLEMENT_MODULE_MyProject

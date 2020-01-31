@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\MyProject.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{4ED1DAA7-1817-48C7-8601-0E3FB10DC66E}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\MyProject.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\MyProjectEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{318A9B8A-3215-452B-8292-794FF1114253}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\MyProject">
+      <UniqueIdentifier>{E07326D9-477A-4FC6-A71F-F4ACD3A0C9EE}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\MyProject\MyProject.Build.cs">
+      <Filter>Source\MyProject</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\MyProject\MyProject.cpp">
+      <Filter>Source\MyProject</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\MyProject\MyProject.h">
+      <Filter>Source\MyProject</Filter>
+    </ClInclude>
+    <Filter Include="Source\MyProject\Gamemode">
+      <UniqueIdentifier>{C43AEB9E-7F51-40D1-89B6-686C5454CD17}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\MyProject\Gamemode\MyProjectGameModeBase.cpp">
+      <Filter>Source\MyProject\Gamemode</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\MyProject\Gamemode\MyProjectGameModeBase.h">
+      <Filter>Source\MyProject\Gamemode</Filter>
+    </ClInclude>
+    <Filter Include="Source\MyProject\Player">
+      <UniqueIdentifier>{0CD0F6D3-C09C-49EA-9888-4705D1C08827}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\MyProject\Player\PlayerCharacter.cpp">
+      <Filter>Source\MyProject\Player</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\MyProject\Player\PlayerCharacter.h">
+      <Filter>Source\MyProject\Player</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\MyProject\Player\APlayerCharacterMovement.h">
+      <Filter>Source\MyProject\Player</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\MyProject\Player\APlayerCharacterMovement.cpp">
+      <Filter>Source\MyProject\Player</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

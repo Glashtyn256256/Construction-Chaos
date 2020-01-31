@@ -1,0 +1,22 @@
+﻿  Using 'git status' to determine working set for adaptive non-unity build (C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping).
+  Invalidating makefile for MyProjectEditor (UHT files changed)
+  Parsing headers for MyProjectEditor
+    Running UnrealHeaderTool "C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping\MyProject 4.24\MyProject.uproject" "C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping\MyProject 4.24\Intermediate\Build\Win64\MyProjectEditor\Development\MyProjectEditor.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -installed
+  Reflection code generated for MyProjectEditor in 34.6717276 seconds
+  Building MyProjectEditor...
+  Using Visual Studio 2019 14.24.28316 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314) and Windows 10.0.18362.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+  [Upgrade]
+  [Upgrade] Using backward-compatible build settings. The latest version of UE4 sets the following values by default, which may require code changes:
+  [Upgrade]     bLegacyPublicIncludePaths = false                 => Omits subfolders from public include paths to reduce compiler command line length. (Previously: true).
+  [Upgrade]     ShadowVariableWarningLevel = WarningLevel.Error   => Treats shadowed variable warnings as errors. (Previously: WarningLevel.Warning).
+  [Upgrade]     PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs   => Set in build.cs files to enables IWYU-style PCH model. See https://docs.unrealengine.com/en-US/Programming/BuildTools/UnrealBuildTool/IWYU/index.html. (Previously: PCHUsageMode.UseSharedPCHs).
+  [Upgrade] Suppress this message by setting 'DefaultBuildSettings = BuildSettingsVersion.V2;' in MyProjectEditor.Target.cs, and explicitly overriding settings that differ from the new defaults.
+  [Upgrade]
+  Building 7 actions with 8 processes...
+    [1/7] APlayerCharacterMovement.cpp
+C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping\MyProject 4.24\Source\MyProject\Player\APlayerCharacterMovement.h(12): fatal error C1083: Cannot open include file: 'APlayerCharacterMovement.generated.h': No such file or directory
+    [2/7] PlayerCharacter.cpp
+C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping\MyProject 4.24\Source\MyProject\Player\APlayerCharacterMovement.h(12): fatal error C1083: Cannot open include file: 'APlayerCharacterMovement.generated.h': No such file or directory
+    [3/7] MyProject.init.gen.cpp
+    [4/7] PlayerCharacter.gen.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.MakeFile.Targets(44,5): error MSB3075: The command ""C:\Program Files\Epic Games\UE_4.24\Engine\Build\BatchFiles\Build.bat" MyProjectEditor Win64 Development -Project="C:\Users\Recov\Desktop\3D game prototype\3D Games Prototyping\MyProject 4.24\MyProject.uproject" -WaitMutex -FromMsBuild" exited with code 5. Please verify that you have sufficient rights to run this command.
