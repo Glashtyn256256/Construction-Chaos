@@ -5,7 +5,7 @@
 ===========================================================================*/
 
 #include "UObject/GeneratedCppIncludes.h"
-#include "MyProject/MyProjectGameModeBase.h"
+#include "MyProject/Gamemode/MyProjectGameModeBase.h"
 #ifdef _MSC_VER
 #pragma warning (push)
 #pragma warning (disable : 4883)
@@ -42,8 +42,8 @@ void EmptyLinkFunctionForGeneratedCodeMyProjectGameModeBase() {}
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AMyProjectGameModeBase_Statics::Class_MetaDataParams[] = {
 		{ "Comment", "/**\n * \n */" },
 		{ "HideCategories", "Info Rendering MovementReplication Replication Actor Input Movement Collision Rendering Utilities|Transformation" },
-		{ "IncludePath", "MyProjectGameModeBase.h" },
-		{ "ModuleRelativePath", "MyProjectGameModeBase.h" },
+		{ "IncludePath", "Gamemode/MyProjectGameModeBase.h" },
+		{ "ModuleRelativePath", "Gamemode/MyProjectGameModeBase.h" },
 		{ "ShowCategories", "Input|MouseInput Input|TouchInput" },
 	};
 #endif
@@ -74,7 +74,7 @@ void EmptyLinkFunctionForGeneratedCodeMyProjectGameModeBase() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AMyProjectGameModeBase, 278161448);
+	IMPLEMENT_CLASS(AMyProjectGameModeBase, 591293273);
 	template<> MYPROJECT_API UClass* StaticClass<AMyProjectGameModeBase>()
 	{
 		return AMyProjectGameModeBase::StaticClass();

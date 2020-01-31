@@ -42,4 +42,25 @@
       <Filter>Source\MyProject</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source\MyProject\Player">
+      <UniqueIdentifier>{bfc750cf-d6de-4aa3-8f2c-7383a5c37400}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\MyProject\Player\PlayerCharacter.h">
+      <Filter>Source\MyProject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\MyProject\Player\PlayerCharacterMovement.h">
+      <Filter>Source\MyProject\Player</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\MyProject\Player\PlayerCharacter.cpp">
+      <Filter>Source\MyProject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\MyProject\Player\PlayerCharacterMovement.cpp">
+      <Filter>Source\MyProject\Player</Filter>
+    </ClCompile>
+  </ItemGroup>
 </Project>
