@@ -1,15 +1,14 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
 using UnrealBuildTool;
 using System.Collections.Generic;
 
 public class MiniGameBananzaTarget : TargetRules
 {
-	public MiniGameBananzaTarget(TargetInfo Target) : base(Target)
+	public MiniGameBananzaTarget( TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
-
 		ExtraModuleNames.AddRange( new string[] { "MiniGameBananza" } );
 	}
 }
