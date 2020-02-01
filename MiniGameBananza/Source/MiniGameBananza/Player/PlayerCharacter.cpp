@@ -28,6 +28,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// Bind axis mappings to movement functions
 	PlayerInputComponent->BindAxis("PlayerForward", this, &APlayerCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("PlayerRight", this, &APlayerCharacter::MoveRight);
 }
