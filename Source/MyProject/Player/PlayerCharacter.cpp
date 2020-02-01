@@ -11,7 +11,7 @@
 // Sets default values
 APlayerCharacter::APlayerCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 }
@@ -21,13 +21,13 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* InputComponent
 {
 	Super::SetupPlayerInputComponent(InputComponent);
 
-	InputComponent->BindAxis("PlayerForward",	this, &APlayerCharacter::MoveForward);
-	InputComponent->BindAxis("PlayerRight",		this, &APlayerCharacter::MoveRight);
+	InputComponent->BindAxis("PlayerForward", this, &APlayerCharacter::MoveForward);
+	InputComponent->BindAxis("PlayerRight", this, &APlayerCharacter::MoveRight);
 }
 
 void APlayerCharacter::MoveForward(float Value)
 {
-	AddMovementInput(FVector(50,0,0), Value);
+	AddMovementInput(FVector(50, 0, 0), Value);
 	GEngine->AddOnScreenDebugMessage(
 		-1,
 		0.1f,
@@ -49,7 +49,7 @@ void APlayerCharacter::MoveRight(float Value)
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame

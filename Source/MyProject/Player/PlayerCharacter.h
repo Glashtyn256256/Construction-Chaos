@@ -28,9 +28,9 @@ public:
 
 private:
 	UFUNCTION()
-	void MoveForward(float value);
+	virtual void MoveForward(float value);
 
 	UFUNCTION()
-	void MoveRight(float Value);
+	virtual void MoveRight(float Value);
 
 };
