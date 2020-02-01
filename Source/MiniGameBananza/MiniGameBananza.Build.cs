@@ -1,10 +1,10 @@
-// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 using UnrealBuildTool;
 
-public class MyProject : ModuleRules
+public class MiniGameBananza : ModuleRules
 {
-	public MyProject(ReadOnlyTargetRules Target) : base(Target)
+	public MiniGameBananza(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
