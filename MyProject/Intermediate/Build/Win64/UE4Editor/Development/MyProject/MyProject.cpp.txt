@@ -1,2 +1,0 @@
-F:\Year 4\3D Games Prototyping\MyProject\Intermediate\Build\Win64\UE4Editor\Development\MyProject\Definitions.MyProject.h
-f:\year 4\3d games prototyping\myproject\source\myproject\MyProject.h
