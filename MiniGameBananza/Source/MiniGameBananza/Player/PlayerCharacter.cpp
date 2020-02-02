@@ -9,10 +9,28 @@
 #include "Engine/Engine.h"
 
 // Sets default values
-APlayerCharacter::APlayerCharacter()
+APlayerCharacter::APlayerCharacter(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	AutoPossessPlayer = EAutoReceiveInput::Player0;
+
+	MovementComponent = CreateDefaultSubobject<UPlayerCharacterMovement>(TEXT("Movement Component"));
+
+	OurVisibleComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Component"));
+	if (OurVisibleComponent)
+	{
+		OurVisibleComponent->SetSimulatePhysics(false);
+		OurVisibleComponent->SetupAttachment(RootComponent);
+	}
+
+	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Component"));
+	if (BoxComponent)
+	{
+		BoxComponent->SetupAttachment(OurVisibleComponent);
+	}
 
 }
 
@@ -42,7 +60,9 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 void APlayerCharacter::MoveForward(float Value)
 {
-	AddMovementInput(FVector(50, 0, 0), Value);
+	MovementComponent->AddInputVector(FVector(10, 0, 0) * Value,true);
+
+	//AddMovementInput(FVector(50, 0, 0), Value);
 	GEngine->AddOnScreenDebugMessage(
 		-1,
 		0.1f,
@@ -52,7 +72,9 @@ void APlayerCharacter::MoveForward(float Value)
 
 void APlayerCharacter::MoveRight(float Value)
 {
-	AddMovementInput(FVector(0, 50, 0), Value);
+	MovementComponent->AddInputVector(FVector(0, 10, 0) * Value, true);
+
+	//AddMovementInput(FVector(0, 50, 0), Value);
 	GEngine->AddOnScreenDebugMessage(
 		-1,
 		0.1f,
