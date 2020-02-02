@@ -52,12 +52,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 	FVector forward = GetActorForwardVector() * playerForward;
 	FVector right = GetActorRightVector() * playerRight;
 
-	FVector velocity = OurVisibleComponent->GetPhysicsLinearVelocity();
-	FVector newVelocity = (forward + right) * playerSpeed;
-	// maintain gravity
-	newVelocity.Z = velocity.Z;
-
-	OurVisibleComponent->BodyInstance.SetLinearVelocity(newVelocity, false);
+	OurVisibleComponent->BodyInstance.SetLinearVelocity((forward + right) * playerSpeed, false);
 
 }
 

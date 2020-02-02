@@ -6,17 +6,16 @@
 #include "GameFramework/Character.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
-#include "PlayerCharacterMovement.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
 class MINIGAMEBANANZA_API APlayerCharacter : public APawn
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	//APlayerCharacter(const FObjectInitializer& ObjectInitializer);
+	APlayerCharacter();
 
 protected:
 	// Called when the game starts or when spawned
@@ -28,6 +27,9 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+protected:
+
 
 private:
 	UFUNCTION()
@@ -41,9 +43,10 @@ public:
 	UStaticMeshComponent* OurVisibleComponent;
 
 	UPROPERTY(EditDefaultsOnly)
-	UBoxComponent* BoxComponent;
+	float playerSpeed = 500.0f;
 
-	UPROPERTY()
-	UPlayerCharacterMovement* MovementComponent;
+protected:
+	float playerForward;
+	float playerRight;
 
 };
