@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "BombManBomb.generated.h"
 #include "Components/StaticMeshComponent.h"
+#include "BombManBomb.generated.h"
 
 UCLASS()
 class MINIGAMEBANANZA_API ABombManBomb : public AActor
@@ -14,7 +14,7 @@ class MINIGAMEBANANZA_API ABombManBomb : public AActor
 	
 public:	
 	// Sets default values for this actor's properties
-	ABombManBomb();
+	ABombManBomb(bool Armed = true);
 	
 protected:
 	// Called when the game starts or when spawned
@@ -28,13 +28,17 @@ public:
 	void DefuseBomb();
 	void ResetBomb();
 
+	void SetCountdownModifier(float Value);
+
+	void Explode();
+
 public:
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* StaticMeshComponent;
 
 	// How long it takes for the bomb to explode when armed
 	UPROPERTY(EditDefaultsOnly)
-	float DetonationTime;
+	float DetonationTime = 4.5f;
 
 protected:
 
@@ -42,5 +46,6 @@ protected:
 private:
 	bool IsArmed;
 	float TimeUntilDetonation;
+	float CountdownModifier;
 
 };
