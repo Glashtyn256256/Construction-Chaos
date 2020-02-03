@@ -2,9 +2,11 @@
 
 
 #include "BombManBomb.h"
+#include "Core/Public/Misc/AssertionMacros.h"
 
 // Sets default values
-ABombManBomb::ABombManBomb()
+ABombManBomb::ABombManBomb(bool Armed)
+	: IsArmed(Armed), CountdownModifier(1.0f)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -31,7 +33,19 @@ void ABombManBomb::Tick(float DeltaTime)
 
 	if (IsArmed)
 	{
-		TimeUntilDetonation -= DeltaTime;
+		TimeUntilDetonation -= DeltaTime * CountdownModifier;
+		if (TimeUntilDetonation <= 0.0f)
+		{
+			Explode();
+		}
+	}
+}
+
+void ABombManBomb::SetCountdownModifier(float Value)
+{
+	if (ensure(Value >= 1 && "Modifier value should never be below 1"))
+	{
+		CountdownModifier = Value;
 	}
 }
 
@@ -48,4 +62,9 @@ void ABombManBomb::DefuseBomb()
 void ABombManBomb::ResetBomb()
 {
 	TimeUntilDetonation = DetonationTime;
+}
+
+void ABombManBomb::Explode()
+{
+
 }
