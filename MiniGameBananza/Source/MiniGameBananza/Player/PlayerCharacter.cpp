@@ -40,23 +40,25 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 void APlayerCharacter::MoveForward(float Value)
 {
-	AddMovementInput(GetActorForwardVector() * Value * playerSpeed);
+	InputForward = Value;
+	//AddMovementInput(GetActorForwardVector() * Value * playerSpeed);
 
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		0.1f,
-		FColor::Cyan,
-		FString::Printf(TEXT("%f"), Value));
+	//GEngine->AddOnScreenDebugMessage(
+	//	-1,
+	//	0.1f,
+	//	FColor::Cyan,
+	//	FString::Printf(TEXT("%f"), Value));
 }
 
 void APlayerCharacter::MoveRight(float Value)
 {
-	AddMovementInput(GetActorRightVector() * Value * playerSpeed);
+	InputRight = Value;
+	//AddMovementInput(GetActorRightVector() * Value * playerSpeed);
 
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		0.1f,
-		FColor::Green,
-		FString::Printf(TEXT("%f"), Value));
+	//GEngine->AddOnScreenDebugMessage(
+	//	-1,
+	//	0.1f,
+	//	FColor::Green,
+	//	FString::Printf(TEXT("%f"), Value));
 }
 

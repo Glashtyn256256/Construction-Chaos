@@ -9,6 +9,11 @@ ABombManBlock::ABombManBlock()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
+	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Component"));
+	if (MeshComponent)
+	{
+		MeshComponent->AttachTo(RootComponent);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -18,10 +23,8 @@ void ABombManBlock::BeginPlay()
 	
 }
 
-// Called every frame
-void ABombManBlock::Tick(float DeltaTime)
+void ABombManBlock::DestroyBlock()
 {
-	Super::Tick(DeltaTime);
-
+	Destroy();
 }
 
