@@ -9,7 +9,7 @@
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
-class MINIGAMEBANANZA_API APlayerCharacter : public APawn
+class MINIGAMEBANANZA_API APlayerCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -40,13 +40,6 @@ private:
 
 public:
 	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* OurVisibleComponent;
-
-	UPROPERTY(EditDefaultsOnly)
-	float playerSpeed = 500.0f;
-
-protected:
-	float playerForward;
-	float playerRight;
+	float playerSpeed = 10.0f;
 
 };
