@@ -9,20 +9,10 @@
 #include "Engine/Engine.h"
 
 // Sets default values
-APlayerCharacter::APlayerCharacter() : playerForward(0.0f),playerRight(0.0f)
+APlayerCharacter::APlayerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	OurVisibleComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Component"));
-	if (OurVisibleComponent)
-	{
-		OurVisibleComponent->SetSimulatePhysics(true);
-		OurVisibleComponent->SetupAttachment(RootComponent);
-		OurVisibleComponent->BodyInstance.bLockXRotation = true;
-		OurVisibleComponent->BodyInstance.bLockYRotation = true;
-		OurVisibleComponent->BodyInstance.bLockZRotation = true;
-	}
 }
 
 // Called when the game starts or when spawned
@@ -46,26 +36,12 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if (!OurVisibleComponent) return;
-
-	FVector forward = GetActorForwardVector() * playerForward;
-	FVector right = GetActorRightVector() * playerRight;
-
-	FVector velocity = OurVisibleComponent->GetPhysicsLinearVelocity();
-	FVector newVelocity = (forward + right) * playerSpeed;
-	// maintain gravity
-	newVelocity.Z = velocity.Z;
-
-	OurVisibleComponent->BodyInstance.SetLinearVelocity(newVelocity, false);
-
 }
 
 void APlayerCharacter::MoveForward(float Value)
 {
-	playerForward = Value;
+	AddMovementInput(GetActorForwardVector() * Value * playerSpeed);
 
-	//AddMovementInput(FVector(50, 0, 0), Value);
 	GEngine->AddOnScreenDebugMessage(
 		-1,
 		0.1f,
@@ -75,9 +51,8 @@ void APlayerCharacter::MoveForward(float Value)
 
 void APlayerCharacter::MoveRight(float Value)
 {
-	playerRight = Value;
+	AddMovementInput(GetActorRightVector() * Value * playerSpeed);
 
-	//AddMovementInput(FVector(0, 50, 0), Value);
 	GEngine->AddOnScreenDebugMessage(
 		-1,
 		0.1f,
