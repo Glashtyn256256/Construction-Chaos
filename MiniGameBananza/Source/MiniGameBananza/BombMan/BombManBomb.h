@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "BombManBomb.generated.h"
+#include "Components/StaticMeshComponent.h"
 
 UCLASS()
 class MINIGAMEBANANZA_API ABombManBomb : public AActor
@@ -14,7 +15,7 @@ class MINIGAMEBANANZA_API ABombManBomb : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ABombManBomb();
-
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -22,5 +23,24 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void ArmBomb();
+	void DefuseBomb();
+	void ResetBomb();
+
+public:
+	UPROPERTY()
+	UStaticMeshComponent* StaticMeshComponent;
+
+	// How long it takes for the bomb to explode when armed
+	UPROPERTY(EditDefaultsOnly)
+	float DetonationTime;
+
+protected:
+
+
+private:
+	bool IsArmed;
+	float TimeUntilDetonation;
 
 };
