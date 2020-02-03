@@ -17,7 +17,14 @@ class MINIGAMEBANANZA_API ABombManPlayerCharacter : public APlayerCharacter
 public:
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditDefaultsOnly)
+	float PlayerMovementStep = 100.0f;
+
+	UPROPERTY(EditDefaultsOnly)
+	float PlayerMovementSpeed = 50.0f;
+
 private:
+
 	FVector TargetPosition;
 	bool bIsMoving;
 };
