@@ -29,7 +29,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
-
+	float InputForward;
+	float InputRight;
 
 private:
 	UFUNCTION()
@@ -40,6 +41,6 @@ private:
 
 public:
 	UPROPERTY(EditDefaultsOnly)
-	float playerSpeed = 10.0f;
+	float PlayerSpeed = 10.0f;
 
 };
