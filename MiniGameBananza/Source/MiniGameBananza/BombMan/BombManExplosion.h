@@ -5,25 +5,32 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
-#include "Explosion.generated.h"
+#include "Particles/ParticleSystemComponent.h"
+#include "BombManExplosion.generated.h"
 
 UCLASS()
-class MINIGAMEBANANZA_API AExplosion : public AActor
+class MINIGAMEBANANZA_API ABombManExplosion : public AActor
 {
 	GENERATED_BODY()
-
-	UPROPERTY(EditDefaultsOnly, category = "Box")
-	UBoxComponent* BoxCollision;
 	
 public:	
 	// Sets default values for this actor's properties
-	AExplosion();
+	ABombManExplosion();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
+
+public:
+		UPROPERTY(EditDefaultsOnly, Category = "Box Component")
+		UBoxComponent* BoxComponent;
+
+		UPROPERTY(EditDefaultsOnly, Category = "Particle System Component")
+		UParticleSystemComponent* ParticleSystem;
+		
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
 };
