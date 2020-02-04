@@ -3,10 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Containers/Array.h"
+
 #include "PlayerCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "MiniGameBananza/BombMan/BombManBlock.h"
+#include "MiniGameBananza/BombMan/BombManBomb.h"
 #include "BombManPlayerCharacter.generated.h"
 
 /**
@@ -26,25 +29,36 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	bool IsMoving() const;
+protected:
+	virtual void OnInteract() override;
 
 private:
 	bool ContainsWall(TArray<UPrimitiveComponent*> overlaps);
 
-public:
+	UFUNCTION(BlueprintCallable)
+	void PlantBomb(bool Armed = true);
 
-	UPROPERTY(EditDefaultsOnly)
+	UFUNCTION(BlueprintCallable)
+	void OnBombDetonation(ABombManBomb * Bomb);
+
+public:
+	UPROPERTY(EditDefaultsOnly, Category = "Bomb")
+	TSubclassOf<ABombManBomb> BombToSpawn;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Bomb")
+	uint BombPlacementLimit = 3;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 	USphereComponent* SphereComponent;
 
 	UPROPERTY(EditDefaultsOnly)
 	float PlayerMovementStep = 100.0f;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 	float PlayerMovementSpeed = 500.0f;
 
 private:
-
-private:
-
+	TArray<ABombManBomb *> PlacedBombs;
 	FVector TargetPosition;
 	bool bIsMoving;
 };
