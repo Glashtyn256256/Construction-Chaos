@@ -5,13 +5,13 @@
 #include "Core/Public/Misc/AssertionMacros.h"
 
 // Sets default values
-ABombManBomb::ABombManBomb(bool Armed)
-	: IsArmed(Armed), CountdownModifier(1.0f)
+ABombManBomb::ABombManBomb()
+	: IsArmed(false), CountdownModifier(1.0f)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
+	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Component"));
 	if (StaticMeshComponent)
 	{
 		StaticMeshComponent->AttachTo(RootComponent);
