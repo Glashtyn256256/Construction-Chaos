@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "PlayerCharacter.h"
 #include "Components/SphereComponent.h"
+#include "Components/PrimitiveComponent.h"
 #include "MiniGameBananza/BombMan/BombManBlock.h"
 #include "BombManPlayerCharacter.generated.h"
 
@@ -23,6 +24,13 @@ public:
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
+
+	bool IsMoving() const;
+
+private:
+	bool ContainsWall(TArray<UPrimitiveComponent*> overlaps);
+
+public:
 
 	UPROPERTY(EditDefaultsOnly)
 	USphereComponent* SphereComponent;
