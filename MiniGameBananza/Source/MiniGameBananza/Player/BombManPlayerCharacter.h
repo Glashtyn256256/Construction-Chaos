@@ -46,7 +46,7 @@ public:
 	TSubclassOf<ABombManBomb> BombToSpawn;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Bomb")
-	uint BombPlacementLimit = 3;
+	int BombPlacementLimit = 3;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 	USphereComponent* SphereComponent;
