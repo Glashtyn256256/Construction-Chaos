@@ -24,7 +24,7 @@ void ABombManPlayerCharacter::BeginPlay()
 		SphereComponent->SetSphereRadius(PlayerMovementStep * 0.4f);
 	}
 
-	TargetPosition = GetActorLocation();
+	PreviousPosition = TargetPosition = GetActorLocation();
 }
 
 void ABombManPlayerCharacter::Tick(float DeltaTime)
@@ -59,12 +59,14 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 
 		if (bCanMoveForward)
 		{
+			PreviousPosition = TargetPosition;
 			TargetPosition = GetActorLocation();
 			TargetPosition += GetActorForwardVector() * PlayerMovementStep * ForwardDir;
 			bIsMoving = true;
 		}
 		else if (bCanMoveRight)
 		{
+			PreviousPosition = TargetPosition;
 			TargetPosition = GetActorLocation();
 			TargetPosition += GetActorRightVector() * PlayerMovementStep * RightDir;
 			bIsMoving = true;
@@ -82,6 +84,7 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 		{
 			bIsMoving = false;
 			SetActorLocation(TargetPosition);
+			PreviousPosition = TargetPosition;
 		}
 		else
 		{
@@ -109,7 +112,7 @@ void ABombManPlayerCharacter::OnInteract()
 {
 	Super::OnInteract();
 
-	if (!IsMoving() && PlacedBombs.Num() < BombPlacementLimit)
+	if (PlacedBombs.Num() < BombPlacementLimit)
 	{
 		PlantBomb();
 	}
@@ -118,7 +121,7 @@ void ABombManPlayerCharacter::OnInteract()
 void ABombManPlayerCharacter::PlantBomb(bool Armed)
 {
 	FActorSpawnParameters spawnParams;
-	FVector spawnLocation = GetActorLocation();
+	FVector spawnLocation = PreviousPosition;
 	FRotator spawnRotation = GetActorRotation();
 
 	for (ABombManBomb * bomb : PlacedBombs)

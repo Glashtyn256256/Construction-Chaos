@@ -9,7 +9,7 @@
 
 // Sets default values
 ABombManBomb::ABombManBomb()
-	: IsArmed(false), CountdownModifier(1.0f), TimeUntilDetonation(StartingDetonationTime), GrowthProgress(0.0f)
+	: IsArmed(false), CountdownModifier(1.0f), TimeUntilDetonation(StartingDetonationTime), GrowthProgress(0.0f), bStartGrowing(false)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -24,7 +24,7 @@ ABombManBomb::ABombManBomb()
 	if (SphereComponent)
 	{
 		SphereComponent->AttachTo(RootComponent);
-		SphereComponent->SetSphereRadius(50.0f);
+		SphereComponent->SetSphereRadius(25.0f);
 		SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ABombManBomb::OnBeginOverlap);
 		SphereComponent->OnComponentEndOverlap.AddDynamic(this, &ABombManBomb::OnEndOverlap);
 	}
@@ -39,6 +39,13 @@ void ABombManBomb::BeginPlay()
 	if (SphereComponent)
 	{
 		SphereComponent->SetWorldLocation(GetActorLocation());
+	}
+
+	SetActorScale3D(MinimumScale);
+
+	if (!IsOverlapping())
+	{
+		bStartGrowing = true;
 	}
 }
 
@@ -91,7 +98,7 @@ void ABombManBomb::HandleExplode(float DeltaTime)
 
 void ABombManBomb::HandleGrow(float DeltaTime)
 {
-	if (GrowthProgress <= 1.0f)
+	if (bStartGrowing && GrowthProgress <= 1.0f)
 	{
 		GrowthProgress += DeltaTime * GrowthTime;
 
@@ -107,19 +114,31 @@ void ABombManBomb::OnBeginOverlap(UPrimitiveComponent* Component, AActor* OtherA
 
 void ABombManBomb::OnEndOverlap(UPrimitiveComponent* Component, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex)
 {
-	GEngine->AddOnScreenDebugMessage(
+	/*GEngine->AddOnScreenDebugMessage(
 		-1,
 		0.1f,
 		FColor::Cyan,
-		FString::Printf(TEXT("End")));
+		FString::Printf(TEXT("End")));*/
 
-	if (!SphereComponent || bStartShrinking) return;
+	if (!SphereComponent || bStartGrowing) return;
 
+	TArray<UPrimitiveComponent*> overlapping;
+	SphereComponent->GetOverlappingComponents(overlapping);
+	if (!IsOverlapping())
+	{
+		bStartGrowing = true;
+	}
+
+}
+
+bool ABombManBomb::IsOverlapping() const
+{
 	TArray<UPrimitiveComponent*> overlapping;
 	SphereComponent->GetOverlappingComponents(overlapping);
 	if (overlapping.Num() == 0)
 	{
-		bStartShrinking = true;
+		return false;
 	}
 
+	return true;
 }
