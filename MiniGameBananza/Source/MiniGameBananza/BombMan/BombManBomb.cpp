@@ -89,7 +89,10 @@ void ABombManBomb::HandleExplode(float DeltaTime)
 		TimeUntilDetonation -= DeltaTime * CountdownModifier;
 		if (TimeUntilDetonation <= 0.0f)
 		{
-			BombDetonationEventHandler.ExecuteIfBound(this);
+			if (OnBombExplode.IsBound())
+			{
+				OnBombExplode.Broadcast(this);
+			}
 
 			Destroy();
 		}
