@@ -60,5 +60,6 @@ public:
 private:
 	TArray<ABombManBomb *> PlacedBombs;
 	FVector TargetPosition;
+	FVector PreviousPosition;
 	bool bIsMoving;
 };

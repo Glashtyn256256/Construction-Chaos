@@ -38,6 +38,7 @@ public:
 	void Arm();
 	void Defuse();
 	void Reset();
+	bool IsOverlapping() const;
 
 	void SetCountdownModifier(float Value);
 
@@ -69,7 +70,7 @@ public:
 	FVector MaximumScale = FVector::OneVector;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Growth Animation")
-	FVector MinimumScale = FVector(0.25f, 0.25f, 0.25f);
+	FVector MinimumScale = FVector(0.025f, 0.025f, 0.025f);
 
 	// Delegate
 	FOnBombDetonation BombDetonationEventHandler;
@@ -82,6 +83,6 @@ private:
 	float TimeUntilDetonation;
 	float CountdownModifier;
 	float GrowthProgress;
-	bool bStartShrinking;
+	bool bStartGrowing;
 
 };
