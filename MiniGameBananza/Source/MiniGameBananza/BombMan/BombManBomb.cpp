@@ -6,7 +6,7 @@
 
 // Sets default values
 ABombManBomb::ABombManBomb()
-	: IsArmed(false), CountdownModifier(1.0f)
+	: IsArmed(false), CountdownModifier(1.0f), TimeUntilDetonation(StartingDetonationTime)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -49,22 +49,24 @@ void ABombManBomb::SetCountdownModifier(float Value)
 	}
 }
 
-void ABombManBomb::ArmBomb()
+void ABombManBomb::Arm()
 {
 	IsArmed = true;
 }
 
-void ABombManBomb::DefuseBomb()
+void ABombManBomb::Defuse()
 {
 	IsArmed = false;
 }
 
-void ABombManBomb::ResetBomb()
+void ABombManBomb::Reset()
 {
-	TimeUntilDetonation = DetonationTime;
+	TimeUntilDetonation = StartingDetonationTime;
 }
 
 void ABombManBomb::Explode()
 {
+	BombDetonationEventHandler.ExecuteIfBound(this);
+
 	Destroy();
 }

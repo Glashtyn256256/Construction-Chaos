@@ -2,6 +2,8 @@
 
 
 #include "BombManPlayerCharacter.h"
+#include "Components/InputComponent.h"
+
 #include "GameFramework/Actor.h"
 
 void ABombManPlayerCharacter::Tick(float DeltaTime)
@@ -41,4 +43,38 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 			AddMovementInput(targetDirection * PlayerMovementSpeed);
 		}
 	}
+}
+
+void ABombManPlayerCharacter::OnInteract()
+{
+	Super::OnInteract();
+
+	if (PlacedBombs.Num() < BombPlacementLimit)
+	{
+		PlantBomb();
+	}
+}
+
+void ABombManPlayerCharacter::PlantBomb(bool Armed)
+{
+	FActorSpawnParameters spawnParams;
+	FVector spawnLocation = GetActorLocation();
+	FRotator spawnRotation = GetActorRotation();
+
+	ABombManBomb * bomb = GetWorld()->SpawnActor<ABombManBomb>(BombToSpawn, spawnLocation, spawnRotation, spawnParams);
+	if (bomb)
+	{
+		if (Armed)
+		{
+			bomb->Arm();
+		}
+
+		bomb->BombDetonationEventHandler.BindUObject(this, &ABombManPlayerCharacter::OnBombDetonation);
+		PlacedBombs.Add(bomb);
+	}
+}
+
+void ABombManPlayerCharacter::OnBombDetonation(ABombManBomb * Bomb)
+{
+	PlacedBombs.Remove(Bomb);
 }

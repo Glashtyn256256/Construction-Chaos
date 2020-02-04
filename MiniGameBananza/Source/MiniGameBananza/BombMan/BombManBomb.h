@@ -5,7 +5,16 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
+
 #include "BombManBomb.generated.h"
+
+
+
+#pragma region Delegate Decl
+
+DECLARE_DELEGATE_OneParam(FOnBombDetonation, ABombManBomb *)
+
+#pragma endregion
 
 UCLASS()
 class MINIGAMEBANANZA_API ABombManBomb : public AActor
@@ -24,9 +33,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void ArmBomb();
-	void DefuseBomb();
-	void ResetBomb();
+	void Arm();
+	void Defuse();
+	void Reset();
 
 	void SetCountdownModifier(float Value);
 
@@ -38,7 +47,10 @@ public:
 
 	// How long it takes for the bomb to explode when armed
 	UPROPERTY(EditDefaultsOnly)
-	float DetonationTime = 4.5f;
+	float StartingDetonationTime = 4.5f;
+
+	// Delegate
+	FOnBombDetonation BombDetonationEventHandler;
 
 protected:
 
