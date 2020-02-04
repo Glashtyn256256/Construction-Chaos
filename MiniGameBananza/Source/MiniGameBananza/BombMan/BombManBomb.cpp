@@ -3,10 +3,11 @@
 
 #include "BombManBomb.h"
 #include "Core/Public/Misc/AssertionMacros.h"
+#include "Math/UnrealMathVectorCommon.h"
 
 // Sets default values
 ABombManBomb::ABombManBomb()
-	: IsArmed(false), CountdownModifier(1.0f), TimeUntilDetonation(StartingDetonationTime)
+	: IsArmed(false), CountdownModifier(1.0f), TimeUntilDetonation(StartingDetonationTime), GrowthProgress(0.0f)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -31,14 +32,9 @@ void ABombManBomb::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (IsArmed)
-	{
-		TimeUntilDetonation -= DeltaTime * CountdownModifier;
-		if (TimeUntilDetonation <= 0.0f)
-		{
-			Explode();
-		}
-	}
+	HandleExplode(DeltaTime);
+
+	HandleGrow(DeltaTime);
 }
 
 void ABombManBomb::SetCountdownModifier(float Value)
@@ -64,9 +60,28 @@ void ABombManBomb::Reset()
 	TimeUntilDetonation = StartingDetonationTime;
 }
 
-void ABombManBomb::Explode()
+void ABombManBomb::HandleExplode(float DeltaTime)
 {
-	BombDetonationEventHandler.ExecuteIfBound(this);
+	if (IsArmed)
+	{
+		TimeUntilDetonation -= DeltaTime * CountdownModifier;
+		if (TimeUntilDetonation <= 0.0f)
+		{
+			BombDetonationEventHandler.ExecuteIfBound(this);
 
-	Destroy();
+			Destroy();
+		}
+	}
+}
+
+void ABombManBomb::HandleGrow(float DeltaTime)
+{
+	if (GrowthProgress <= 1.0f)
+	{
+		GrowthProgress += DeltaTime * GrowthTime;
+
+		GrowthProgress = FMath::Clamp<float>(GrowthProgress, 0, 1);
+
+		SetActorScale3D(FMath::Lerp(MinimumScale, MaximumScale, GrowthProgress));
+	}
 }

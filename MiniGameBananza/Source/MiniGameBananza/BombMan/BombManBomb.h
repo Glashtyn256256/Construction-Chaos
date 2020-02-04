@@ -39,7 +39,9 @@ public:
 
 	void SetCountdownModifier(float Value);
 
-	void Explode();
+	void HandleExplode(float DeltaTime);
+
+	void HandleGrow(float DeltaTime);
 
 public:
 	UPROPERTY(EditDefaultsOnly)
@@ -48,6 +50,15 @@ public:
 	// How long it takes for the bomb to explode when armed
 	UPROPERTY(EditDefaultsOnly)
 	float StartingDetonationTime = 4.5f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Growth Animation")
+	float GrowthTime = 1.5f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Growth Animation")
+	FVector MaximumScale = FVector::OneVector;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Growth Animation")
+	FVector MinimumScale = FVector(0.25f, 0.25f, 0.25f);
 
 	// Delegate
 	FOnBombDetonation BombDetonationEventHandler;
@@ -59,5 +70,6 @@ private:
 	bool IsArmed;
 	float TimeUntilDetonation;
 	float CountdownModifier;
+	float GrowthProgress;
 
 };
