@@ -40,6 +40,6 @@ private:
 
 public:
 	UPROPERTY(EditDefaultsOnly)
-	float PlayerSpeed = 10.0f;
+	float playerSpeed = 10.0f;
 
 };

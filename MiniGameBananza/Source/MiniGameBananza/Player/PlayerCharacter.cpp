@@ -40,7 +40,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 void APlayerCharacter::MoveForward(float Value)
 {
-	AddMovementInput(GetActorForwardVector() * Value * PlayerSpeed);
+	AddMovementInput(GetActorForwardVector() * Value * playerSpeed);
 
 	GEngine->AddOnScreenDebugMessage(
 		-1,
@@ -51,7 +51,7 @@ void APlayerCharacter::MoveForward(float Value)
 
 void APlayerCharacter::MoveRight(float Value)
 {
-	AddMovementInput(GetActorRightVector() * Value * PlayerSpeed);
+	AddMovementInput(GetActorRightVector() * Value * playerSpeed);
 
 	GEngine->AddOnScreenDebugMessage(
 		-1,
