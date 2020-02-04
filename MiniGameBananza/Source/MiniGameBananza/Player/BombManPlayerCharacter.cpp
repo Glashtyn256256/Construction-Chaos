@@ -103,7 +103,7 @@ void ABombManPlayerCharacter::OnInteract()
 {
 	Super::OnInteract();
 
-	if (PlacedBombs.Num() < BombPlacementLimit)
+	if (!IsMoving() && PlacedBombs.Num() < BombPlacementLimit)
 	{
 		PlantBomb();
 	}
