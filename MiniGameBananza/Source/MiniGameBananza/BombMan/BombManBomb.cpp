@@ -43,7 +43,7 @@ void ABombManBomb::Tick(float DeltaTime)
 
 void ABombManBomb::SetCountdownModifier(float Value)
 {
-	if (ensure(Value >= 1 && "Modifier value should never be below 1"))
+	if (ensure(Value > 0 && "Modifier value should never be below 0"))
 	{
 		CountdownModifier = Value;
 	}
@@ -66,5 +66,5 @@ void ABombManBomb::ResetBomb()
 
 void ABombManBomb::Explode()
 {
-
+	Destroy();
 }
