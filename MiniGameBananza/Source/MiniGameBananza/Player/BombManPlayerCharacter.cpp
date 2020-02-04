@@ -31,21 +31,21 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 
 		if (bCanMoveForward)
 		{
-			TArray<AActor*> overlapping;
+			TArray<UPrimitiveComponent*> overlapping;
 			SphereComponent->SetWorldLocation(GetActorLocation() + GetActorForwardVector() * PlayerMovementStep * ForwardDir);
-			SphereComponent->GetOverlappingActors(overlapping, ABombManBlock::StaticClass());
+			SphereComponent->GetOverlappingComponents(overlapping);
 
-			if (overlapping.Num() > 0)
+			if (ContainsWall(overlapping))
 				bCanMoveForward = false;
 		}
 
 		if (bCanMoveRight)
 		{
-			TArray<AActor*> overlapping;
+			TArray<UPrimitiveComponent*> overlapping;
 			SphereComponent->SetWorldLocation(GetActorLocation() + GetActorRightVector() * PlayerMovementStep * RightDir);
-			SphereComponent->GetOverlappingActors(overlapping, ABombManBlock::StaticClass());
+			SphereComponent->GetOverlappingComponents(overlapping);
 
-			if (overlapping.Num() > 0)
+			if (ContainsWall(overlapping))
 				bCanMoveRight = false;
 		}
 
@@ -85,4 +85,20 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 			//AddMovementInput(targetDirection * PlayerMovementSpeed);
 		}
 	}
+}
+
+bool ABombManPlayerCharacter::ContainsWall(TArray<UPrimitiveComponent*> overlaps)
+{
+	for (UPrimitiveComponent* component : overlaps)
+	{
+		if (!component->GetAttachmentRootActor() || !Cast<APlayerCharacter>(component->GetAttachmentRootActor()))
+			return true;
+	}
+
+	return false;
+}
+
+bool ABombManPlayerCharacter::IsMoving() const
+{
+	return bIsMoving;
 }
