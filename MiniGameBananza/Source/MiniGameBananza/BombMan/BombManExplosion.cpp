@@ -40,9 +40,8 @@ void ABombManExplosion::BeginPlay()
 	//}
 	
 	StartLocation = GetActorLocation();
-	FVector TEST = (GetActorForwardVector() * Length);
-	EndLocation = GetActorLocation(); //+ (GetActorForwardVector() * Length);
-	//KismetObjectChecking->BoxTraceMultiForObjects(this, StartLocation, EndLocation, );
+	EndLocation = GetActorLocation() + (GetActorForwardVector() * Length);
+	//KismetObjectChecking->BoxTraceForObjects(this, StartLocation, EndLocation, );
 }
 
 // Called every frame
