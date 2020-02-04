@@ -14,7 +14,7 @@
 
 #pragma region Delegate Decl
 
-DECLARE_DELEGATE_OneParam(FOnBombDetonation, ABombManBomb *)
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnBombDetonation, ABombManBomb *)
 
 #pragma endregion
 
@@ -73,7 +73,7 @@ public:
 	FVector MinimumScale = FVector(0.025f, 0.025f, 0.025f);
 
 	// Delegate
-	FOnBombDetonation BombDetonationEventHandler;
+	FOnBombDetonation OnBombExplode;
 
 protected:
 

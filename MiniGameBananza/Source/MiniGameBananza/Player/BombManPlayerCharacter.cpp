@@ -140,7 +140,7 @@ void ABombManPlayerCharacter::PlantBomb(bool Armed)
 			bomb->Arm();
 		}
 
-		bomb->BombDetonationEventHandler.BindUObject(this, &ABombManPlayerCharacter::OnBombDetonation);
+		bomb->OnBombExplode.AddUObject(this, &ABombManPlayerCharacter::OnBombDetonation);
 		PlacedBombs.Add(bomb);
 	}
 }
