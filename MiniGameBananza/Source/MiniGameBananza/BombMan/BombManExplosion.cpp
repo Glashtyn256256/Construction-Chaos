@@ -10,6 +10,11 @@ ABombManExplosion::ABombManExplosion() : StopExplosion(false)
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	
+	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root Component"));
+	if (Root) {
+		RootComponent = Root;
+	}
+
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Component"));
 	if (BoxComponent) {
 		BoxComponent->AttachTo(RootComponent);
@@ -26,7 +31,18 @@ void ABombManExplosion::BeginPlay()
 {
 	
 	Super::BeginPlay();
-	StartLocation = GetActorLocation();	
+	
+	//if (GetWorld() == NULL) {
+	//	StartLocation.Set(10,10,10);
+	//}
+	//else {
+	//	StartLocation.Set(40, 40, 40);
+	//}
+	
+	StartLocation = GetActorLocation();
+	FVector TEST = (GetActorForwardVector() * Length);
+	EndLocation = GetActorLocation(); //+ (GetActorForwardVector() * Length);
+	//KismetObjectChecking->BoxTraceMultiForObjects(this, StartLocation, EndLocation, );
 }
 
 // Called every frame
