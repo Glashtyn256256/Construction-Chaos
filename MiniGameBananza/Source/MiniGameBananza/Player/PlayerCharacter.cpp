@@ -27,6 +27,9 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// Bind action mappings
+	PlayerInputComponent->BindAction("PlayerInteract", EInputEvent::IE_Pressed, this, &APlayerCharacter::Interact);
+
 	// Bind axis mappings to movement functions
 	PlayerInputComponent->BindAxis("PlayerForward", this, &APlayerCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("PlayerRight", this, &APlayerCharacter::MoveRight);
@@ -38,25 +41,43 @@ void APlayerCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void APlayerCharacter::MoveForward(float Value)
+// This is bound to the PlayerInputComponent
+void APlayerCharacter::Interact()
 {
-	AddMovementInput(GetActorForwardVector() * Value * playerSpeed);
+	// Virtual function call
+	OnInteract();
+}
 
+void APlayerCharacter::OnInteract()
+{
 	GEngine->AddOnScreenDebugMessage(
 		-1,
 		0.1f,
 		FColor::Cyan,
-		FString::Printf(TEXT("%f"), Value));
+		FString::Printf(TEXT("APlayerCharacter::OnInteract")));
+}
+
+void APlayerCharacter::MoveForward(float Value)
+{
+	InputForward = Value;
+	//AddMovementInput(GetActorForwardVector() * Value * playerSpeed);
+
+	//GEngine->AddOnScreenDebugMessage(
+	//	-1,
+	//	0.1f,
+	//	FColor::Cyan,
+	//	FString::Printf(TEXT("%f"), Value));
 }
 
 void APlayerCharacter::MoveRight(float Value)
 {
-	AddMovementInput(GetActorRightVector() * Value * playerSpeed);
+	InputRight = Value;
+	//AddMovementInput(GetActorRightVector() * Value * playerSpeed);
 
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		0.1f,
-		FColor::Green,
-		FString::Printf(TEXT("%f"), Value));
+	//GEngine->AddOnScreenDebugMessage(
+	//	-1,
+	//	0.1f,
+	//	FColor::Green,
+	//	FString::Printf(TEXT("%f"), Value));
 }
 

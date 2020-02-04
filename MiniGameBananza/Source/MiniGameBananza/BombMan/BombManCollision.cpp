@@ -1,13 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "BombManBlock.h"
+#include "BombManCollision.h"
 
 // Sets default values
-ABombManBlock::ABombManBlock()
+ABombManCollision::ABombManCollision()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Component"));
 	if (MeshComponent)
@@ -17,14 +17,16 @@ ABombManBlock::ABombManBlock()
 }
 
 // Called when the game starts or when spawned
-void ABombManBlock::BeginPlay()
+void ABombManCollision::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-void ABombManBlock::DestroyBlock()
+// Called every frame
+void ABombManCollision::Tick(float DeltaTime)
 {
-	Destroy();
+	Super::Tick(DeltaTime);
+
 }
 

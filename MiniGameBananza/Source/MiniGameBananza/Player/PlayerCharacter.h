@@ -21,25 +21,31 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+	UFUNCTION()
+		virtual void OnInteract();
+
+	UFUNCTION()
+		virtual void MoveForward(float value);
+
+	UFUNCTION()
+		virtual void MoveRight(float Value);
+
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-protected:
-
-
 private:
-	UFUNCTION()
-	virtual void MoveForward(float value);
-
-	UFUNCTION()
-	virtual void MoveRight(float Value);
+	void Interact();
 
 public:
 	UPROPERTY(EditDefaultsOnly)
-	float playerSpeed = 10.0f;
+	float PlayerSpeed = 10.0f;
+
+protected:
+	float InputForward;
+	float InputRight;
 
 };
