@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/PrimitiveComponent.h"
+#include "Components/SphereComponent.h"
 
 #include "BombManBomb.generated.h"
 
@@ -43,9 +45,18 @@ public:
 
 	void HandleGrow(float DeltaTime);
 
+protected:
+	UFUNCTION()
+	void OnBeginOverlap(UPrimitiveComponent* Component, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION()
+	void OnEndOverlap(UPrimitiveComponent* Component, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex);
+
 public:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* StaticMeshComponent;
+
+	UPROPERTY(EditDefaultsOnly)
+	USphereComponent* SphereComponent;
 
 	// How long it takes for the bomb to explode when armed
 	UPROPERTY(EditDefaultsOnly)
@@ -71,5 +82,6 @@ private:
 	float TimeUntilDetonation;
 	float CountdownModifier;
 	float GrowthProgress;
+	bool bStartShrinking;
 
 };
