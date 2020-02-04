@@ -4,6 +4,21 @@
 #include "BombManPlayerCharacter.h"
 #include "GameFramework/Actor.h"
 
+ABombManPlayerCharacter::ABombManPlayerCharacter()
+{
+	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+	SphereComponent->AttachTo(RootComponent);
+}
+
+void ABombManPlayerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	SphereComponent->SetSphereRadius(PlayerMovementStep * 0.4f);
+
+	TargetPosition = GetActorLocation();
+}
+
 void ABombManPlayerCharacter::Tick(float DeltaTime)
 {
 	if (!bIsMoving)
@@ -11,17 +26,45 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 		int ForwardDir = InputForward;
 		int RightDir = InputRight;
 
-		if (ForwardDir != 0)
+		bool bCanMoveForward = ForwardDir != 0;
+		bool bCanMoveRight = RightDir != 0;
+
+		if (bCanMoveForward)
+		{
+			TArray<AActor*> overlapping;
+			SphereComponent->SetWorldLocation(GetActorLocation() + GetActorForwardVector() * PlayerMovementStep * ForwardDir);
+			SphereComponent->GetOverlappingActors(overlapping, ABombManBlock::StaticClass());
+
+			if (overlapping.Num() > 0)
+				bCanMoveForward = false;
+		}
+
+		if (bCanMoveRight)
+		{
+			TArray<AActor*> overlapping;
+			SphereComponent->SetWorldLocation(GetActorLocation() + GetActorRightVector() * PlayerMovementStep * RightDir);
+			SphereComponent->GetOverlappingActors(overlapping, ABombManBlock::StaticClass());
+
+			if (overlapping.Num() > 0)
+				bCanMoveRight = false;
+		}
+
+		if (bCanMoveForward)
 		{
 			TargetPosition = GetActorLocation();
 			TargetPosition += GetActorForwardVector() * PlayerMovementStep * ForwardDir;
 			bIsMoving = true;
 		}
-		else if (RightDir != 0)
+		else if (bCanMoveRight)
 		{
 			TargetPosition = GetActorLocation();
 			TargetPosition += GetActorRightVector() * PlayerMovementStep * RightDir;
 			bIsMoving = true;
+		}
+
+		if (!bIsMoving)
+		{
+			SetActorLocation(TargetPosition);
 		}
 
 	}
@@ -29,8 +72,8 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 	{
 		if (FVector::Dist(GetActorLocation(), TargetPosition) <= 5.0f)
 		{
-			SetActorLocation(TargetPosition);
 			bIsMoving = false;
+			SetActorLocation(TargetPosition);
 		}
 		else
 		{
@@ -38,7 +81,8 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 
 			FVector targetDirection = (TargetPosition - position).GetSafeNormal();
 
-			AddMovementInput(targetDirection * PlayerMovementSpeed);
+			SetActorLocation(position + targetDirection * PlayerMovementSpeed * GetWorld()->DeltaTimeSeconds);
+			//AddMovementInput(targetDirection * PlayerMovementSpeed);
 		}
 	}
 }
