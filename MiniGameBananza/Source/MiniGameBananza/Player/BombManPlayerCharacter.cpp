@@ -9,14 +9,20 @@
 ABombManPlayerCharacter::ABombManPlayerCharacter()
 {
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
-	SphereComponent->AttachTo(RootComponent);
+	if (SphereComponent)
+	{
+		SphereComponent->AttachTo(RootComponent);
+	}
 }
 
 void ABombManPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SphereComponent->SetSphereRadius(PlayerMovementStep * 0.4f);
+	if (SphereComponent)
+	{
+		SphereComponent->SetSphereRadius(PlayerMovementStep * 0.4f);
+	}
 
 	TargetPosition = GetActorLocation();
 }
