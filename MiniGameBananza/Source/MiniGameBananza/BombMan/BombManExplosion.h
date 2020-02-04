@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "BombManExplosion.generated.h"
 
@@ -27,7 +28,21 @@ public:
 
 		UPROPERTY(EditDefaultsOnly, Category = "Particle System Component")
 		UParticleSystemComponent* ParticleSystem;
-		
+
+		UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Variables")
+			float Length = 400.0f;
+		UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Variables")
+			float Speed = 300.0f;
+
+		UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variables")
+			FVector StartLocation;
+		UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variables")
+			FVector EndLocation;
+
+private:
+	UKismetSystemLibrary* KismetObjectChecking;
+	
+	bool StopExplosion;
 
 public:	
 	// Called every frame
