@@ -115,6 +115,14 @@ void ABombManPlayerCharacter::PlantBomb(bool Armed)
 	FVector spawnLocation = GetActorLocation();
 	FRotator spawnRotation = GetActorRotation();
 
+	for (ABombManBomb * bomb : PlacedBombs)
+	{
+		if (FVector::Dist(bomb->GetActorLocation(), spawnLocation) < 1.0f)
+		{
+			return;
+		}
+	}
+
 	ABombManBomb * bomb = GetWorld()->SpawnActor<ABombManBomb>(BombToSpawn, spawnLocation, spawnRotation, spawnParams);
 	if (bomb)
 	{
