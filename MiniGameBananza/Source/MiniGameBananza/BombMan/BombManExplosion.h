@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
+#include "Components/SceneComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "BombManExplosion.generated.h"
@@ -23,10 +24,13 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-		UPROPERTY(EditDefaultsOnly, Category = "Box Component")
+		UPROPERTY(EditDefaultsOnly)//, Category = "Box Component")
+		USceneComponent* Root;
+		
+		UPROPERTY(EditDefaultsOnly)//, Category = "Box Component")
 		UBoxComponent* BoxComponent;
 
-		UPROPERTY(EditDefaultsOnly, Category = "Particle System Component")
+		UPROPERTY(EditAnywhere, Category = "")
 		UParticleSystemComponent* ParticleSystem;
 
 		UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Variables")
