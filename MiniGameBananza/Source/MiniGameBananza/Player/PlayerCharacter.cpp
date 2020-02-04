@@ -27,6 +27,9 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// Bind action mappings
+	PlayerInputComponent->BindAction("PlayerInteract", EInputEvent::IE_Pressed, this, &APlayerCharacter::Interact);
+
 	// Bind axis mappings to movement functions
 	PlayerInputComponent->BindAxis("PlayerForward", this, &APlayerCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("PlayerRight", this, &APlayerCharacter::MoveRight);
@@ -36,6 +39,22 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+// This is bound to the PlayerInputComponent
+void APlayerCharacter::Interact()
+{
+	// Virtual function call
+	OnInteract();
+}
+
+void APlayerCharacter::OnInteract()
+{
+	GEngine->AddOnScreenDebugMessage(
+		-1,
+		0.1f,
+		FColor::Cyan,
+		FString::Printf(TEXT("APlayerCharacter::OnInteract")));
 }
 
 void APlayerCharacter::MoveForward(float Value)

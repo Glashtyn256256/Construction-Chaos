@@ -2,6 +2,8 @@
 
 
 #include "BombManPlayerCharacter.h"
+#include "Components/InputComponent.h"
+
 #include "GameFramework/Actor.h"
 
 ABombManPlayerCharacter::ABombManPlayerCharacter()
@@ -86,7 +88,6 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 		}
 	}
 }
-
 bool ABombManPlayerCharacter::ContainsWall(TArray<UPrimitiveComponent*> overlaps)
 {
 	for (UPrimitiveComponent* component : overlaps)
@@ -96,6 +97,40 @@ bool ABombManPlayerCharacter::ContainsWall(TArray<UPrimitiveComponent*> overlaps
 	}
 
 	return false;
+}
+
+void ABombManPlayerCharacter::OnInteract()
+{
+	Super::OnInteract();
+
+	if (PlacedBombs.Num() < BombPlacementLimit)
+	{
+		PlantBomb();
+	}
+}
+
+void ABombManPlayerCharacter::PlantBomb(bool Armed)
+{
+	FActorSpawnParameters spawnParams;
+	FVector spawnLocation = GetActorLocation();
+	FRotator spawnRotation = GetActorRotation();
+
+	ABombManBomb * bomb = GetWorld()->SpawnActor<ABombManBomb>(BombToSpawn, spawnLocation, spawnRotation, spawnParams);
+	if (bomb)
+	{
+		if (Armed)
+		{
+			bomb->Arm();
+		}
+
+		bomb->BombDetonationEventHandler.BindUObject(this, &ABombManPlayerCharacter::OnBombDetonation);
+		PlacedBombs.Add(bomb);
+	}
+}
+
+void ABombManPlayerCharacter::OnBombDetonation(ABombManBomb * Bomb)
+{
+	PlacedBombs.Remove(Bomb);
 }
 
 bool ABombManPlayerCharacter::IsMoving() const
