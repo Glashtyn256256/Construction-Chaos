@@ -154,7 +154,7 @@ void ABombManPlayerCharacter::PlantBomb(bool ArmedByDefault)
 	ABombManBomb * bomb = GetWorld()->SpawnActor<ABombManBomb>(BombToSpawn, spawnLocation, spawnRotation, spawnParams);
 	if (bomb)
 	{
-		bomb->SetSourcePlayer(this);
+		bomb->SetBombPlanter(this);
 		if (ArmedByDefault)
 		{
 			bomb->Arm();

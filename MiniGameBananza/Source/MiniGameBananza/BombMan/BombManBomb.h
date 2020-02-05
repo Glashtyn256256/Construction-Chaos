@@ -49,7 +49,7 @@ public:
 
 	void HandleGrow(float DeltaTime);
 
-	void SetSourcePlayer(ABombManPlayerCharacter* _BombPlanter);
+	void SetBombPlanter(ABombManPlayerCharacter* _BombPlanter);
 
 protected:
 	UFUNCTION()

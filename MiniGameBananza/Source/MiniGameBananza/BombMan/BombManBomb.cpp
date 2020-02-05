@@ -114,7 +114,7 @@ void ABombManBomb::HandleGrow(float DeltaTime)
 	}
 }
 
-void ABombManBomb::SetSourcePlayer(ABombManPlayerCharacter* _BombPlanter)
+void ABombManBomb::SetBombPlanter(ABombManPlayerCharacter* _BombPlanter)
 {
 	BombPlanter = _BombPlanter;
 }
