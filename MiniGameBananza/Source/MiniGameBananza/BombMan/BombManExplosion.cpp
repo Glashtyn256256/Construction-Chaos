@@ -22,7 +22,7 @@ ABombManExplosion::ABombManExplosion()
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Component"));
 	if (SphereComponent) {
 		SphereComponent->AttachTo(RootComponent);
-		SphereComponent->SetSphereRadius(25.0f);
+		SphereComponent->SetSphereRadius(10.0f);
 		SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ABombManExplosion::OnBeginOverlap);
 	}
 	
