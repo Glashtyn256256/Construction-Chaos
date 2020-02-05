@@ -5,6 +5,7 @@
 #include "Components/InputComponent.h"
 
 #include "GameFramework/Actor.h"
+#include "Engine/Engine.h"
 
 ABombManPlayerCharacter::ABombManPlayerCharacter()
 {
@@ -118,7 +119,25 @@ void ABombManPlayerCharacter::OnInteract()
 	}
 }
 
-void ABombManPlayerCharacter::PlantBomb(bool Armed)
+void ABombManPlayerCharacter::HitByBomb(bool Suicide)
+{
+	GEngine->AddOnScreenDebugMessage(
+		-1,
+		0.1f,
+		FColor::Cyan,
+		FString::Printf(TEXT("ABombManPlayerCharacter::HitByBomb")));
+}
+
+void ABombManPlayerCharacter::EnemyPlayerHitByMyBomb()
+{
+	GEngine->AddOnScreenDebugMessage(
+		-1,
+		0.1f,
+		FColor::Cyan,
+		FString::Printf(TEXT("ABombManPlayerCharacter::EnemyPlayerHitByMyBomb")));
+}
+
+void ABombManPlayerCharacter::PlantBomb(bool ArmedByDefault)
 {
 	FActorSpawnParameters spawnParams;
 	FVector spawnLocation = PreviousPosition;
@@ -135,7 +154,8 @@ void ABombManPlayerCharacter::PlantBomb(bool Armed)
 	ABombManBomb * bomb = GetWorld()->SpawnActor<ABombManBomb>(BombToSpawn, spawnLocation, spawnRotation, spawnParams);
 	if (bomb)
 	{
-		if (Armed)
+		bomb->SetSourcePlayer(this);
+		if (ArmedByDefault)
 		{
 			bomb->Arm();
 		}
@@ -145,7 +165,7 @@ void ABombManPlayerCharacter::PlantBomb(bool Armed)
 	}
 }
 
-void ABombManPlayerCharacter::OnBombDetonation(ABombManBomb * Bomb)
+void ABombManPlayerCharacter::OnBombDetonation(ABombManBomb* Bomb)
 {
 	PlacedBombs.Remove(Bomb);
 }

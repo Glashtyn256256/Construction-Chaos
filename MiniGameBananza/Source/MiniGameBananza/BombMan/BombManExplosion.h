@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Components/BoxComponent.h"
-#include "Components/SceneComponent.h"
-#include "Kismet/KismetSystemLibrary.h"
+#include "Components/SphereComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "BombManExplosion.generated.h"
+
+class ABombManPlayerCharacter;
 
 UCLASS()
 class MINIGAMEBANANZA_API ABombManExplosion : public AActor
@@ -23,33 +23,38 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
-		UPROPERTY(EditDefaultsOnly)//, Category = "Box Component")
-		USceneComponent* Root;
-		
-		UPROPERTY(EditDefaultsOnly)//, Category = "Box Component")
-		UBoxComponent* BoxComponent;
-
-		UPROPERTY(EditAnywhere, Category = "")
-		UParticleSystemComponent* ParticleSystem;
-
-		UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Variables")
-			float Length = 400.0f;
-		UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Variables")
-			float Speed = 300.0f;
-
-		UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variables")
-			FVector StartLocation;
-		UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Variables")
-			FVector EndLocation;
+	UFUNCTION()
+	void OnBeginOverlap(UPrimitiveComponent* Component, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 private:
-	UKismetSystemLibrary* KismetObjectChecking;
-	
+	void HandleExplosion(float DeltaTime);
+
+	void HandleFadeOut();
+
+public:
+	UPROPERTY(EditDefaultsOnly)
+	USceneComponent* Root;
+	UPROPERTY(EditDefaultsOnly, Category = "Sphere Component")
+	USphereComponent* SphereComponent;
+
+	UPROPERTY(EditAnywhere, Category = "Particle System Component")
+	UParticleSystemComponent* ParticleSystem;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Variables")
+	float Length = 400.0f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Variables")
+	float Speed = 300.0f;
+
+private:
+	FVector StartLocation;
 	bool StopExplosion;
+	
+	UPROPERTY()
+	ABombManPlayerCharacter* BombPlanter;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void SetBombPlanter(ABombManPlayerCharacter* _BombPlanter);
 };
