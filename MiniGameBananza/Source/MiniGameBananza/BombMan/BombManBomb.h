@@ -7,9 +7,12 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "Components/SphereComponent.h"
+#include "Containers/Array.h"
 
+#include "BombManExplosion.h"
 #include "BombManBomb.generated.h"
 
+class ABombManPlayerCharacter;
 
 
 #pragma region Delegate Decl
@@ -46,18 +49,27 @@ public:
 
 	void HandleGrow(float DeltaTime);
 
+	void SetSourcePlayer(ABombManPlayerCharacter* _BombPlanter);
+
 protected:
 	UFUNCTION()
 	void OnBeginOverlap(UPrimitiveComponent* Component, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UFUNCTION()
 	void OnEndOverlap(UPrimitiveComponent* Component, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex);
 
+private:
+	void CreateExplosion();
+
 public:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* StaticMeshComponent;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Collision")
 	USphereComponent* SphereComponent;
+
+	// Allows you to click and drag blueprints in the inspector (like spawning prefabs in unity)
+	UPROPERTY(EditDefaultsOnly, Category = "Explosion")
+	TSubclassOf<ABombManExplosion> ExplosionToSpawn;
 
 	// How long it takes for the bomb to explode when armed
 	UPROPERTY(EditDefaultsOnly)
@@ -75,14 +87,13 @@ public:
 	// Delegate
 	FOnBombDetonation OnBombExplode;
 
-protected:
-
-
 private:
 	bool IsArmed;
 	float TimeUntilDetonation;
 	float CountdownModifier;
 	float GrowthProgress;
 	bool bStartGrowing;
+
+	ABombManPlayerCharacter* BombPlanter;
 
 };

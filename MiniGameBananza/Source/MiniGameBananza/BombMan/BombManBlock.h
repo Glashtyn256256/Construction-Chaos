@@ -18,6 +18,8 @@ public:
 
 	void DestroyBlock();
 
+	bool CanBeDestroyed();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -25,4 +27,7 @@ protected:
 private:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* MeshComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
+	bool IsDestructible;
 };

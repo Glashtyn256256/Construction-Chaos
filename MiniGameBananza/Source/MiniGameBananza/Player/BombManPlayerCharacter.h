@@ -29,6 +29,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	bool IsMoving() const;
+
+	void HitByBomb(bool Suicide);
+	void EnemyPlayerHitByMyBomb();
 protected:
 	virtual void OnInteract() override;
 
@@ -36,10 +39,10 @@ private:
 	bool ContainsWall(TArray<UPrimitiveComponent*> overlaps);
 
 	UFUNCTION(BlueprintCallable)
-	void PlantBomb(bool Armed = true);
+	void PlantBomb(bool ArmedByDefault = true);
 
 	UFUNCTION(BlueprintCallable)
-	void OnBombDetonation(ABombManBomb * Bomb);
+	void OnBombDetonation(ABombManBomb* Bomb);
 
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Bomb")
@@ -51,14 +54,14 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 	USphereComponent* SphereComponent;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 	float PlayerMovementStep = 100.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 	float PlayerMovementSpeed = 500.0f;
 
 private:
-	TArray<ABombManBomb *> PlacedBombs;
+	TArray<ABombManBomb*> PlacedBombs;
 	FVector TargetPosition;
 	FVector PreviousPosition;
 	bool bIsMoving;

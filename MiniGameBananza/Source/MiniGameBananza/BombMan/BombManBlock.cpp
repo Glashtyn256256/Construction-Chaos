@@ -28,3 +28,7 @@ void ABombManBlock::DestroyBlock()
 	Destroy();
 }
 
+bool ABombManBlock::CanBeDestroyed()
+{
+	return IsDestructible;
+}       

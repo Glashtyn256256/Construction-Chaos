@@ -2,6 +2,7 @@
 
 
 #include "BombManBomb.h"
+#include "BombManExplosion.h"
 #include "Core/Public/Misc/AssertionMacros.h"
 
 #include "Math/UnrealMathVectorCommon.h"
@@ -94,6 +95,8 @@ void ABombManBomb::HandleExplode(float DeltaTime)
 				OnBombExplode.Broadcast(this);
 			}
 
+			CreateExplosion();
+
 			Destroy();
 		}
 	}
@@ -110,6 +113,12 @@ void ABombManBomb::HandleGrow(float DeltaTime)
 		SetActorScale3D(FMath::Lerp(MinimumScale, MaximumScale, GrowthProgress));
 	}
 }
+
+void ABombManBomb::SetSourcePlayer(ABombManPlayerCharacter* _BombPlanter)
+{
+	BombPlanter = _BombPlanter;
+}
+
 void ABombManBomb::OnBeginOverlap(UPrimitiveComponent* Component, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 
@@ -117,12 +126,6 @@ void ABombManBomb::OnBeginOverlap(UPrimitiveComponent* Component, AActor* OtherA
 
 void ABombManBomb::OnEndOverlap(UPrimitiveComponent* Component, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex)
 {
-	/*GEngine->AddOnScreenDebugMessage(
-		-1,
-		0.1f,
-		FColor::Cyan,
-		FString::Printf(TEXT("End")));*/
-
 	if (!SphereComponent || bStartGrowing) return;
 
 	TArray<UPrimitiveComponent*> overlapping;
@@ -131,7 +134,22 @@ void ABombManBomb::OnEndOverlap(UPrimitiveComponent* Component, AActor* OtherAct
 	{
 		bStartGrowing = true;
 	}
+}
 
+void ABombManBomb::CreateExplosion()
+{
+	FActorSpawnParameters spawnParams;
+	FVector spawnLocation = GetActorLocation();
+	FRotator spawnRotation = FRotator::ZeroRotator;
+
+	for (size_t i = 0; i < 4; i++)
+	{
+		spawnRotation.Yaw += 90.0f;
+		ABombManExplosion * explosion = GetWorld()->SpawnActor<ABombManExplosion>(ExplosionToSpawn, spawnLocation, spawnRotation, spawnParams);
+		{
+			explosion->SetBombPlanter(this->BombPlanter);
+		}
+	}
 }
 
 bool ABombManBomb::IsOverlapping() const
