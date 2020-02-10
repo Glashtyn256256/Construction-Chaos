@@ -102,7 +102,7 @@ bool ABombManPlayerCharacter::ContainsWall(TArray<UPrimitiveComponent*> overlaps
 {
 	for (UPrimitiveComponent* component : overlaps)
 	{
-		if (!component->GetAttachmentRootActor() || !Cast<APlayerCharacter>(component->GetAttachmentRootActor()))
+		//if (!component->GetAttachmentRootActor() || !Cast<APlayerCharacter>(component->GetAttachmentRootActor()))
 			return true;
 	}
 
