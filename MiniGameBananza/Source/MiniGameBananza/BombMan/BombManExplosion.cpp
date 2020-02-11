@@ -8,10 +8,10 @@
 #include "BombManBomb.h"
 
 // Sets default values
-ABombManExplosion::ABombManExplosion() 
+ABombManExplosion::ABombManExplosion()
 	: StopExplosion(false)
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root Component"));
@@ -25,7 +25,7 @@ ABombManExplosion::ABombManExplosion()
 		SphereComponent->SetSphereRadius(10.0f);
 		SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ABombManExplosion::OnBeginOverlap);
 	}
-	
+
 	ParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Particle System Component"));
 	if (ParticleSystem) {
 		ParticleSystem->AttachTo(RootComponent);
@@ -36,7 +36,7 @@ ABombManExplosion::ABombManExplosion()
 void ABombManExplosion::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	StartLocation = GetActorLocation();
 }
 
@@ -58,18 +58,27 @@ void ABombManExplosion::OnBeginOverlap(UPrimitiveComponent* Component, AActor* O
 		}
 	}
 
-	ABombManBlock* block = Cast<ABombManBlock>(OtherActor);
-	if (block)
+	ABombManCollision* collision = Cast<ABombManCollision>(OtherActor);
+	if (collision)
 	{
-		if (block->CanBeDestroyed())
+		ABombManExplosion* explosion = Cast<ABombManExplosion>(collision);
+
+		if (explosion) return;
+
+		ABombManBomb* Bomb = Cast<ABombManBomb>(collision);
+
+		if (Bomb)
 		{
-			block->DestroyBlock();
-			StopExplosion = true;
+			Bomb->Explode();
+			return;
 		}
-		else
+
+		if (collision->CanBeDestroyed())
 		{
-			StopExplosion = true;
+			collision->Destroy();
 		}
+
+		StopExplosion = true;
 	}
 }
 

@@ -16,17 +16,27 @@ ABombManCollision::ABombManCollision()
 	}
 }
 
-// Called when the game starts or when spawned
-void ABombManCollision::BeginPlay()
+#pragma region Getters/Setters
+
+bool ABombManCollision::IsPlayerCollide() const
 {
-	Super::BeginPlay();
-	
+	return bPlayerCollide;
 }
 
-// Called every frame
-void ABombManCollision::Tick(float DeltaTime)
+void ABombManCollision::SetPlayerCollide(bool _bPlayerCollide)
 {
-	Super::Tick(DeltaTime);
-
+	this->bPlayerCollide = _bPlayerCollide;
 }
+
+bool ABombManCollision::CanBeDestroyed() const
+{
+	return bCanBeDestroyed;
+}
+
+void ABombManCollision::SetCanBeDestroyed(bool _bCanBeDestroyed)
+{
+	this->bCanBeDestroyed = _bCanBeDestroyed;
+}
+
+#pragma endregion
 

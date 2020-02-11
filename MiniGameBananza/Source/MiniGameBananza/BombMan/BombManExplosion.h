@@ -6,12 +6,13 @@
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "BombManCollision.h"
 #include "BombManExplosion.generated.h"
 
 class ABombManPlayerCharacter;
 
 UCLASS()
-class MINIGAMEBANANZA_API ABombManExplosion : public AActor
+class MINIGAMEBANANZA_API ABombManExplosion : public ABombManCollision
 {
 	GENERATED_BODY()
 	

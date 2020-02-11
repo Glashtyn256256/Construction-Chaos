@@ -4,27 +4,31 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/StaticMeshComponent.h"
+#include "IBombManCollision.h"
 #include "BombManCollision.generated.h"
 
 UCLASS()
-class MINIGAMEBANANZA_API ABombManCollision : public AActor
+class MINIGAMEBANANZA_API ABombManCollision : public AActor, public IIBombManCollision
 {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	ABombManCollision();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	virtual bool IsPlayerCollide() const;
+	virtual void SetPlayerCollide(bool _bPlayerCollide);
+	virtual bool CanBeDestroyed() const;
+	virtual void SetCanBeDestroyed(bool _bCanBeDestroyed);
 
 private:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* MeshComponent;
+
+	UPROPERTY(EditDefaultsOnly)
+	bool bPlayerCollide = true;
+
+	UPROPERTY(EditDefaultsOnly)
+	bool bCanBeDestroyed = false;
 
 };

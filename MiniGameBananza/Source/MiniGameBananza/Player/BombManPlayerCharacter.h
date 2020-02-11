@@ -10,13 +10,14 @@
 #include "Components/PrimitiveComponent.h"
 #include "MiniGameBananza/BombMan/BombManBlock.h"
 #include "MiniGameBananza/BombMan/BombManBomb.h"
+#include "MiniGameBananza/BombMan/IBombManCollision.h"
 #include "BombManPlayerCharacter.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
-class MINIGAMEBANANZA_API ABombManPlayerCharacter : public APlayerCharacter
+class MINIGAMEBANANZA_API ABombManPlayerCharacter : public APlayerCharacter, public IIBombManCollision
 {
 	GENERATED_BODY()
 
@@ -32,37 +33,46 @@ public:
 
 	void HitByBomb(bool Suicide);
 	void EnemyPlayerHitByMyBomb();
+
+#pragma region IBombManCollision
+	virtual bool IsPlayerCollide() const;
+	virtual void SetPlayerCollide(bool _bPlayerCollide);
+	virtual bool CanBeDestroyed() const;
+	virtual void SetCanBeDestroyed(bool _bCanBeDestroyed);
+#pragma endregion
 protected:
 	virtual void OnInteract() override;
 
 private:
-	bool ContainsWall(TArray<UPrimitiveComponent*> overlaps);
+	bool CannotPass(FVector direction, float size);
 
 	UFUNCTION(BlueprintCallable)
-	void PlantBomb(bool ArmedByDefault = true);
+		void PlantBomb(bool ArmedByDefault = true);
 
 	UFUNCTION(BlueprintCallable)
-	void OnBombDetonation(ABombManBomb* Bomb);
+		void OnBombDetonation(ABombManBomb* Bomb);
 
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Bomb")
-	TSubclassOf<ABombManBomb> BombToSpawn;
+		TSubclassOf<ABombManBomb> BombToSpawn;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Bomb")
-	int BombPlacementLimit = 3;
+		int BombPlacementLimit = 3;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
-	USphereComponent* SphereComponent;
+		USphereComponent* SphereComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
-	float PlayerMovementStep = 100.0f;
+		float PlayerMovementStep = 100.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
-	float PlayerMovementSpeed = 500.0f;
+		float PlayerMovementSpeed = 500.0f;
 
 private:
 	TArray<ABombManBomb*> PlacedBombs;
 	FVector TargetPosition;
 	FVector PreviousPosition;
 	bool bIsMoving;
+	bool bPlayerCollide = true;
+	bool bCanBeDestroyed = false;
 };

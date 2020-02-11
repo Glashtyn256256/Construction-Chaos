@@ -12,14 +12,8 @@
 ABombManBomb::ABombManBomb()
 	: IsArmed(false), CountdownModifier(1.0f), TimeUntilDetonation(StartingDetonationTime), GrowthProgress(0.0f), bStartGrowing(false)
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Component"));
-	if (StaticMeshComponent)
-	{
-		StaticMeshComponent->AttachTo(RootComponent);
-	}
 
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 	if (SphereComponent)
@@ -47,7 +41,13 @@ void ABombManBomb::BeginPlay()
 	if (!IsOverlapping())
 	{
 		bStartGrowing = true;
+		SetPlayerCollide(true);
 	}
+	else
+	{
+		SetPlayerCollide(false);
+	}
+
 }
 
 // Called every frame
@@ -83,6 +83,22 @@ void ABombManBomb::Reset()
 	TimeUntilDetonation = StartingDetonationTime;
 }
 
+void ABombManBomb::Explode()
+{
+	if (bExploded) return;
+
+	bExploded = true;
+
+	if (OnBombExplode.IsBound())
+	{
+		OnBombExplode.Broadcast(this);
+	}
+
+	CreateExplosion();
+
+	Destroy();
+}
+
 void ABombManBomb::HandleExplode(float DeltaTime)
 {
 	if (IsArmed)
@@ -90,14 +106,7 @@ void ABombManBomb::HandleExplode(float DeltaTime)
 		TimeUntilDetonation -= DeltaTime * CountdownModifier;
 		if (TimeUntilDetonation <= 0.0f)
 		{
-			if (OnBombExplode.IsBound())
-			{
-				OnBombExplode.Broadcast(this);
-			}
-
-			CreateExplosion();
-
-			Destroy();
+			Explode();
 		}
 	}
 }
@@ -133,6 +142,7 @@ void ABombManBomb::OnEndOverlap(UPrimitiveComponent* Component, AActor* OtherAct
 	if (!IsOverlapping())
 	{
 		bStartGrowing = true;
+		SetPlayerCollide(true);
 	}
 }
 
