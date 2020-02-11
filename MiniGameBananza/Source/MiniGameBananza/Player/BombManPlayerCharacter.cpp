@@ -40,23 +40,16 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 
 		if (bCanMoveForward)
 		{
-			TArray<UPrimitiveComponent*> overlapping;
-			SphereComponent->SetWorldLocation(GetActorLocation() + GetActorForwardVector() * PlayerMovementStep * ForwardDir);
-			SphereComponent->GetOverlappingComponents(overlapping);
-
-			if (ContainsWall(overlapping))
+			if (CannotPass(GetActorForwardVector(), PlayerMovementStep * ForwardDir))
 				bCanMoveForward = false;
 		}
 
 		if (bCanMoveRight)
 		{
-			TArray<UPrimitiveComponent*> overlapping;
-			SphereComponent->SetWorldLocation(GetActorLocation() + GetActorRightVector() * PlayerMovementStep * RightDir);
-			SphereComponent->GetOverlappingComponents(overlapping);
-
-			if (ContainsWall(overlapping))
+			if (CannotPass(GetActorRightVector(), PlayerMovementStep * RightDir))
 				bCanMoveRight = false;
 		}
+
 
 		if (bCanMoveForward)
 		{
@@ -89,21 +82,50 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 		}
 		else
 		{
-			FVector position = GetActorLocation();
+			if (CannotPass(FVector::ZeroVector, 0.0f))
+			{
+				bIsMoving = false;
+				SetActorLocation(PreviousPosition);
+				TargetPosition = PreviousPosition;
+			}
+			else
+			{
+				FVector position = GetActorLocation();
 
-			FVector targetDirection = (TargetPosition - position).GetSafeNormal();
+				FVector targetDirection = (TargetPosition - position).GetSafeNormal();
 
-			SetActorLocation(position + targetDirection * PlayerMovementSpeed * GetWorld()->DeltaTimeSeconds);
-			//AddMovementInput(targetDirection * PlayerMovementSpeed);
+				SetActorLocation(position + targetDirection * PlayerMovementSpeed * GetWorld()->DeltaTimeSeconds);
+				//AddMovementInput(targetDirection * PlayerMovementSpeed);
+			}
 		}
 	}
 }
-bool ABombManPlayerCharacter::ContainsWall(TArray<UPrimitiveComponent*> overlaps)
+bool ABombManPlayerCharacter::CannotPass(FVector direction, float size)
 {
-	for (UPrimitiveComponent* component : overlaps)
+	if (!SphereComponent) return false;
+
+	TArray<UPrimitiveComponent*> overlapping;
+	SphereComponent->SetWorldLocation(GetActorLocation() + direction * size);
+	SphereComponent->GetOverlappingComponents(overlapping);
+	SphereComponent->SetWorldLocation(GetActorLocation());
+
+	for (UPrimitiveComponent* Prim : overlapping)
 	{
-		//if (!component->GetAttachmentRootActor() || !Cast<APlayerCharacter>(component->GetAttachmentRootActor()))
-			return true;
+		IIBombManCollision* Collision = Cast<IIBombManCollision>(Prim->GetAttachmentRootActor());
+		if (Collision && Collision->IsPlayerCollide())
+		{
+			AActor* ActorCollision = Cast<AActor>(Collision);
+
+			if (ActorCollision && ActorCollision != this)
+			{
+				GEngine->AddOnScreenDebugMessage(
+					-1,
+					1.0f,
+					FColor::Cyan,
+					FString::Printf(TEXT("CanPass::true %s"), *ActorCollision->GetName()));
+				return true;
+			}
+		}
 	}
 
 	return false;
@@ -174,3 +196,22 @@ bool ABombManPlayerCharacter::IsMoving() const
 {
 	return bIsMoving;
 }
+
+#pragma region IBombManCollision
+bool ABombManPlayerCharacter::IsPlayerCollide() const
+{
+	return bPlayerCollide;
+}
+void ABombManPlayerCharacter::SetPlayerCollide(bool _bPlayerCollide)
+{
+	this->bPlayerCollide = _bPlayerCollide;
+}
+bool ABombManPlayerCharacter::CanBeDestroyed() const
+{
+	return bCanBeDamaged;
+}
+void ABombManPlayerCharacter::SetCanBeDestroyed(bool _bCanBeDestroyed)
+{
+	this->bCanBeDestroyed = _bCanBeDestroyed;
+}
+#pragma endregion

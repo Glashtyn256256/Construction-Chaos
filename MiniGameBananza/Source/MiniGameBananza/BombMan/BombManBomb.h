@@ -8,6 +8,7 @@
 #include "Components/PrimitiveComponent.h"
 #include "Components/SphereComponent.h"
 #include "Containers/Array.h"
+#include "BombManCollision.h"
 
 #include "BombManExplosion.h"
 #include "BombManBomb.generated.h"
@@ -22,7 +23,7 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FOnBombDetonation, ABombManBomb *)
 #pragma endregion
 
 UCLASS()
-class MINIGAMEBANANZA_API ABombManBomb : public AActor
+class MINIGAMEBANANZA_API ABombManBomb : public ABombManCollision
 {
 	GENERATED_BODY()
 	
@@ -45,6 +46,7 @@ public:
 
 	void SetCountdownModifier(float Value);
 
+	void Explode();
 	void HandleExplode(float DeltaTime);
 
 	void HandleGrow(float DeltaTime);
@@ -61,9 +63,6 @@ private:
 	void CreateExplosion();
 
 public:
-	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* StaticMeshComponent;
-
 	UPROPERTY(EditDefaultsOnly, Category = "Collision")
 	USphereComponent* SphereComponent;
 
@@ -93,6 +92,7 @@ private:
 	float CountdownModifier;
 	float GrowthProgress;
 	bool bStartGrowing;
+	bool bExploded = false;
 
 	ABombManPlayerCharacter* BombPlanter;
 
