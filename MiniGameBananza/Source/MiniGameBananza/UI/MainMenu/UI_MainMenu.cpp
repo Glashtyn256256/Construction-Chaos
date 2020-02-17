@@ -12,6 +12,10 @@ void UUI_MainMenu::NativeConstruct()
 	{
 		StartGameButton->OnClicked.AddDynamic(this, &UUI_MainMenu::OnClickStartButton);
 	}
+
+	if (GameModeSelectionButton) {
+		GameModeSelectionButton->OnClicked.AddDynamic(this, &UUI_MainMenu::OnClickGameModeSelectionButton);
+	}
 }
 
 void UUI_MainMenu::OnClickStartButton() 
@@ -22,4 +26,15 @@ void UUI_MainMenu::OnClickStartButton()
 	{
 		UGameplayStatics::OpenLevel(World, FName(TEXT("Test")));
 	}
+}
+
+void UUI_MainMenu::OnClickGameModeSelectionButton()
+{
+	const UWorld* World = GetWorld();
+
+	if (World)
+	{
+		UGameplayStatics::OpenLevel(World, FName(TEXT("GameMode_Selection_Menu")));
+	}
+
 }
