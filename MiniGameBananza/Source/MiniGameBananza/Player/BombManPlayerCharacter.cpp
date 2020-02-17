@@ -2,6 +2,7 @@
 
 
 #include "BombManPlayerCharacter.h"
+#include "BombManPlayerController.h"
 #include "Components/InputComponent.h"
 
 #include "GameFramework/Actor.h"
@@ -141,22 +142,31 @@ void ABombManPlayerCharacter::OnInteract()
 	}
 }
 
-void ABombManPlayerCharacter::HitByBomb(bool Suicide)
+void ABombManPlayerCharacter::OnHit(ABombManPlayerController* DamageCauserController)
 {
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		0.1f,
-		FColor::Cyan,
-		FString::Printf(TEXT("ABombManPlayerCharacter::HitByBomb")));
+	ABombManPlayerController* controller = Cast<ABombManPlayerController>(GetController());
+	if (controller && DamageCauserController)
+	{
+		controller->OnHit(this, DamageCauserController);
+	}
+	Destroy();
 }
 
-void ABombManPlayerCharacter::EnemyPlayerHitByMyBomb()
+float ABombManPlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		0.1f,
-		FColor::Cyan,
-		FString::Printf(TEXT("ABombManPlayerCharacter::EnemyPlayerHitByMyBomb")));
+	ABombManPlayerController* DamageCauserPlayer = Cast<ABombManPlayerController>(EventInstigator);
+	if (DamageCauserPlayer)
+	{
+		ABombManExplosion* hitByExplosion = Cast<ABombManExplosion>(DamageCauser);
+		if (hitByExplosion)
+		{
+			OnHit(DamageCauserPlayer);
+		}
+
+		// TODO: Hit by block dropped by crane here?
+	}
+
+	return DamageAmount;
 }
 
 void ABombManPlayerCharacter::PlantBomb(bool ArmedByDefault)

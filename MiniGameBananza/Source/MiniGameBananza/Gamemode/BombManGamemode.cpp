@@ -14,7 +14,19 @@ void ABombManGamemode::BeginPlay()
 	{
 		for (int i = 0; i <= PlayerCount; ++i)
 		{
-			UGameplayStatics::CreatePlayer(world, i);
+			ABombManPlayerController* playerController = Cast<ABombManPlayerController>(UGameplayStatics::CreatePlayer(world, i));
+			if (playerController)
+			{
+				PlayerControllers.Add(playerController);
+			}
 		}
+	}
+}
+
+void ABombManGamemode::RespawnPlayer(AController * PlayerToRespawn)
+{
+	if (PlayerToRespawn)
+	{
+		//RestartPlayerAtTransform(PlayerToRespawn, );
 	}
 }

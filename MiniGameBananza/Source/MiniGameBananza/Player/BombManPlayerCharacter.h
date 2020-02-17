@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Containers/Array.h"
-
 #include "PlayerCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Components/PrimitiveComponent.h"
@@ -12,6 +11,8 @@
 #include "MiniGameBananza/BombMan/BombManBomb.h"
 #include "MiniGameBananza/BombMan/IBombManCollision.h"
 #include "BombManPlayerCharacter.generated.h"
+
+class ABombManPlayerController;
 
 /**
  *
@@ -29,10 +30,9 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-	bool IsMoving() const;
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser) override;
 
-	void HitByBomb(bool Suicide);
-	void EnemyPlayerHitByMyBomb();
+	bool IsMoving() const;
 
 #pragma region IBombManCollision
 	virtual bool IsPlayerCollide() const;
@@ -41,32 +41,35 @@ public:
 	virtual void SetCanBeDestroyed(bool _bCanBeDestroyed);
 #pragma endregion
 protected:
+	
 	virtual void OnInteract() override;
 
 private:
+	void OnHit(ABombManPlayerController* DamageCauserController);
+
 	bool CannotPass(FVector direction, float size);
 
 	UFUNCTION(BlueprintCallable)
-		void PlantBomb(bool ArmedByDefault = true);
+	void PlantBomb(bool ArmedByDefault = true);
 
 	UFUNCTION(BlueprintCallable)
-		void OnBombDetonation(ABombManBomb* Bomb);
+	void OnBombDetonation(ABombManBomb* Bomb);
 
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Bomb")
-		TSubclassOf<ABombManBomb> BombToSpawn;
+	TSubclassOf<ABombManBomb> BombToSpawn;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Bomb")
-		int BombPlacementLimit = 3;
+	int BombPlacementLimit = 3;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
-		USphereComponent* SphereComponent;
+	USphereComponent* SphereComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
-		float PlayerMovementStep = 100.0f;
+	float PlayerMovementStep = 100.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
-		float PlayerMovementSpeed = 500.0f;
+	float PlayerMovementSpeed = 500.0f;
 
 private:
 	TArray<ABombManBomb*> PlacedBombs;
