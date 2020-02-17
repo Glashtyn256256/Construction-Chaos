@@ -18,9 +18,13 @@ public:
 	virtual void NativeConstruct() override;
 	UFUNCTION()
 	void OnClickStartButton();
+	void OnClickGameModeSelectionButton();
 public:
 	//TSubclassOf<class UUserWidget> 
 
 	UPROPERTY(EditAnywhere,meta = (BindWidget))
 	UButton* StartGameButton;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UButton* GameModeSelectionButton;
 };
