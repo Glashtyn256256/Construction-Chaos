@@ -4,13 +4,16 @@
 #include "MiniGameHUD.h"
 #include "Engine/World.h"
 
+AMiniGameHUD* AMiniGameHUD::HUDInstance = nullptr;
+
 void AMiniGameHUD::BeginPlay()
 {
 	if (MiniGamePlayersClass && GetWorld())
 	{
-		APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
-		if (PlayerController)
+		APlayerController* PlayerController = GetOwningPlayerController();
+		if (PlayerController && PlayerController->GetLocalPlayer() && PlayerController->GetLocalPlayer()->GetControllerId() == 0)
 		{
+			HUDInstance = this;
 			GamePlayersUI = CreateWidget<UMiniGamePlayersUI>(PlayerController, MiniGamePlayersClass, FName(TEXT("MiniGamePlayers")));
 		}
 	}
@@ -19,4 +22,21 @@ void AMiniGameHUD::BeginPlay()
 	{
 		GamePlayersUI->AddToViewport();
 	}
+}
+
+UMiniGamePlayerUI* AMiniGameHUD::GetMiniGamePlayerUI(APlayerController* Controller)
+{
+	if (HUDInstance && HUDInstance != this)
+	{
+		return HUDInstance->GetMiniGamePlayerUI(Controller);
+	}
+	else
+	{
+		if (GamePlayersUI)
+		{
+			return GamePlayersUI->GetMiniGamePlayerUI(Controller);
+		}
+	}
+
+	return nullptr;
 }
