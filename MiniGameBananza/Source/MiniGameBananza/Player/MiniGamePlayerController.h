@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "MiniGameBananza/UI/Generic/MiniGamePlayerUI.h"
 #include "MiniGamePlayerController.generated.h"
+
+class AMiniGameHUD;
 
 /**
  * 
@@ -16,5 +19,10 @@ class MINIGAMEBANANZA_API AMiniGamePlayerController : public APlayerController
 
 public:
 	virtual void BeginPlay();
-	
+
+	AMiniGameHUD* GetMiniGameHUD();
+
+protected:
+
+	UMiniGamePlayerUI* MiniGamePlayerUI;
 };
