@@ -4,8 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Containers/Array.h"
+#include "MiniGameBananza/Player/BombManPlayerCharacter.h"
 #include "MiniGameBananzaGameModeBase.h"
 #include "BombManGamemode.generated.h"
+
+class ABombManPlayerController;
 
 /**
  * 
@@ -21,8 +24,13 @@ public:
 
 public:
 
+	bool RespawnPlayer(ABombManPlayerController* PlayerController, bool ReplaceExisting = false);
+
 	// Temporary
 	UPROPERTY(EditDefaultsOnly, Category = "Local Multiplayer")
 	int PlayerCount = 1;
+
+private:
+	TArray<TPair<FVector, FRotator>> SpawnLocations;
 
 };

@@ -84,7 +84,7 @@ public:
 	FVector MinimumScale = FVector(0.025f, 0.025f, 0.025f);
 
 	// Delegate
-	FOnBombDetonation OnBombExplode;
+	FOnBombDetonation OnBombDetonation;
 
 private:
 	bool IsArmed;

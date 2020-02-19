@@ -89,9 +89,9 @@ void ABombManBomb::Explode()
 
 	bExploded = true;
 
-	if (OnBombExplode.IsBound())
+	if (OnBombDetonation.IsBound())
 	{
-		OnBombExplode.Broadcast(this);
+		OnBombDetonation.Broadcast(this);
 	}
 
 	CreateExplosion();

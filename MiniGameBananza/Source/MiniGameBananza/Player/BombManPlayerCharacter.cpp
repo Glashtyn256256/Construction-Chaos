@@ -3,6 +3,7 @@
 
 #include "BombManPlayerCharacter.h"
 #include "Components/InputComponent.h"
+#include "BombManPlayerController.h"
 
 #include "GameFramework/Actor.h"
 #include "Engine/Engine.h"
@@ -100,6 +101,25 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 		}
 	}
 }
+
+float ABombManPlayerCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	ABombManPlayerController* instigatorController = Cast<ABombManPlayerController>(EventInstigator);
+	ABombManExplosion* hitByExplosion = Cast<ABombManExplosion>(DamageCauser);
+	if (hitByExplosion && instigatorController)
+	{
+		ABombManPlayerController* thisController = Cast<ABombManPlayerController>(this->GetController());
+		if (thisController)
+		{
+			thisController->StartRespawnProcess();
+			Destroy();
+
+			return Damage;
+		}
+	}
+	return 0.0f;
+}
+
 bool ABombManPlayerCharacter::CannotPass(FVector direction, float size)
 {
 	if (!SphereComponent) return false;
@@ -141,24 +161,6 @@ void ABombManPlayerCharacter::OnInteract()
 	}
 }
 
-void ABombManPlayerCharacter::HitByBomb(bool Suicide)
-{
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		0.1f,
-		FColor::Cyan,
-		FString::Printf(TEXT("ABombManPlayerCharacter::HitByBomb")));
-}
-
-void ABombManPlayerCharacter::EnemyPlayerHitByMyBomb()
-{
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		0.1f,
-		FColor::Cyan,
-		FString::Printf(TEXT("ABombManPlayerCharacter::EnemyPlayerHitByMyBomb")));
-}
-
 void ABombManPlayerCharacter::PlantBomb(bool ArmedByDefault)
 {
 	FActorSpawnParameters spawnParams;
@@ -182,7 +184,7 @@ void ABombManPlayerCharacter::PlantBomb(bool ArmedByDefault)
 			bomb->Arm();
 		}
 
-		bomb->OnBombExplode.AddUObject(this, &ABombManPlayerCharacter::OnBombDetonation);
+		bomb->OnBombDetonation.AddUObject(this, &ABombManPlayerCharacter::OnBombDetonation);
 		PlacedBombs.Add(bomb);
 	}
 }

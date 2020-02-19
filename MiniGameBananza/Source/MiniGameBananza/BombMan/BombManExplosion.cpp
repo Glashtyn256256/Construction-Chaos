@@ -3,6 +3,7 @@
 #include "BombManExplosion.h"
 #include "Engine/World.h"
 #include "Engine/Engine.h"
+#include "GameFramework/DamageType.h"
 
 #include "MiniGameBananza/Player/BombManPlayerCharacter.h"
 #include "BombManBomb.h"
@@ -45,17 +46,11 @@ void ABombManExplosion::OnBeginOverlap(UPrimitiveComponent* Component, AActor* O
 	ABombManPlayerCharacter* bombVictim = Cast<ABombManPlayerCharacter>(OtherActor);
 	if (bombVictim)
 	{
-		if (BombPlanter && BombPlanter != bombVictim)
-		{
-			// BombPlanter killed bombVictim
-			bombVictim->HitByBomb(false);
-			BombPlanter->EnemyPlayerHitByMyBomb();
-		}
-		else if (BombPlanter)
-		{
-			// BombPlanter committed suicide
-			BombPlanter->HitByBomb(true);
-		}
+		// Create a valid damage event
+		const TSubclassOf<UDamageType> validDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
+		FDamageEvent damageEvent(validDamageTypeClass);
+
+		bombVictim->TakeDamage(1.0f, damageEvent, BombPlanter->GetController(), this);
 	}
 
 	ABombManCollision* collision = Cast<ABombManCollision>(OtherActor);

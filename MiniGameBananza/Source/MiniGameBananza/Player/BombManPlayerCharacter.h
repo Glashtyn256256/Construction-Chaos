@@ -29,10 +29,9 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-	bool IsMoving() const;
+	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
-	void HitByBomb(bool Suicide);
-	void EnemyPlayerHitByMyBomb();
+	bool IsMoving() const;
 
 #pragma region IBombManCollision
 	virtual bool IsPlayerCollide() const;

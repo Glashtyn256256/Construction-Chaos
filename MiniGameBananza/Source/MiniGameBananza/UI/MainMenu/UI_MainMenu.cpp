@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "UI_MainMenu.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
-#include "UI_MainMenu.h"
 
 void UUI_MainMenu::NativeConstruct()
 {
