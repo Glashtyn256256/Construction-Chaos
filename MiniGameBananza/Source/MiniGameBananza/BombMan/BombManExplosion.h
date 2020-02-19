@@ -58,4 +58,5 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void SetBombPlanter(ABombManPlayerCharacter* _BombPlanter);
+	const ABombManPlayerCharacter* GetBombPlanter();
 };
