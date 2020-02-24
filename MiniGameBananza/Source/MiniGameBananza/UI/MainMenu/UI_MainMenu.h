@@ -18,6 +18,7 @@ public:
 	virtual void NativeConstruct() override;
 	UFUNCTION()
 	void OnClickStartButton();
+	UFUNCTION()
 	void OnClickGameModeSelectionButton();
 public:
 	//TSubclassOf<class UUserWidget> 
