@@ -2,8 +2,9 @@
 
 
 #include "MiniGamePlayersUI.h"
+#include "MiniGameBananza/Player/MiniGamePlayerController.h"
 
-UMiniGamePlayerUI* UMiniGamePlayersUI::GetMiniGamePlayerUI(APlayerController* Controller)
+UMiniGamePlayerUI* UMiniGamePlayersUI::GetMiniGamePlayerUI(AMiniGamePlayerController* Controller)
 {
 	if (!Controller || !Controller->GetLocalPlayer()) return nullptr;
 

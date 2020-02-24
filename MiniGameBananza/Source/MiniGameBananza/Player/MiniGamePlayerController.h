@@ -22,7 +22,11 @@ public:
 
 	AMiniGameHUD* GetMiniGameHUD();
 
+	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
+	int MaxLives = 5;
+
 protected:
 
+	UPROPERTY()
 	UMiniGamePlayerUI* MiniGamePlayerUI;
 };
