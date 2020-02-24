@@ -20,4 +20,7 @@ public:
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Local Multiplayer")
 	int PlayerCount = 4;
+
+	AActor* CameraActor;
+private:
 };
