@@ -7,6 +7,7 @@
 
 void ABombManPlayerController::BeginPlay()
 {
+	Super::BeginPlay();
 }
 
 void ABombManPlayerController::Tick(float DeltaTime)

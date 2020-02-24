@@ -8,6 +8,8 @@
 #include "GameFramework/PlayerController.h"
 #include "MiniGamePlayersUI.generated.h"
 
+class AMiniGamePlayerController;
+
 /**
  * 
  */
@@ -17,7 +19,7 @@ class MINIGAMEBANANZA_API UMiniGamePlayersUI : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	UMiniGamePlayerUI* GetMiniGamePlayerUI(APlayerController* Controller);
+	UMiniGamePlayerUI* GetMiniGamePlayerUI(AMiniGamePlayerController* Controller);
 
 public:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))

@@ -20,15 +20,11 @@ class MINIGAMEBANANZA_API ABombManGamemode : public AMiniGameBananzaGameModeBase
 	
 public:
 
-	virtual void BeginPlay() override;
+	virtual void InitGame(const FString & MapName,const FString & Options,FString & ErrorMessage) override;
 
 public:
 
 	bool RespawnPlayer(ABombManPlayerController* PlayerController, bool ReplaceExisting = false);
-
-	// Temporary
-	UPROPERTY(EditDefaultsOnly, Category = "Local Multiplayer")
-	int PlayerCount = 1;
 
 private:
 	TArray<TPair<FVector, FRotator>> SpawnLocations;

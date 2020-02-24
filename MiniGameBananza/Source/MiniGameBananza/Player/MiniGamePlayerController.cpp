@@ -13,6 +13,13 @@ void AMiniGamePlayerController::BeginPlay()
 	{
 		MiniGamePlayerUI = MiniGameHUD->GetMiniGamePlayerUI(this);
 	}
+
+	if (MiniGamePlayerUI)
+	{
+		MiniGamePlayerUI->InitializeUI(this);
+
+		MiniGamePlayerUI->SetLives(3);
+	}
 }
 
 AMiniGameHUD* AMiniGamePlayerController::GetMiniGameHUD()

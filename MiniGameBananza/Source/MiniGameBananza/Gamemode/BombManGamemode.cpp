@@ -10,16 +10,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "MiniGameBananza/Player/BombManPlayerController.h"
 
-void ABombManGamemode::BeginPlay()
+void ABombManGamemode::InitGame(const FString & MapName, const FString & Options, FString & ErrorMessage)
 {
-	UWorld* const world = GetWorld();
-	if (world)
-	{
-		for (int i = 0; i <= PlayerCount; ++i)
-		{
-			UGameplayStatics::CreatePlayer(world, i);
-		}
-	}
+	Super::InitGame(MapName, Options, ErrorMessage);
 }
 
 bool ABombManGamemode::RespawnPlayer(ABombManPlayerController* PlayerController, bool ReplaceExisting)
