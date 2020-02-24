@@ -8,13 +8,15 @@ AMiniGameHUD* AMiniGameHUD::HUDInstance = nullptr;
 
 void AMiniGameHUD::BeginPlay()
 {
+	Super::BeginPlay();
+
 	if (MiniGamePlayersClass && GetWorld())
 	{
 		APlayerController* PlayerController = GetOwningPlayerController();
 		if (PlayerController && PlayerController->GetLocalPlayer() && PlayerController->GetLocalPlayer()->GetControllerId() == 0)
 		{
 			HUDInstance = this;
-			GamePlayersUI = CreateWidget<UMiniGamePlayersUI>(PlayerController, MiniGamePlayersClass, FName(TEXT("MiniGamePlayers")));
+			GamePlayersUI = CreateWidget<UMiniGamePlayersUI>(GetWorld(), MiniGamePlayersClass, FName(TEXT("MiniGamePlayers")));
 		}
 	}
 
