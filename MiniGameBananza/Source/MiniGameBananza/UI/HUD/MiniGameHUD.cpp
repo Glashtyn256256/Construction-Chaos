@@ -4,17 +4,34 @@
 #include "MiniGameHUD.h"
 #include "Engine/World.h"
 
-AMiniGameHUD* AMiniGameHUD::HUDInstance = nullptr;
+static AMiniGameHUD* HUDInstance = nullptr;
 
 void AMiniGameHUD::BeginPlay()
 {
+	Super::BeginPlay();
+
+	CreateInstance();
+}
+
+void AMiniGameHUD::BeginDestroy()
+{
+	Super::BeginDestroy();
+
+	if (HUDInstance == this)
+		HUDInstance = nullptr;
+}
+
+void AMiniGameHUD::CreateInstance()
+{
+	if (HUDInstance) return;
+
 	if (MiniGamePlayersClass && GetWorld())
 	{
 		APlayerController* PlayerController = GetOwningPlayerController();
-		if (PlayerController && PlayerController->GetLocalPlayer() && PlayerController->GetLocalPlayer()->GetControllerId() == 0)
+		if (PlayerController && !HUDInstance)
 		{
 			HUDInstance = this;
-			GamePlayersUI = CreateWidget<UMiniGamePlayersUI>(PlayerController, MiniGamePlayersClass, FName(TEXT("MiniGamePlayers")));
+			GamePlayersUI = CreateWidget<UMiniGamePlayersUI>(GetWorld(), MiniGamePlayersClass, FName(TEXT("MiniGamePlayers")));
 		}
 	}
 
@@ -24,8 +41,10 @@ void AMiniGameHUD::BeginPlay()
 	}
 }
 
-UMiniGamePlayerUI* AMiniGameHUD::GetMiniGamePlayerUI(APlayerController* Controller)
+UMiniGamePlayerUI* AMiniGameHUD::GetMiniGamePlayerUI(AMiniGamePlayerController* Controller)
 {
+	CreateInstance();
+
 	if (HUDInstance && HUDInstance != this)
 	{
 		return HUDInstance->GetMiniGamePlayerUI(Controller);
@@ -39,4 +58,9 @@ UMiniGamePlayerUI* AMiniGameHUD::GetMiniGamePlayerUI(APlayerController* Controll
 	}
 
 	return nullptr;
+}
+
+AMiniGameHUD * AMiniGameHUD::GetInstance()
+{
+	return HUDInstance;
 }

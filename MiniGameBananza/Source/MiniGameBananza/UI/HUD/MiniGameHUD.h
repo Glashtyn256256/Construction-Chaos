@@ -6,6 +6,7 @@
 #include "GameFramework/HUD.h"
 #include "MiniGameBananza/UI/Generic/MiniGamePlayersUI.h"
 #include "MiniGameBananza/UI/Generic/MiniGamePlayerUI.h"
+#include "MiniGameBananza/Player/MiniGamePlayerController.h"
 #include "MiniGameHUD.generated.h"
 
 /**
@@ -18,8 +19,12 @@ class MINIGAMEBANANZA_API AMiniGameHUD : public AHUD
 
 public:
 	virtual void BeginPlay() override;
+	virtual void CreateInstance();
+	virtual void BeginDestroy() override;
 
-	UMiniGamePlayerUI* GetMiniGamePlayerUI(APlayerController* Controller);
+	UMiniGamePlayerUI* GetMiniGamePlayerUI(AMiniGamePlayerController* Controller);
+
+	static AMiniGameHUD* GetInstance();
 
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Widgets")
@@ -27,6 +32,4 @@ public:
 
 private:
 	UMiniGamePlayersUI* GamePlayersUI;
-	
-	static AMiniGameHUD* HUDInstance;
 };
