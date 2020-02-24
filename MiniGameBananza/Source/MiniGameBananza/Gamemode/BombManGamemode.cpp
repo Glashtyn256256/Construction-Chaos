@@ -46,6 +46,10 @@ bool ABombManGamemode::RespawnPlayer(ABombManPlayerController* PlayerController,
 			if (playerCharacter)
 			{
 				PlayerController->Possess(playerCharacter);
+				if (CameraActor)
+				{
+					PlayerController->SetViewTargetWithBlend(CameraActor);
+				}
 				return true;
 			}
 		}

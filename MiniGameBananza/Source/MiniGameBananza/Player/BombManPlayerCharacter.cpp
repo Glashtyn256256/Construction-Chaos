@@ -4,6 +4,8 @@
 #include "BombManPlayerCharacter.h"
 #include "Components/InputComponent.h"
 #include "BombManPlayerController.h"
+#include "MiniGameBananza/Gamemode/MiniGameBananzaGameModeBase.h"
+#include "Kismet/GameplayStatics.h"
 
 #include "GameFramework/Actor.h"
 #include "Engine/Engine.h"
@@ -111,8 +113,13 @@ float ABombManPlayerCharacter::TakeDamage(float Damage, FDamageEvent const& Dama
 		ABombManPlayerController* thisController = Cast<ABombManPlayerController>(this->GetController());
 		if (thisController)
 		{
-			thisController->StartRespawnProcess();
 			Destroy();
+			thisController->StartRespawnProcess();
+			AMiniGameBananzaGameModeBase* gamemode = Cast<AMiniGameBananzaGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+			if (gamemode)
+			{
+				thisController->SetViewTargetWithBlend(gamemode->CameraActor);
+			}
 
 			return Damage;
 		}
