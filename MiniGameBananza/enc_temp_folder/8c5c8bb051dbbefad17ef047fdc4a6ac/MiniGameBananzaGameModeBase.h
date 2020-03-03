@@ -26,7 +26,9 @@ protected:
 	virtual void FinishRestartPlayer(AController* NewPlayer, const FRotator& StartRotation) override;
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Local Multiplayer")
-	int PlayerCount = 4;
+		int PlayerCount = 4;
 
 	AActor* CameraActor;
+
+	AMiniGameHUD* HUD;
 };

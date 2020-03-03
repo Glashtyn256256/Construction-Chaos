@@ -25,6 +25,9 @@ protected:
 		virtual void OnInteract();
 
 	UFUNCTION()
+		virtual void OnJump();
+
+	UFUNCTION()
 		virtual void MoveForward(float value);
 
 	UFUNCTION()
@@ -39,6 +42,7 @@ public:
 
 private:
 	void Interact();
+	void Jump();
 
 public:
 	UPROPERTY(EditDefaultsOnly)

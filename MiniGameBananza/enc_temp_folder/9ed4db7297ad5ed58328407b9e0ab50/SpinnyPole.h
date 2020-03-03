@@ -28,6 +28,6 @@ public:
 	UStaticMeshComponent* MeshComponent;
 
 private:
-	float CurrentRotationSpeed = 10.0f;
+	float CurrentRotationSpeed = 1.0f;
 
 };
