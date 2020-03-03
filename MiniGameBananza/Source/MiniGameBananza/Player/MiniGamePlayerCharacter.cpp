@@ -29,6 +29,7 @@ void AMiniGamePlayerCharacter::SetupPlayerInputComponent(UInputComponent* Player
 
 	// Bind action mappings
 	PlayerInputComponent->BindAction("PlayerInteract", EInputEvent::IE_Pressed, this, &AMiniGamePlayerCharacter::Interact);
+	PlayerInputComponent->BindAction("PlayerJump", EInputEvent::IE_Pressed, this, &AMiniGamePlayerCharacter::Jump);
 
 	// Bind axis mappings to movement functions
 	PlayerInputComponent->BindAxis("PlayerForward", this, &AMiniGamePlayerCharacter::MoveForward);
@@ -48,6 +49,13 @@ void AMiniGamePlayerCharacter::Interact()
 	OnInteract();
 }
 
+// This is bound to the PlayerInputComponent
+void AMiniGamePlayerCharacter::Jump()
+{
+	// Virtual function call
+	OnJump();
+}
+
 void AMiniGamePlayerCharacter::OnInteract()
 {
 	GEngine->AddOnScreenDebugMessage(
@@ -55,6 +63,15 @@ void AMiniGamePlayerCharacter::OnInteract()
 		0.1f,
 		FColor::Cyan,
 		FString::Printf(TEXT("APlayerCharacter::OnInteract")));
+}
+
+void AMiniGamePlayerCharacter::OnJump()
+{
+	GEngine->AddOnScreenDebugMessage(
+		-1,
+		0.1f,
+		FColor::Cyan,
+		FString::Printf(TEXT("APlayerCharacter::OnJump")));
 }
 
 void AMiniGamePlayerCharacter::MoveForward(float Value)
