@@ -23,11 +23,4 @@ public:
 
 	virtual void InitGame(const FString & MapName,const FString & Options,FString & ErrorMessage) override;
 
-public:
-
-	virtual void RestartPlayer(AController * NewPlayer) override;
-
-protected:
-	virtual void FinishRestartPlayer(AController* NewPlayer, const FRotator& StartRotation) override;
-
 };

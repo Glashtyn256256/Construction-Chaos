@@ -6,16 +6,16 @@
 #include "GameFramework/Character.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
-#include "PlayerCharacter.generated.h"
+#include "MiniGamePlayerCharacter.generated.h"
 
 UCLASS()
-class MINIGAMEBANANZA_API APlayerCharacter : public ACharacter
+class MINIGAMEBANANZA_API AMiniGamePlayerCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	APlayerCharacter();
+	AMiniGamePlayerCharacter();
 
 protected:
 	// Called when the game starts or when spawned

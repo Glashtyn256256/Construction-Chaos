@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Containers/Array.h"
 
-#include "PlayerCharacter.h"
+#include "MiniGamePlayerCharacter.h"
 #include "Components/SphereComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "MiniGameBananza/BombMan/BombManBlock.h"
@@ -17,7 +17,7 @@
  *
  */
 UCLASS()
-class MINIGAMEBANANZA_API ABombManPlayerCharacter : public APlayerCharacter, public IIBombManCollision
+class MINIGAMEBANANZA_API ABombManPlayerCharacter : public AMiniGamePlayerCharacter, public IIBombManCollision
 {
 	GENERATED_BODY()
 
