@@ -36,9 +36,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
 	int NumLives = 5;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
-	TSubclassOf<ABombManPlayerCharacter> PlayerCharacterToSpawn;
-
 private:
 	float RespawnCountdownTimer;
 	bool bIsRespawning;

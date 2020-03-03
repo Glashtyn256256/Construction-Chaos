@@ -6,6 +6,7 @@
 #include "Containers/Array.h"
 #include "MiniGameBananza/Player/BombManPlayerCharacter.h"
 #include "MiniGameBananzaGameModeBase.h"
+#include "GameFramework/GameModeBase.h"
 #include "BombManGamemode.generated.h"
 
 class ABombManPlayerController;
@@ -24,9 +25,9 @@ public:
 
 public:
 
-	bool RespawnPlayer(ABombManPlayerController* PlayerController, bool ReplaceExisting = false);
+	virtual void RestartPlayer(AController * NewPlayer) override;
 
-private:
-	TArray<TPair<FVector, FRotator>> SpawnLocations;
+protected:
+	virtual void FinishRestartPlayer(AController* NewPlayer, const FRotator& StartRotation) override;
 
 };
