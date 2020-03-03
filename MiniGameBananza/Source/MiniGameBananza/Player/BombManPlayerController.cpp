@@ -39,10 +39,8 @@ void ABombManPlayerController::Respawn()
 		ABombManGamemode* gamemode = Cast<ABombManGamemode>(UGameplayStatics::GetGameMode(world));
 		if (gamemode)
 		{
-			if (gamemode->RespawnPlayer(this))
-			{
-				--NumLives;
-			}
+			gamemode->RestartPlayer(this);
+			--NumLives;
 		}
 	}
 	bIsRespawning = false;

@@ -15,8 +15,10 @@ void ABombManGamemode::InitGame(const FString & MapName, const FString & Options
 	Super::InitGame(MapName, Options, ErrorMessage);
 }
 
-bool ABombManGamemode::RespawnPlayer(ABombManPlayerController* PlayerController, bool ReplaceExisting)
+void ABombManGamemode::RestartPlayer(AController * NewPlayer)
 {
+	APlayerController* PlayerController = Cast<APlayerController>(NewPlayer);
+
 	UWorld* world = GetWorld();
 	if (PlayerController && world)
 	{
@@ -29,30 +31,33 @@ bool ABombManGamemode::RespawnPlayer(ABombManPlayerController* PlayerController,
 			spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
 			APawn* existingPawn = PlayerController->GetPawn();
-			if (existingPawn && ReplaceExisting)
+			if (existingPawn)
 			{
 				// Destroy possessed pawn.
 				PlayerController->UnPossess();
 				existingPawn->Destroy();
 			}
-			else if (existingPawn)
-			{
-				// Failed to respawn the player, existing pawn is already possessed.
-				return false;
-			}
 
-			// Respawn new pawn for player
-			ABombManPlayerCharacter* playerCharacter = world->SpawnActor<ABombManPlayerCharacter>(PlayerController->PlayerCharacterToSpawn, spawnLocation, spawnRotation, spawnParams);
+			// Respawn new pawn for player			// Note: GetDefaultPawnClassForController(PlayerController) is the override if needed
+			ABombManPlayerCharacter* playerCharacter = world->SpawnActor<ABombManPlayerCharacter>(GetDefaultPawnClassForController(PlayerController), spawnLocation, spawnRotation, spawnParams);
 			if (playerCharacter)
 			{
-				PlayerController->Possess(playerCharacter);
-				if (CameraActor)
-				{
-					PlayerController->SetViewTargetWithBlend(CameraActor);
-				}
-				return true;
+				PlayerController->SetPawn(playerCharacter);
 			}
+			FinishRestartPlayer(NewPlayer, spawnRotation);
 		}
 	}
-	return false;
+
+}
+
+void ABombManGamemode::FinishRestartPlayer(AController* NewPlayer, const FRotator& StartRotation)
+{
+	Super::FinishRestartPlayer(NewPlayer, StartRotation);
+
+	APlayerController* PlayerController = Cast<APlayerController>(NewPlayer);
+
+	if (PlayerController && CameraActor)
+	{
+		PlayerController->SetViewTargetWithBlend(CameraActor);
+	}
 }
