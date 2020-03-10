@@ -13,7 +13,7 @@
 #include "BombManExplosion.h"
 #include "BombManBomb.generated.h"
 
-class ABombManPlayerCharacter;
+class ABombManPlayerController;
 
 
 #pragma region Delegate Decl
@@ -51,7 +51,7 @@ public:
 
 	void HandleGrow(float DeltaTime);
 
-	void SetBombPlanter(ABombManPlayerCharacter* _BombPlanter);
+	void SetBombPlanter(ABombManPlayerController* _BombPlanter);
 
 protected:
 	UFUNCTION()
@@ -94,6 +94,6 @@ private:
 	bool bStartGrowing;
 	bool bExploded = false;
 
-	ABombManPlayerCharacter* BombPlanter;
+	ABombManPlayerController* BombPlanter;
 
 };
