@@ -5,7 +5,7 @@
 #include "Engine/Engine.h"
 #include "GameFramework/DamageType.h"
 
-#include "MiniGameBananza/Player/BombManPlayerCharacter.h"
+#include "MiniGameBananza/Player/BombManPlayerController.h"
 #include "BombManBomb.h"
 
 // Sets default values
@@ -50,7 +50,7 @@ void ABombManExplosion::OnBeginOverlap(UPrimitiveComponent* Component, AActor* O
 		const TSubclassOf<UDamageType> validDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
 		FDamageEvent damageEvent(validDamageTypeClass);
 
-		bombVictim->TakeDamage(1.0f, damageEvent, BombPlanter->GetController(), this);
+		bombVictim->TakeDamage(1.0f, damageEvent, BombPlanter, this);
 	}
 
 	ABombManCollision* collision = Cast<ABombManCollision>(OtherActor);
@@ -92,7 +92,7 @@ void ABombManExplosion::Tick(float DeltaTime)
 	}
 }
 
-void ABombManExplosion::SetBombPlanter(ABombManPlayerCharacter* _BombPlanter)
+void ABombManExplosion::SetBombPlanter(ABombManPlayerController* _BombPlanter)
 {
 	BombPlanter = _BombPlanter;
 }

@@ -9,7 +9,7 @@
 #include "BombManCollision.h"
 #include "BombManExplosion.generated.h"
 
-class ABombManPlayerCharacter;
+class ABombManPlayerController;
 
 UCLASS()
 class MINIGAMEBANANZA_API ABombManExplosion : public ABombManCollision
@@ -51,12 +51,12 @@ private:
 	bool StopExplosion;
 	
 	UPROPERTY()
-	ABombManPlayerCharacter* BombPlanter;
+	ABombManPlayerController* BombPlanter;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void SetBombPlanter(ABombManPlayerCharacter* _BombPlanter);
-	const ABombManPlayerCharacter* GetBombPlanter();
+	void SetBombPlanter(ABombManPlayerController* _BombPlanter);
+	const ABombManPlayerController* GetBombPlanter();
 };

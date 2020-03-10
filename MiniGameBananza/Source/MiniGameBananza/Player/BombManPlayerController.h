@@ -20,25 +20,14 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
-	inline void StartRespawnProcess();
+	
 private:
-	void Respawn();
 #pragma endregion
 
 #pragma region Variables
 public:
-	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
-	float MaxRespawnTime = 5.0f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
-	float RespawnCountdownModifier = 1.0f;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
-	int NumLives = 5;
-
-private:
-	float RespawnCountdownTimer;
-	bool bIsRespawning;
+	
 #pragma endregion
 	
 };

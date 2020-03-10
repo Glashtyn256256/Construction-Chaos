@@ -123,7 +123,7 @@ void ABombManBomb::HandleGrow(float DeltaTime)
 	}
 }
 
-void ABombManBomb::SetBombPlanter(ABombManPlayerCharacter* _BombPlanter)
+void ABombManBomb::SetBombPlanter(ABombManPlayerController* _BombPlanter)
 {
 	BombPlanter = _BombPlanter;
 }

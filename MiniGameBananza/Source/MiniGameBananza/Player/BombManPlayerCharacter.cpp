@@ -108,7 +108,7 @@ float ABombManPlayerCharacter::TakeDamage(float Damage, FDamageEvent const& Dama
 {
 	ABombManPlayerController* instigatorController = Cast<ABombManPlayerController>(EventInstigator);
 	ABombManExplosion* hitByExplosion = Cast<ABombManExplosion>(DamageCauser);
-	if (hitByExplosion && instigatorController)
+	if (hitByExplosion)
 	{
 		ABombManPlayerController* thisController = Cast<ABombManPlayerController>(this->GetController());
 		if (thisController)
@@ -185,14 +185,18 @@ void ABombManPlayerCharacter::PlantBomb(bool ArmedByDefault)
 	ABombManBomb * bomb = GetWorld()->SpawnActor<ABombManBomb>(BombToSpawn, spawnLocation, spawnRotation, spawnParams);
 	if (bomb)
 	{
-		bomb->SetBombPlanter(this);
-		if (ArmedByDefault)
+		ABombManPlayerController* controller = Cast<ABombManPlayerController>(this->GetController());
+		if (controller)
 		{
-			bomb->Arm();
-		}
+			bomb->SetBombPlanter(controller);
+			if (ArmedByDefault)
+			{
+				bomb->Arm();
+			}
 
-		bomb->OnBombDetonation.AddUObject(this, &ABombManPlayerCharacter::OnBombDetonation);
-		PlacedBombs.Add(bomb);
+			bomb->OnBombDetonation.AddUObject(this, &ABombManPlayerCharacter::OnBombDetonation);
+			PlacedBombs.Add(bomb);
+		}
 	}
 }
 

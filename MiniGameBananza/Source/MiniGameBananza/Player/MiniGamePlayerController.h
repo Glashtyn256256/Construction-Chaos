@@ -19,14 +19,33 @@ class MINIGAMEBANANZA_API AMiniGamePlayerController : public APlayerController
 
 public:
 	virtual void BeginPlay();
+	virtual void Tick(float DeltaTime) override;
 
 	AMiniGameHUD* GetMiniGameHUD();
 
+	inline void StartRespawnProcess();
+
 	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
 	int MaxLives = 5;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
+	float MaxRespawnTime = 5.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
+	float RespawnCountdownModifier = 1.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
+	int NumLives = 5;
 
 protected:
 
 	UPROPERTY()
 	UMiniGamePlayerUI* MiniGamePlayerUI;
+
+private:
+	float RespawnCountdownTimer;
+	bool bIsRespawning;
+private:
+	virtual void Respawn();
+	
 };
