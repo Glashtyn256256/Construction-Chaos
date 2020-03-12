@@ -66,7 +66,7 @@ void AMiniGameBananzaGameModeBase::RestartPlayer(AController * NewPlayer)
 		if (playerStart)
 		{
 			const FVector spawnLocation = playerStart->GetTransform().GetLocation();
-			const FRotator spawnRotation = playerStart->GetTransform().GetRotation().Rotator();
+			const FRotator spawnRotation = FRotator::ZeroRotator;
 			FActorSpawnParameters spawnParams;
 			spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
