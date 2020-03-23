@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/BoxComponent.h"
 #include "SpinnyPole.generated.h"
 
 UCLASS()
@@ -23,11 +24,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 public:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* MeshComponent;
 
 private:
-	float CurrentRotationSpeed = 10.0f;
+	float CurrentRotationSpeed = 20.0f;
 
 };
