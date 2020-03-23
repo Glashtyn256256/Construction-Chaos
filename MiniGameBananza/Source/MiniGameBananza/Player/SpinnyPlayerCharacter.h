@@ -14,6 +14,8 @@ class MINIGAMEBANANZA_API ASpinnyPlayerCharacter : public AMiniGamePlayerCharact
 {
 	GENERATED_BODY()
 
+public:
+	virtual void Die(FVector force);
 protected:
 
 	virtual void OnJump() override;

@@ -56,6 +56,11 @@ void AMiniGamePlayerCharacter::Jump()
 	OnJump();
 }
 
+void AMiniGamePlayerCharacter::Ragdoll()
+{
+
+}
+
 void AMiniGamePlayerCharacter::OnInteract()
 {
 	GEngine->AddOnScreenDebugMessage(
