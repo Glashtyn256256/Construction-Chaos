@@ -35,7 +35,7 @@ public:
 	float RespawnCountdownModifier = 1.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
-	int NumLives = 5;
+	int NumLives = 3;
 
 protected:
 
