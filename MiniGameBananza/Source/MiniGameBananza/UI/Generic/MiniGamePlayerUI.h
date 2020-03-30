@@ -26,11 +26,14 @@ public:
 
 
 public:
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<UUserWidget> HeartClass;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UUserWidget* PlayerHeart1;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	UHorizontalBox* HeartsBox;
+	UUserWidget* PlayerHeart2;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UUserWidget* PlayerHeart3;
 
 protected:
 	UPROPERTY()
