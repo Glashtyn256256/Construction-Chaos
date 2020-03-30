@@ -7,25 +7,18 @@
 
 void UMiniGamePlayerUI::InitializeUI(AMiniGamePlayerController* _Controller)
 {
-	if(!_Controller) return;
+	if (!_Controller) return;
 
 	Controller = _Controller;
 
 	HUD = AMiniGameHUD::GetInstance();
 
-	if (HeartClass && HeartsBox)
-	{
-		for (int i = 0; i < Controller->MaxLives; ++i)
-		{
-			UUserWidget* HeartWidget = CreateWidget< UUserWidget>(GetWorld(), HeartClass);
-			if (HeartWidget)
-			{
-				Hearts.Add(HeartWidget);
+	Hearts.Empty();
+	Hearts.Add(PlayerHeart1);
+	Hearts.Add(PlayerHeart2);
+	Hearts.Add(PlayerHeart3);
 
-				HeartsBox->AddChildToHorizontalBox(HeartWidget);
-			}
-		}
-	}
+	SetLives(Controller->MaxLives);
 }
 
 void UMiniGamePlayerUI::SetLives(int lives)
@@ -40,7 +33,7 @@ void UMiniGamePlayerUI::SetLives(int lives)
 		Hearts[i]->SetVisibility(ESlateVisibility::Visible);
 	}
 
-	for (i; i < Hearts.Num();++i)
+	for (i; i < Hearts.Num(); ++i)
 	{
 		Hearts[i]->SetVisibility(ESlateVisibility::Hidden);
 	}
