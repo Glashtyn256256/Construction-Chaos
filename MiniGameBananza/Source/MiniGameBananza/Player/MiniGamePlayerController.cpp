@@ -20,7 +20,7 @@ void AMiniGamePlayerController::BeginPlay()
 	{
 		MiniGamePlayerUI->InitializeUI(this);
 
-		MiniGamePlayerUI->SetLives(3);
+		MiniGamePlayerUI->SetLives(NumLives);
 	}
 }
 
@@ -60,6 +60,11 @@ void AMiniGamePlayerController::Respawn()
 		{
 			gamemode->RestartPlayer(this);
 			--NumLives;
+
+			if (MiniGamePlayerUI)
+			{
+				MiniGamePlayerUI->SetLives(NumLives);
+			}
 		}
 	}
 	bIsRespawning = false;
