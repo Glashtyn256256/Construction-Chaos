@@ -8,6 +8,8 @@
 #include "IBombManCollision.h"
 #include "BombManCollision.generated.h"
 
+class ABombManPlayerCharacter;
+
 UCLASS()
 class MINIGAMEBANANZA_API ABombManCollision : public AActor, public IIBombManCollision
 {
@@ -20,8 +22,9 @@ public:
 	virtual void SetPlayerCollide(bool _bPlayerCollide);
 	virtual bool CanBeDestroyed() const;
 	virtual void SetCanBeDestroyed(bool _bCanBeDestroyed);
+	virtual void OnPlayerCollision(ABombManPlayerCharacter* Character);
 
-private:
+protected:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* MeshComponent;
 
