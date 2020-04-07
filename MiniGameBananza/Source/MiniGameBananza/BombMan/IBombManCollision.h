@@ -6,6 +6,8 @@
 #include "UObject/Interface.h"
 #include "IBombManCollision.generated.h"
 
+class ABombManPlayerCharacter;
+
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
 class UIBombManCollision : public UInterface
@@ -26,4 +28,5 @@ public:
 	virtual void SetPlayerCollide(bool _bPlayerCollide) = 0;
 	virtual bool CanBeDestroyed() const = 0;
 	virtual void SetCanBeDestroyed(bool _bCanBeDestroyed) = 0;
+	virtual void OnPlayerCollision(ABombManPlayerCharacter* Character) = 0;
 };

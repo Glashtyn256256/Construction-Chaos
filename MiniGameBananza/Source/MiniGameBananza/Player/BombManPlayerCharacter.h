@@ -33,14 +33,19 @@ public:
 
 	bool IsMoving() const;
 
+	void SetPlayerMovementSpeed(float p_PlayerMovementSpeed);
+	void ResetPlayerMovementSpeed();
+
 #pragma region IBombManCollision
 	virtual bool IsPlayerCollide() const;
 	virtual void SetPlayerCollide(bool _bPlayerCollide);
 	virtual bool CanBeDestroyed() const;
 	virtual void SetCanBeDestroyed(bool _bCanBeDestroyed);
+	virtual void OnPlayerCollision(ABombManPlayerCharacter* Character);
 #pragma endregion
 protected:
 	virtual void OnInteract() override;
+	virtual void OnPlayerCollision(IIBombManCollision* Collision);
 
 private:
 	bool CannotPass(FVector direction, float size);
@@ -66,6 +71,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 		float PlayerMovementSpeed = 500.0f;
+
+protected:
+	float p_PlayerMovementSpeed;
 
 private:
 	TArray<ABombManBomb*> PlacedBombs;

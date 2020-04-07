@@ -17,6 +17,8 @@ ABombManPlayerCharacter::ABombManPlayerCharacter()
 	{
 		SphereComponent->AttachTo(RootComponent);
 	}
+
+	ResetPlayerMovementSpeed();
 }
 
 void ABombManPlayerCharacter::BeginPlay()
@@ -97,7 +99,7 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 
 				FVector targetDirection = (TargetPosition - position).GetSafeNormal();
 
-				SetActorLocation(position + targetDirection * PlayerMovementSpeed * GetWorld()->DeltaTimeSeconds);
+				SetActorLocation(position + targetDirection * p_PlayerMovementSpeed * GetWorld()->DeltaTimeSeconds);
 				//AddMovementInput(targetDirection * PlayerMovementSpeed);
 			}
 		}
@@ -139,23 +141,39 @@ bool ABombManPlayerCharacter::CannotPass(FVector direction, float size)
 	for (UPrimitiveComponent* Prim : overlapping)
 	{
 		IIBombManCollision* Collision = Cast<IIBombManCollision>(Prim->GetAttachmentRootActor());
-		if (Collision && Collision->IsPlayerCollide())
+		if (Collision)
 		{
-			AActor* ActorCollision = Cast<AActor>(Collision);
-
-			if (ActorCollision && ActorCollision != this)
+			OnPlayerCollision(Collision);
+			if (Collision->IsPlayerCollide())
 			{
-				GEngine->AddOnScreenDebugMessage(
-					-1,
-					1.0f,
-					FColor::Cyan,
-					FString::Printf(TEXT("CanPass::true %s"), *ActorCollision->GetName()));
-				return true;
+				AActor* ActorCollision = Cast<AActor>(Collision);
+
+				if (ActorCollision && ActorCollision != this)
+				{
+					//GEngine->AddOnScreenDebugMessage(
+					//	-1,
+					//	1.0f,
+					//	FColor::Cyan,
+					//	FString::Printf(TEXT("CanPass::true %s"), *ActorCollision->GetName()));
+					return true;
+				}
 			}
 		}
 	}
 
 	return false;
+}
+
+void ABombManPlayerCharacter::OnPlayerCollision(IIBombManCollision* Collision)
+{
+	if (!Collision) return;
+
+	Collision->OnPlayerCollision(this);
+}
+
+void ABombManPlayerCharacter::OnPlayerCollision(ABombManPlayerCharacter* Character)
+{
+
 }
 
 void ABombManPlayerCharacter::OnInteract()
@@ -208,6 +226,16 @@ void ABombManPlayerCharacter::OnBombDetonation(ABombManBomb* Bomb)
 bool ABombManPlayerCharacter::IsMoving() const
 {
 	return bIsMoving;
+}
+
+void ABombManPlayerCharacter::SetPlayerMovementSpeed(float t_PlayerMovementSpeed)
+{
+	this->p_PlayerMovementSpeed = t_PlayerMovementSpeed;
+}
+
+void ABombManPlayerCharacter::ResetPlayerMovementSpeed()
+{
+	this->p_PlayerMovementSpeed = PlayerMovementSpeed;
 }
 
 #pragma region IBombManCollision

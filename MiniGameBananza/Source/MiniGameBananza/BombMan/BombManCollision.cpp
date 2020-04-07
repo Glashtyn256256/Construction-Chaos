@@ -2,6 +2,7 @@
 
 
 #include "BombManCollision.h"
+#include "MiniGameBananza/Player/BombManPlayerCharacter.h"
 
 // Sets default values
 ABombManCollision::ABombManCollision()
@@ -14,6 +15,11 @@ ABombManCollision::ABombManCollision()
 	{
 		MeshComponent->AttachTo(RootComponent);
 	}
+}
+
+void ABombManCollision::OnPlayerCollision(ABombManPlayerCharacter* Character)
+{
+
 }
 
 #pragma region Getters/Setters
