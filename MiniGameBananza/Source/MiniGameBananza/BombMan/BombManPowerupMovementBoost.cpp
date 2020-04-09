@@ -15,14 +15,14 @@ void ABombManPowerupMovementBoost::Tick(float DeltaTime)
 		if (Time >= PowerupTime)
 		{
 			Time = 0.0f;
-			Super::OnPowerupEnd();
+			Super::PowerupEnd();
 		}
 	}
 }
 
-void ABombManPowerupMovementBoost::OnPowerupStart(ABombManPlayerCharacter* Character)
+void ABombManPowerupMovementBoost::PowerupStart(ABombManPlayerCharacter* Character)
 {
-	Super::OnPowerupStart(Character);
+	Super::PowerupStart(Character);
 
 	Time = 0.0f;
 
@@ -32,9 +32,9 @@ void ABombManPowerupMovementBoost::OnPowerupStart(ABombManPlayerCharacter* Chara
 	}
 }
 
-void ABombManPowerupMovementBoost::OnPowerupEnd(ABombManPlayerCharacter* Character)
+void ABombManPowerupMovementBoost::PowerupEnd(ABombManPlayerCharacter* Character)
 {
-	Super::OnPowerupEnd(Character);
+	Super::PowerupEnd(Character);
 
 	if (Character)
 	{

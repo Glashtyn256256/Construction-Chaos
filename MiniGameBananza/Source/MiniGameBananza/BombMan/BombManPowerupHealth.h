@@ -4,32 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "MiniGameBananza/BombMan/BombManPowerup.h"
-#include "BombManPowerupMovementBoost.generated.h"
-
-class ABombManPlayerCharacter;
+#include "BombManPowerupHealth.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MINIGAMEBANANZA_API ABombManPowerupMovementBoost : public ABombManPowerup
+class MINIGAMEBANANZA_API ABombManPowerupHealth : public ABombManPowerup
 {
 	GENERATED_BODY()
-
-public:
-	virtual void Tick(float DeltaTime) override;
-
+	
 protected:
 	virtual void PowerupStart(ABombManPlayerCharacter* Character) override;
 	virtual void PowerupEnd(ABombManPlayerCharacter* Character) override;
 
-protected:
-	float Time;
-
+public:
 	UPROPERTY(EditDefaultsOnly, Category = "Powerup")
-	float PowerupTime = 3.0f;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Powerup")
-	float PlayerMovementSpeed = 1000.0f;
-	
+	int Lives = 1;
 };
