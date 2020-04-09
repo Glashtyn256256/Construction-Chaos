@@ -59,13 +59,32 @@ void AMiniGamePlayerController::Respawn()
 		if (gamemode)
 		{
 			gamemode->RestartPlayer(this);
-			--NumLives;
 
-			if (MiniGamePlayerUI)
-			{
-				MiniGamePlayerUI->SetLives(NumLives);
-			}
+			SetLives(--NumLives);
 		}
 	}
 	bIsRespawning = false;
+}
+
+void AMiniGamePlayerController::SetLives(int lives)
+{
+	this->NumLives = lives;
+	if (this->NumLives > MaxLives)
+	{
+		this->NumLives = MaxLives;
+	}
+	else if (this->NumLives < 0)
+	{
+		this->NumLives = 0;
+	}
+
+	if (MiniGamePlayerUI)
+	{
+		MiniGamePlayerUI->SetLives(NumLives);
+	}
+
+}
+int AMiniGamePlayerController::GetLives() const
+{
+	return NumLives;
 }

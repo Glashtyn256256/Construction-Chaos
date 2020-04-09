@@ -25,8 +25,11 @@ public:
 
 	inline void StartRespawnProcess();
 
+	void SetLives(int lives);
+	int GetLives() const;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
-	int MaxLives = 5;
+	int MaxLives = 3;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
 	float MaxRespawnTime = 5.0f;

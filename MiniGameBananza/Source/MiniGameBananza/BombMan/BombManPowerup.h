@@ -20,9 +20,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 protected:
-	virtual void OnPowerupStart(ABombManPlayerCharacter* Character);
-	virtual void OnPowerupEnd(ABombManPlayerCharacter* Character);
-	void OnPowerupEnd();
+	virtual void PowerupStart(ABombManPlayerCharacter* Character);
+	virtual void PowerupEnd(ABombManPlayerCharacter* Character);
+	void PowerupEnd();
 
 protected:
 	ABombManPlayerCharacter* PowerupCharacter;

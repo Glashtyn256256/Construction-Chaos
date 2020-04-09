@@ -8,7 +8,7 @@ void ABombManPowerup::OnPlayerCollision(ABombManPlayerCharacter* Character)
 {
 	if (!bPowerupActive)
 	{
-		OnPowerupStart(Character);
+		PowerupStart(Character);
 	}
 }
 
@@ -17,7 +17,7 @@ void ABombManPowerup::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void ABombManPowerup::OnPowerupStart(ABombManPlayerCharacter* Character)
+void ABombManPowerup::PowerupStart(ABombManPlayerCharacter* Character)
 {
 	bPowerupActive = true;
 	PowerupCharacter = Character;
@@ -25,12 +25,12 @@ void ABombManPowerup::OnPowerupStart(ABombManPlayerCharacter* Character)
 	SetActorHiddenInGame(true);
 }
 
-void ABombManPowerup::OnPowerupEnd(ABombManPlayerCharacter* Character)
+void ABombManPowerup::PowerupEnd(ABombManPlayerCharacter* Character)
 {
 	Destroy();
 }
 
-void ABombManPowerup::OnPowerupEnd()
+void ABombManPowerup::PowerupEnd()
 {
-	OnPowerupEnd(PowerupCharacter);
+	PowerupEnd(PowerupCharacter);
 }
