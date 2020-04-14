@@ -35,6 +35,7 @@ public:
 
 	void SetPlayerMovementSpeed(float p_PlayerMovementSpeed);
 	void ResetPlayerMovementSpeed();
+	virtual FVector GetAnimVelocity() const override;
 
 #pragma region IBombManCollision
 	virtual bool IsPlayerCollide() const;
@@ -82,4 +83,6 @@ private:
 	bool bIsMoving;
 	bool bPlayerCollide = true;
 	bool bCanBeDestroyed = false;
+	FVector Velocity;
+	FVector LastDirection;
 };

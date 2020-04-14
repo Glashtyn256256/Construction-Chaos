@@ -42,9 +42,13 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(BlueprintCallable)
+	virtual FVector GetAnimVelocity() const;
+
 private:
 	void Interact();
 	void Jump();
+
 
 public:
 	UPROPERTY(EditDefaultsOnly)

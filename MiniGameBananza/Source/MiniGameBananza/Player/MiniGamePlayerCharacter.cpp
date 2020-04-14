@@ -103,3 +103,8 @@ void AMiniGamePlayerCharacter::MoveRight(float Value)
 	//	FString::Printf(TEXT("%f"), Value));
 }
 
+FVector AMiniGamePlayerCharacter::GetAnimVelocity() const
+{
+	return FVector::ZeroVector;
+}
+
