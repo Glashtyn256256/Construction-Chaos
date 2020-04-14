@@ -108,3 +108,43 @@ FVector AMiniGamePlayerCharacter::GetAnimVelocity() const
 	return FVector::ZeroVector;
 }
 
+void AMiniGamePlayerCharacter::SetVictory(bool _bVictory)
+{
+	this->bVictory = _bVictory;
+}
+
+void AMiniGamePlayerCharacter::SetDeath(bool _bDeath)
+{
+	this->bDeath = _bDeath;
+}
+
+void AMiniGamePlayerCharacter::SetJump(bool _bJump)
+{
+	this->bJump = _bJump;
+}
+
+void AMiniGamePlayerCharacter::SetRespawn(bool _bRespawn)
+{
+	this->bRespawn = _bRespawn;
+}
+
+bool AMiniGamePlayerCharacter::GetVictory() const
+{
+	return bVictory;
+}
+
+bool AMiniGamePlayerCharacter::GetDeath() const
+{
+	return bDeath;
+}
+
+bool AMiniGamePlayerCharacter::GetJump() const
+{
+	return bJump;
+}
+
+bool AMiniGamePlayerCharacter::GetRespawn() const
+{
+	return bRespawn;
+}
+

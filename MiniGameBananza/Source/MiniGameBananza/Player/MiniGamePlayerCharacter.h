@@ -45,6 +45,23 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual FVector GetAnimVelocity() const;
 
+	UFUNCTION(BlueprintCallable)
+	void SetVictory(bool bVictory);
+	UFUNCTION(BlueprintCallable)
+	void SetDeath(bool bDeath);
+	UFUNCTION(BlueprintCallable)
+	void SetJump(bool bJump);
+	UFUNCTION(BlueprintCallable)
+	void SetRespawn(bool bRespawn);
+	UFUNCTION(BlueprintCallable)
+	bool GetVictory() const;
+	UFUNCTION(BlueprintCallable)
+	bool GetDeath() const;
+	UFUNCTION(BlueprintCallable)
+	bool GetJump() const;
+	UFUNCTION(BlueprintCallable)
+	bool GetRespawn() const;
+
 private:
 	void Interact();
 	void Jump();
@@ -57,5 +74,8 @@ public:
 protected:
 	float InputForward;
 	float InputRight;
-
+	bool bDeath;
+	bool bJump;
+	bool bVictory;
+	bool bRespawn;
 };
