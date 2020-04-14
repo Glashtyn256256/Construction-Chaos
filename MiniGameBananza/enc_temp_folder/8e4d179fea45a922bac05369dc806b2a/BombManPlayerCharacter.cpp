@@ -41,7 +41,7 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 	{
 		FRotator Rotation = FRotator(LastDirection.Rotation());
 
-		MeshComponent->SetRelativeRotation(Rotation);
+		MeshComponent->SetWorldRotation(Rotation);
 	}
 
 
