@@ -24,7 +24,7 @@ void UUI_MainMenu::OnClickStartButton()
 
 	if (World)
 	{
-		UGameplayStatics::OpenLevel(World, FName(TEXT("Test")));
+		UGameplayStatics::OpenLevel(World, FName(TEXT("Bomberman_New")));
 	}
 }
 
