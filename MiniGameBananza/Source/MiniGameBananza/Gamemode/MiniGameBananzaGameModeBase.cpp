@@ -8,15 +8,25 @@
 #include "Engine/World.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "MiniGameBananza/Player/MiniGamePlayerCharacter.h"
+#include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
 
-void AMiniGameBananzaGameModeBase::InitGame(const FString & MapName, const FString & Options, FString & ErrorMessage)
+void AMiniGameBananzaGameModeBase::BeginPlay()
 {
-	Super::InitGame(MapName, Options, ErrorMessage);
+	Super::BeginPlay();
 
 	const UWorld* world = GetWorld();
 	if (world)
 	{
+		for (FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; ++Iterator)
+		{
+			APlayerController* PlayerController = Iterator->Get();
+			if (PlayerController)
+			{
+				UGameplayStatics::RemovePlayer(PlayerController, true);
+			}
+		}
+
 		TArray<APlayerController*> playerControllers;
 		for (int i = 0; i <= PlayerCount; ++i)
 		{
