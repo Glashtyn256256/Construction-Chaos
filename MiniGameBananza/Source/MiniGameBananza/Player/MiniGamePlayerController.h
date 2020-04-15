@@ -8,6 +8,7 @@
 #include "MiniGamePlayerController.generated.h"
 
 class AMiniGameHUD;
+class AMiniGamePlayerCharacter;
 
 /**
  * 

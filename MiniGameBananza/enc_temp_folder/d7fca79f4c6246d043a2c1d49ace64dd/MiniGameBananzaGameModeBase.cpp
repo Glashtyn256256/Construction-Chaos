@@ -82,16 +82,9 @@ void AMiniGameBananzaGameModeBase::RestartPlayer(AController * NewPlayer)
 
 			int localPlayerid = PlayerController->GetLocalPlayer()->GetControllerId();
 
-			if (CharacterClasses.Num() > 0)
+			if (CharacterClasses.Num() > 0 && localPlayerid >= CharacterClasses.Num())
 			{
-				if (localPlayerid >= CharacterClasses.Num())
-				{
-					PlayerPrefab = CharacterClasses[localPlayerid % CharacterClasses.Num()];
-				}
-				else if(localPlayerid < CharacterClasses.Num())
-				{
-					PlayerPrefab = CharacterClasses[localPlayerid];
-				}
+				PlayerPrefab = CharacterClasses[localPlayerid % CharacterClasses.Num()];
 			}
 
 			// Respawn new pawn for player			// Note: GetDefaultPawnClassForController(PlayerController) is the override if needed
