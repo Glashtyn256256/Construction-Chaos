@@ -24,7 +24,7 @@ public:
 
 	AMiniGameHUD* GetMiniGameHUD();
 
-	inline void StartRespawnProcess();
+	void StartRespawnProcess();
 
 	void SetLives(int lives);
 	int GetLives() const;
