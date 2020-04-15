@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "MiniGameBananza/UI/HUD/MiniGameHUD.h"
+#include "MiniGameBananza/Player/MiniGamePlayerCharacter.h"
 #include "MiniGameBananzaGameModeBase.generated.h"
 
 /**
@@ -27,6 +28,9 @@ protected:
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Local Multiplayer")
 	int PlayerCount = 4;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Local Multiplayer")
+	TArray<TSubclassOf<AMiniGamePlayerCharacter>> CharacterClasses;
 
 	AActor* CameraActor;
 };
