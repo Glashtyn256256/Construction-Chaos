@@ -14,7 +14,7 @@ AFloorIsLava_Block_Manager::AFloorIsLava_Block_Manager()
 
 	UWorld* world = GetWorld();
 
-	/*for (TActorIterator<AFloorIsLava_Floor_Block> It(world, AFloorIsLava_Floor_Block::StaticClass()); It; ++It) 
+	/*for (TActorIterator<AFloorIsLava_Floor_Block> It(world, AFloorIsLava_Floor_Block::StaticClass()); It; It++) 
 	{
 		AFloorIsLava_Floor_Block* blockActor = *It;
 		if (blockActor != NULL)
@@ -25,7 +25,10 @@ AFloorIsLava_Block_Manager::AFloorIsLava_Block_Manager()
 	{
 		if (Itr->IsA(AFloorIsLava_Floor_Block::StaticClass()))
 		{
+			if(Itr->IsValidLowLevel())
+			{
 			FloorBlocks.Add(*Itr);
+			}
 		}
 	}
 }
@@ -48,7 +51,7 @@ void AFloorIsLava_Block_Manager::Tick(float DeltaTime)
 		test = 0;
 	}
 	test++;
-	GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::FromInt(FloorBlocks.Num()));
+	GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::FromInt(FloorBlocks.Num() - 1));
 }
 
 void AFloorIsLava_Block_Manager::SelectRandomCube() 
@@ -59,9 +62,16 @@ void AFloorIsLava_Block_Manager::SelectRandomCube()
 
 	int32 randomIndexPosition = FMath::RandRange(0, blockCount - 1);
 
+	/*if (randomIndexPosition > blockCount - 1)
+		return;*/
+
+	if (FloorBlocks[randomIndexPosition] == NULL)
+	{
+		//FloorBlocks.Remove(FloorBlocks[randomIndexPosition]);
+		return;
+	}
 	AFloorIsLava_Floor_Block* floorBlock = FloorBlocks[randomIndexPosition];
 	FloorBlocks.Remove(floorBlock);
-//	floorBlock->TogglePhysicsSimulation();
-	
-	floorBlock->DestroyObject();
+	floorBlock->TogglePhysicsSimulation();
+//	floorBlock->DestroyObject();
 }

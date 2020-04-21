@@ -44,5 +44,5 @@ void AFloorIsLava_Floor_Block::TogglePhysicsSimulation()
 
 void AFloorIsLava_Floor_Block::DestroyObject() 
 {
-	this->Destroy();
+	this->ConditionalBeginDestroy();
 }
