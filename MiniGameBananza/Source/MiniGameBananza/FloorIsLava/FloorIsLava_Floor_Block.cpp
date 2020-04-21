@@ -30,14 +30,19 @@ void AFloorIsLava_Floor_Block::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (test > 1000) {
+	/*if (test > 1000) {
 		TogglePhysicsSimulation();
 	}
 	++test;
-	GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::FromInt(test));
+	GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::FromInt(test));*/
 }
 
 void AFloorIsLava_Floor_Block::TogglePhysicsSimulation()
 {
 	MeshComponent->SetSimulatePhysics(true);
+}
+
+void AFloorIsLava_Floor_Block::DestroyObject() 
+{
+	this->Destroy();
 }
