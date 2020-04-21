@@ -17,7 +17,8 @@ public:
 	// Sets default values for this actor's properties
 	AFloorIsLava_Floor_Block();
 
-	void TogglePhysicsSimulation();
+	virtual void DestroyObject();
+	virtual void TogglePhysicsSimulation();
 
 protected:
 	// Called when the game starts or when spawned
