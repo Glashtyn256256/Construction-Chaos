@@ -9,12 +9,12 @@
 // Sets default values
 AFloorIsLava_Block_Manager::AFloorIsLava_Block_Manager()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	UWorld* world = GetWorld();
 
-	/*for (TActorIterator<AFloorIsLava_Floor_Block> It(world, AFloorIsLava_Floor_Block::StaticClass()); It; It++) 
+	/*for (TActorIterator<AFloorIsLava_Floor_Block> It(world, AFloorIsLava_Floor_Block::StaticClass()); It; It++)
 	{
 		AFloorIsLava_Floor_Block* blockActor = *It;
 		if (blockActor != NULL)
@@ -25,9 +25,10 @@ AFloorIsLava_Block_Manager::AFloorIsLava_Block_Manager()
 	{
 		if (Itr->IsA(AFloorIsLava_Floor_Block::StaticClass()))
 		{
-			if(Itr->IsValidLowLevel())
+			AFloorIsLava_Floor_Block* block = *Itr;
+			if (block)
 			{
-			FloorBlocks.Add(*Itr);
+				FloorBlocks.Add(block);
 			}
 		}
 	}
@@ -37,7 +38,7 @@ AFloorIsLava_Block_Manager::AFloorIsLava_Block_Manager()
 void AFloorIsLava_Block_Manager::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
@@ -45,33 +46,28 @@ void AFloorIsLava_Block_Manager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (test > 100) 
+	if (time > maxTime)
 	{
 		SelectRandomCube();
-		test = 0;
+		time = 0;
 	}
-	test++;
+	time += DeltaTime;
 	GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::FromInt(FloorBlocks.Num() - 1));
 }
 
-void AFloorIsLava_Block_Manager::SelectRandomCube() 
+void AFloorIsLava_Block_Manager::SelectRandomCube()
 {
 	int32 blockCount = FloorBlocks.Num();
-	if (!(blockCount > 0))
+	if (blockCount <= 0)
 		return;
 
 	int32 randomIndexPosition = FMath::RandRange(0, blockCount - 1);
 
-	/*if (randomIndexPosition > blockCount - 1)
-		return;*/
-
-	if (FloorBlocks[randomIndexPosition] == NULL)
-	{
-		//FloorBlocks.Remove(FloorBlocks[randomIndexPosition]);
-		return;
-	}
 	AFloorIsLava_Floor_Block* floorBlock = FloorBlocks[randomIndexPosition];
-	FloorBlocks.Remove(floorBlock);
-	floorBlock->TogglePhysicsSimulation();
-//	floorBlock->DestroyObject();
+	if (floorBlock)
+	{
+		FloorBlocks.Remove(floorBlock);
+		floorBlock->TogglePhysicsSimulation();
+		//floorBlock->DestroyObject();
+	}
 }

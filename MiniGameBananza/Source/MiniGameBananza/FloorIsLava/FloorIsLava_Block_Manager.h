@@ -24,10 +24,13 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	int test = 0;
+	float time = 0.0f;
 
 private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TArray<AFloorIsLava_Floor_Block*> FloorBlocks;
+
+	UPROPERTY(EditDefaultsOnly)
+		float maxTime = 1.5f;
 };
