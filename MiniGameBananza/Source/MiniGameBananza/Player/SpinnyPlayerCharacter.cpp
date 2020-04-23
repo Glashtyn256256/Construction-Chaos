@@ -5,9 +5,28 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
+void ASpinnyPlayerCharacter::Tick(float DeltaTime)
+{
+	if (GetJump())
+	{
+		jumpAnimTime += DeltaTime;
+
+		if (jumpAnimTime >= 1.0f)
+		{
+			SetJump(false);
+		}
+	}
+}
+
 void ASpinnyPlayerCharacter::OnJump()
 {
+	if (GetJump()) return;
+
 	ACharacter::Jump();
+
+	jumpAnimTime = 0.0f;
+
+	SetJump(true);
 }
 
 void ASpinnyPlayerCharacter::Die(FVector force)
