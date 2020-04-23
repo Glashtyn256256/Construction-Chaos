@@ -15,8 +15,13 @@ class MINIGAMEBANANZA_API ASpinnyPlayerCharacter : public AMiniGamePlayerCharact
 	GENERATED_BODY()
 
 public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 	virtual void Die(FVector force);
 protected:
 
 	virtual void OnJump() override;
+
+private:
+	float jumpAnimTime;
 };
