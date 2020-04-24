@@ -13,23 +13,21 @@ AFloorIsLavaDestroyActorOnContact::AFloorIsLavaDestroyActorOnContact()
 
 	SphereRadius = 2000.0f;
 
-	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Collision"));
-	if (SphereComponent)
-	{
-		SphereComponent->InitSphereRadius(SphereRadius);
-		SphereComponent->SetCollisionProfileName("Trigger");
-		RootComponent = SphereComponent;
-	}
-
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	if (MeshComponent)
 	{
 		MeshComponent->SetupAttachment(RootComponent);
 	}
 
-	SphereComponent->OnComponentBeginOverlap.AddDynamic(this,
-		&AFloorIsLavaDestroyActorOnContact::OnOverlapBegin);
-
+	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Collision"));
+	if (SphereComponent)
+	{
+		SphereComponent->InitSphereRadius(SphereRadius);
+		SphereComponent->SetCollisionProfileName("Trigger");
+		SphereComponent->OnComponentBeginOverlap.AddDynamic(this,
+			&AFloorIsLavaDestroyActorOnContact::OnOverlapBegin);
+		RootComponent = SphereComponent;
+	}
 }
 
 // Called when the game starts or when spawned
