@@ -17,6 +17,7 @@ class MINIGAMEBANANZA_API AFloorIsLavaPlayerCharacter : public AMiniGamePlayerCh
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 	virtual FVector GetAnimVelocity() const override;
 public:
