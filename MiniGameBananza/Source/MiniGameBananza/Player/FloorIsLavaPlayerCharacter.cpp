@@ -1,9 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "GameFramework/Character.h"
 #include "FloorIsLavaPlayerCharacter.h"
+#include "GameFramework/Character.h"
+#include "MiniGameBananza/Player/FloorIsLavaPlayerController.h"
+#include "MiniGameBananza/Gamemode/FloorIsLavaGamemode.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 	// Called every frame
 void AFloorIsLavaPlayerCharacter::Tick(float DeltaTime)
@@ -27,6 +30,23 @@ void AFloorIsLavaPlayerCharacter::Tick(float DeltaTime)
 
 		MeshComponent->SetRelativeRotation(SmoothRotation.Rotator());
 	}
+}
+
+float AFloorIsLavaPlayerCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+		AFloorIsLavaPlayerController* LavaController = Cast<AFloorIsLavaPlayerController>(Controller);
+		if (LavaController)
+		{
+			Destroy();
+			LavaController->StartRespawnProcess();
+			AMiniGameBananzaGameModeBase* gamemode = Cast<AMiniGameBananzaGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+			if (gamemode)
+			{
+				LavaController->SetViewTargetWithBlend(gamemode->CameraActor);
+			}
+		}
+
+		return Damage;
 }
 
 FVector AFloorIsLavaPlayerCharacter::GetAnimVelocity() const

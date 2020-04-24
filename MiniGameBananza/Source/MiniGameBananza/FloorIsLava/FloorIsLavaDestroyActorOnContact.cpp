@@ -3,7 +3,9 @@
 
 #include "FloorIsLavaDestroyActorOnContact.h"
 #include "Components/PrimitiveComponent.h"
+#include "MiniGameBananza/Player/FloorIsLavaPlayerCharacter.h"
 #include "DrawDebugHelpers.h"
+#include "GameFramework/DamageType.h"
 
 // Sets default values
 AFloorIsLavaDestroyActorOnContact::AFloorIsLavaDestroyActorOnContact()
@@ -48,6 +50,18 @@ void AFloorIsLavaDestroyActorOnContact::OnOverlapBegin(UPrimitiveComponent* Over
 {
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
 	{
-		OtherActor->Destroy();
+		AFloorIsLavaPlayerCharacter* victim = Cast<AFloorIsLavaPlayerCharacter>(OtherActor);
+		if (victim)
+		{
+			// Create a valid damage event
+			const TSubclassOf<UDamageType> validDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
+			FDamageEvent damageEvent(validDamageTypeClass);
+
+			victim->TakeDamage(1.0f, damageEvent, victim->Controller, this);
+		}
+		else
+		{
+			OtherActor->Destroy();
+		}
 	}
 }
