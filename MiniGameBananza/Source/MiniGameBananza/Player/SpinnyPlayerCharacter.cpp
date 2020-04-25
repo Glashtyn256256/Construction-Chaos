@@ -27,6 +27,16 @@ void ASpinnyPlayerCharacter::Tick(float DeltaTime)
 			SetActorLocation(MeshLocal->GetComponentLocation());
 		}
 	}
+
+	if (GetJump())
+	{
+		jumpAnimTime += DeltaTime;
+
+		if (jumpAnimTime >= 1.0f)
+		{
+			SetJump(false);
+		}
+	}
 }
 
 void ASpinnyPlayerCharacter::Destroyed()
@@ -46,7 +56,13 @@ void ASpinnyPlayerCharacter::Destroyed()
 
 void ASpinnyPlayerCharacter::OnJump()
 {
+	if (GetJump()) return;
+
 	ACharacter::Jump();
+
+	jumpAnimTime = 0.0f;
+
+	SetJump(true);
 }
 
 void ASpinnyPlayerCharacter::HandleRespawnProtection(float DeltaTime)
