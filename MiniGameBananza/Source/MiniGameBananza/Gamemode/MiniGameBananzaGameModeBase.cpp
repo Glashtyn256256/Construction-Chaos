@@ -39,19 +39,16 @@ void AMiniGameBananzaGameModeBase::BeginPlay()
 
 		TArray<AActor*> foundActors;
 		UGameplayStatics::GetAllActorsOfClass(world, ACameraActor::StaticClass(), foundActors);
-
-		if (foundActors.Num() > 0)
-		{
-			CameraActor = foundActors[0];
-		}
-
-
 		for (AActor* actor : foundActors)
 		{
 			TArray< UActorComponent*> validComponents = actor->GetComponentsByTag(UActorComponent::StaticClass(), TEXT("MainCamera"));
 			if (validComponents.Num() > 0)
 			{
 				CameraActor = actor;
+			}
+			else
+			{
+				actor->Destroy();
 			}
 		}
 
@@ -113,7 +110,6 @@ void AMiniGameBananzaGameModeBase::RestartPlayer(AController * NewPlayer)
 			FinishRestartPlayer(NewPlayer, spawnRotation);
 		}
 	}
-
 }
 
 void AMiniGameBananzaGameModeBase::FinishRestartPlayer(AController* NewPlayer, const FRotator& StartRotation)

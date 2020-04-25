@@ -20,6 +20,9 @@ ABombManPlayerCharacter::ABombManPlayerCharacter() : Velocity(FVector::ZeroVecto
 	}
 
 	ResetPlayerMovementSpeed();
+
+	bHasRecentlyRespawned = true;
+	RespawnProtectionTimer = MaxRespawnProtectionTime;
 }
 
 void ABombManPlayerCharacter::BeginPlay()
@@ -36,6 +39,8 @@ void ABombManPlayerCharacter::BeginPlay()
 
 void ABombManPlayerCharacter::Tick(float DeltaTime)
 {
+	Super::Tick(DeltaTime);
+
 	USkeletalMeshComponent* MeshComponent = GetMesh();
 	if (MeshComponent && LastDirection != FVector::ZeroVector)
 	{
@@ -119,25 +124,37 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 	}
 }
 
+void ABombManPlayerCharacter::HandleRespawnProtection(float DeltaTime)
+{
+	// Remove protection after RespawnProtectionTimer amount of time
+	if (bHasRecentlyRespawned)
+	{
+		RespawnProtectionTimer -= DeltaTime;
+		if (RespawnProtectionTimer <= 0)
+		{
+			bHasRecentlyRespawned = false;
+		}
+	}
+}
+
 float ABombManPlayerCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	ABombManPlayerController* instigatorController = Cast<ABombManPlayerController>(EventInstigator);
 	ABombManExplosion* hitByExplosion = Cast<ABombManExplosion>(DamageCauser);
-	if (hitByExplosion)
+	if (hitByExplosion && CanDie())
 	{
 		ABombManPlayerController* thisController = Cast<ABombManPlayerController>(this->GetController());
-		if (thisController)
+		AMiniGameBananzaGameModeBase* gamemode = Cast<AMiniGameBananzaGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
+		if (gamemode && thisController)
 		{
 			Destroy();
 			thisController->StartRespawnProcess();
-			AMiniGameBananzaGameModeBase* gamemode = Cast<AMiniGameBananzaGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-			if (gamemode)
-			{
-				thisController->SetViewTargetWithBlend(gamemode->CameraActor);
-			}
-
-			return Damage;
+			thisController->SetViewTargetWithBlend(gamemode->CameraActor);
 		}
+
+		return Damage;
+
 	}
 	return 0.0f;
 }

@@ -31,6 +31,12 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* MeshComponent;
 
+	UPROPERTY(EditDefaultsOnly)
+	float RotationSpeedIncrementModifier = 1.0f;
+
+	UPROPERTY(EditDefaultsOnly)
+	float PoleImpactForceModifier = 100.0f;
+
 private:
 	float CurrentRotationSpeed = 20.0f;
 

@@ -47,7 +47,7 @@ public:
 protected:
 	virtual void OnInteract() override;
 	virtual void OnPlayerCollision(IIBombManCollision* Collision);
-
+	virtual void HandleRespawnProtection(float DeltaTime) override;
 private:
 	bool CannotPass(FVector direction, float size);
 
@@ -73,10 +73,15 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 		float PlayerMovementSpeed = 500.0f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Respawn Protection")
+		float MaxRespawnProtectionTime = 3.0f;
+
 protected:
 	float p_PlayerMovementSpeed;
 
 private:
+	float RespawnProtectionTimer;
+
 	TArray<ABombManBomb*> PlacedBombs;
 	FVector TargetPosition;
 	FVector PreviousPosition;
