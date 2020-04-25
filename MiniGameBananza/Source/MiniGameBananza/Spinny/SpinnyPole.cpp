@@ -2,6 +2,7 @@
 
 
 #include "SpinnyPole.h"
+#include "MiniGameBananza/Player/SpinnyPlayerController.h"
 #include "MiniGameBananza/Player/SpinnyPlayerCharacter.h"
 
 // Sets default values
@@ -36,6 +37,8 @@ void ASpinnyPole::Tick(float DeltaTime)
 	CurrentRotation *= RotationOffset;
 	SetActorRotation(CurrentRotation);
 
+	CurrentRotationSpeed += DeltaTime * RotationSpeedIncrementModifier;
+
 }
 
 void ASpinnyPole::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -43,8 +46,12 @@ void ASpinnyPole::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 	ASpinnyPlayerCharacter* Character = Cast<ASpinnyPlayerCharacter>(OtherActor);
 	if (Character)
 	{
-		FVector Force = SweepResult.ImpactNormal * 50.0f;
-		Character->Die(Force);
+		FVector Force = SweepResult.ImpactNormal * PoleImpactForceModifier;
+
+		if (Character->CanDie())
+		{
+			Character->Die(Force);
+		}
 	}
 }
 

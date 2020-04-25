@@ -39,7 +39,7 @@ public:
 	float RespawnCountdownModifier = 1.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
-	int NumLives = 3;
+	int NumLives = MaxLives;
 
 protected:
 
@@ -49,6 +49,7 @@ protected:
 private:
 	float RespawnCountdownTimer;
 	bool bIsRespawning;
+	
 private:
 	virtual void Respawn();
 	

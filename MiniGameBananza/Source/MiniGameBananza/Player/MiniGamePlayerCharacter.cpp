@@ -9,7 +9,7 @@
 #include "Engine/Engine.h"
 
 // Sets default values
-AMiniGamePlayerCharacter::AMiniGamePlayerCharacter()
+AMiniGamePlayerCharacter::AMiniGamePlayerCharacter() : bHasRecentlyRespawned(false)
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -40,6 +40,12 @@ void AMiniGamePlayerCharacter::SetupPlayerInputComponent(UInputComponent* Player
 void AMiniGamePlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	HandleRespawnProtection(DeltaTime);
+}
+
+void AMiniGamePlayerCharacter::Ragdoll(FVector force)
+{
 }
 
 // This is bound to the PlayerInputComponent
@@ -54,11 +60,6 @@ void AMiniGamePlayerCharacter::Jump()
 {
 	// Virtual function call
 	OnJump();
-}
-
-void AMiniGamePlayerCharacter::Ragdoll()
-{
-
 }
 
 void AMiniGamePlayerCharacter::OnInteract()
@@ -103,9 +104,18 @@ void AMiniGamePlayerCharacter::MoveRight(float Value)
 	//	FString::Printf(TEXT("%f"), Value));
 }
 
+void AMiniGamePlayerCharacter::HandleRespawnProtection(float DeltaTime)
+{
+}
+
 FVector AMiniGamePlayerCharacter::GetAnimVelocity() const
 {
 	return FVector::ZeroVector;
+}
+
+bool AMiniGamePlayerCharacter::CanDie() const
+{
+	return !bHasRecentlyRespawned;
 }
 
 void AMiniGamePlayerCharacter::SetVictory(bool _bVictory)

@@ -33,17 +33,22 @@ protected:
 	UFUNCTION()
 		virtual void MoveRight(float Value);
 
+	virtual void HandleRespawnProtection(float DeltaTime);
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void Ragdoll();
+	virtual void Ragdoll(FVector force = FVector::ZeroVector);
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION(BlueprintCallable)
 	virtual FVector GetAnimVelocity() const;
+
+	UFUNCTION(BlueprintCallable)
+	virtual bool CanDie() const;
 
 	UFUNCTION(BlueprintCallable)
 	void SetVictory(bool bVictory);
@@ -66,7 +71,6 @@ private:
 	void Interact();
 	void Jump();
 
-
 public:
 	UPROPERTY(EditDefaultsOnly)
 	float PlayerSpeed = 10.0f;
@@ -78,4 +82,6 @@ protected:
 	bool bJump;
 	bool bVictory;
 	bool bRespawn;
+	bool bIsRagdoll;
+	bool bHasRecentlyRespawned;
 };

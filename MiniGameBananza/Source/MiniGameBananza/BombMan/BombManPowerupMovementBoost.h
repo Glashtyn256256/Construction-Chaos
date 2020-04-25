@@ -31,5 +31,4 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Powerup")
 	float PlayerMovementSpeed = 1000.0f;
-	
 };

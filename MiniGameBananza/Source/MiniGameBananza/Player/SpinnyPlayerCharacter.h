@@ -15,8 +15,26 @@ class MINIGAMEBANANZA_API ASpinnyPlayerCharacter : public AMiniGamePlayerCharact
 	GENERATED_BODY()
 
 public:
+	ASpinnyPlayerCharacter();
+
+	virtual void Tick(float DeltaTime) override;
+
 	virtual void Die(FVector force);
+
+	virtual void Ragdoll(FVector force = FVector::ZeroVector) override;
+
+	virtual void Destroyed() override;
 protected:
 
 	virtual void OnJump() override;
+
+	virtual void HandleRespawnProtection(float DeltaTime) override;
+
+public:
+	UPROPERTY(EditDefaultsOnly, Category = "Respawn Protection")
+		float MaxRespawnProtectionTime = 5.0f;
+
+private:
+	float RespawnProtectionTimer;
+
 };
