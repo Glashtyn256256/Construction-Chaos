@@ -29,7 +29,7 @@ void AFloorIsLavaPlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-//	PreventCharacterStandingStill();
+	PreventCharacterStandingStill();
 	Velocity = (GetActorForwardVector() * InputForward) + (GetActorRightVector() * InputRight);
 	Velocity *= MovementSpeed * DeltaTime;
 
@@ -82,26 +82,26 @@ void AFloorIsLavaPlayerCharacter::OnOverlapBegin(UPrimitiveComponent* Overlapped
 	}
 }
 
-//void AFloorIsLavaPlayerCharacter::PreventCharacterStandingStill() 
-//{
-//	FHitResult OutHit;
-//	FVector Start = SphereCollider->GetComponentLocation();
-//
-//	FVector ForwardVector = SphereCollider->GetForwardVector() + FVector(0, 0, -90);
-//	FVector End = ((ForwardVector * 100.0f) + Start);
-//	FCollisionQueryParams CollisionParams;
-//	//DrawDebugLine(GetWorld(), Start, End, FColor::Green, true, -1, 0, 5.0f);
-//
-//	DrawDebugSphere(GetWorld(), GetActorLocation(), SphereRadius, 20, FColor::Purple, false, -1, 0, 1);
-//
-//	bool isHit = GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams);
-//
-//	if (isHit)
-//	{
-//
-//		if (OutHit.bBlockingHit)
-//		{
-//			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, OutHit.GetActor()->GetName());
-//		}
-//	}
+void AFloorIsLavaPlayerCharacter::PreventCharacterStandingStill() 
+{
+	FHitResult OutHit;
+	FVector Start = SphereCollider->GetComponentLocation();
+
+	FVector ForwardVector = SphereCollider->GetForwardVector() + FVector(0, 0, -90);
+	FVector End = ((ForwardVector * 100.0f) + Start);
+	FCollisionQueryParams CollisionParams;
+	//DrawDebugLine(GetWorld(), Start, End, FColor::Green, true, -1, 0, 5.0f);
+
+	DrawDebugSphere(GetWorld(), GetActorLocation(), SphereRadius, 20, FColor::Purple, false, -1, 0, 1);
+
+	bool isHit = GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams);
+
+	if (isHit)
+	{
+
+		if (OutHit.bBlockingHit)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, OutHit.GetActor()->GetName());
+		}
+	}
 }
