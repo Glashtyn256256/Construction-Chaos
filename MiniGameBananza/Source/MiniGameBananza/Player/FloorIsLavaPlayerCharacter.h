@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "MiniGameBananza/Player/MiniGamePlayerCharacter.h"
+#include "Components/SphereComponent.h"
+#include "DrawDebugHelpers.h"
 #include "FloorIsLavaPlayerCharacter.generated.h"
 
 /**
@@ -15,17 +17,29 @@ class MINIGAMEBANANZA_API AFloorIsLavaPlayerCharacter : public AMiniGamePlayerCh
 	GENERATED_BODY()
 	
 public:
+	AFloorIsLavaPlayerCharacter();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 	virtual FVector GetAnimVelocity() const override;
+
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	//virtual void PreventCharacterStandingStill();
+
 public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 		float MovementSpeed = 60.0f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Sphere Collider")
+		USphereComponent* SphereCollider;
+
+
 
 private:
+	float SphereRadius;
 	FVector Velocity;
 };
