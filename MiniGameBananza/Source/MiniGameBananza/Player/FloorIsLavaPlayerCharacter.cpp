@@ -9,12 +9,15 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/Engine.h"
 
-AFloorIsLavaPlayerCharacter::AFloorIsLavaPlayerCharacter() 
+AFloorIsLavaPlayerCharacter::AFloorIsLavaPlayerCharacter()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	SphereRadius = 30.0f;
+	Timer = 0.0f;
+	MaxTimer = 300.0f;
 	SphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Collider"));
+	PreviousHitBlock = nullptr;
 	if (SphereCollider)
 	{
 		SphereCollider->InitSphereRadius(SphereRadius);
@@ -24,12 +27,12 @@ AFloorIsLavaPlayerCharacter::AFloorIsLavaPlayerCharacter()
 		SphereCollider->SetupAttachment(RootComponent);
 	}
 }
-	// Called every frame
+// Called every frame
 void AFloorIsLavaPlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	PreventCharacterStandingStill();
+	PreventCharacterStandingStill(DeltaTime);
 	Velocity = (GetActorForwardVector() * InputForward) + (GetActorRightVector() * InputRight);
 	Velocity *= MovementSpeed * DeltaTime;
 
@@ -51,19 +54,19 @@ void AFloorIsLavaPlayerCharacter::Tick(float DeltaTime)
 
 float AFloorIsLavaPlayerCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-		AFloorIsLavaPlayerController* LavaController = Cast<AFloorIsLavaPlayerController>(Controller);
-		if (LavaController)
+	AFloorIsLavaPlayerController* LavaController = Cast<AFloorIsLavaPlayerController>(Controller);
+	if (LavaController)
+	{
+		Destroy();
+		LavaController->StartRespawnProcess();
+		AMiniGameBananzaGameModeBase* gamemode = Cast<AMiniGameBananzaGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+		if (gamemode)
 		{
-			Destroy();
-			LavaController->StartRespawnProcess();
-			AMiniGameBananzaGameModeBase* gamemode = Cast<AMiniGameBananzaGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-			if (gamemode)
-			{
-				LavaController->SetViewTargetWithBlend(gamemode->CameraActor);
-			}
+			LavaController->SetViewTargetWithBlend(gamemode->CameraActor);
 		}
+	}
 
-		return Damage;
+	return Damage;
 }
 
 FVector AFloorIsLavaPlayerCharacter::GetAnimVelocity() const
@@ -82,7 +85,7 @@ void AFloorIsLavaPlayerCharacter::OnOverlapBegin(UPrimitiveComponent* Overlapped
 	}
 }
 
-void AFloorIsLavaPlayerCharacter::PreventCharacterStandingStill() 
+void AFloorIsLavaPlayerCharacter::PreventCharacterStandingStill(float DeltaTime)
 {
 	FHitResult OutHit;
 	FVector Start = SphereCollider->GetComponentLocation();
@@ -96,12 +99,27 @@ void AFloorIsLavaPlayerCharacter::PreventCharacterStandingStill()
 
 	bool isHit = GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams);
 
-	if (isHit)
+	if (isHit && OutHit.GetActor() != nullptr)
 	{
-
-		if (OutHit.bBlockingHit)
+		AFloorIsLava_Floor_Block* hitBlock = Cast<AFloorIsLava_Floor_Block>(OutHit.GetActor());
+		if (hitBlock)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, OutHit.GetActor()->GetName());
+			if (PreviousHitBlock == hitBlock)
+			{
+				Timer++;
+				if (Timer > MaxTimer)
+				{
+					hitBlock->TogglePhysicsSimulation();
+					Timer = 0;
+					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Red, hitBlock->GetName());
+				}
+			}
+			else
+			{
+				PreviousHitBlock = hitBlock;
+				Timer = 0;
+			}
 		}
 	}
 }
