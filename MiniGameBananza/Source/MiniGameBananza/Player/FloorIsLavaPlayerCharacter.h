@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "MiniGameBananza/Player/MiniGamePlayerCharacter.h"
 #include "Components/SphereComponent.h"
+#include "MiniGameBananza/FloorIsLava/FloorIsLava_Floor_Block.h"
 #include "DrawDebugHelpers.h"
 #include "FloorIsLavaPlayerCharacter.generated.h"
 
@@ -27,7 +28,7 @@ public:
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-	virtual void PreventCharacterStandingStill();
+	virtual void PreventCharacterStandingStill(float DeltaTime);
 
 public:
 
@@ -37,9 +38,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Sphere Collider")
 		USphereComponent* SphereCollider;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Block Detection")
+	AFloorIsLava_Floor_Block* PreviousHitBlock;
 
 
 private:
-	float SphereRadius;
+	float SphereRadius, Timer, MaxTimer;
 	FVector Velocity;
 };
