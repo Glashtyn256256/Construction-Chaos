@@ -13,7 +13,7 @@ AFloorIsLavaDestroyActorOnContact::AFloorIsLavaDestroyActorOnContact()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	SphereRadius = 2000.0f;
+	BoxParameters = FVector(3000.0f, 3000.0f, 50.0f);
 
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	if (MeshComponent)
@@ -21,14 +21,14 @@ AFloorIsLavaDestroyActorOnContact::AFloorIsLavaDestroyActorOnContact()
 		MeshComponent->SetupAttachment(RootComponent);
 	}
 
-	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Collision"));
-	if (SphereComponent)
+	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Collision"));
+	if (BoxComponent) 
 	{
-		SphereComponent->InitSphereRadius(SphereRadius);
-		SphereComponent->SetCollisionProfileName("Trigger");
-		SphereComponent->OnComponentBeginOverlap.AddDynamic(this,
+		BoxComponent->InitBoxExtent(BoxParameters);
+		BoxComponent->SetCollisionProfileName("Trigger");
+		BoxComponent->OnComponentBeginOverlap.AddDynamic(this,
 			&AFloorIsLavaDestroyActorOnContact::OnOverlapBegin);
-		RootComponent = SphereComponent;
+		RootComponent = BoxComponent;
 	}
 }
 
@@ -43,7 +43,6 @@ void AFloorIsLavaDestroyActorOnContact::BeginPlay()
 void AFloorIsLavaDestroyActorOnContact::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	DrawDebugSphere(GetWorld(), GetActorLocation(), SphereRadius, 20, FColor::Purple, false, -1, 0, 1);
 }
 
 void AFloorIsLavaDestroyActorOnContact::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
