@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
-#include "Components/SphereComponent.h"
+#include "Components/BoxComponent.h"
 #include "FloorIsLavaDestroyActorOnContact.generated.h"
 
 UCLASS()
@@ -24,12 +24,14 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	UPROPERTY(EditDefaultsOnly)
-		UStaticMeshComponent* MeshComponent;
-	UPROPERTY(EditDefaultsOnly)
-		USphereComponent* SphereComponent;
 
-	float SphereRadius;
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* MeshComponent;
+
+	UPROPERTY(EditDefaultsOnly)
+	UBoxComponent* BoxComponent;
+
+	FVector BoxParameters;
 
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
