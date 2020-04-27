@@ -34,9 +34,14 @@ void AFloorIsLavaPlayerCharacter::Tick(float DeltaTime)
 
 	PreventCharacterStandingStill(DeltaTime);
 	Velocity = (GetActorForwardVector() * InputForward) + (GetActorRightVector() * InputRight);
-	Velocity *= MovementSpeed * DeltaTime;
+	Velocity *= MovementSpeed;
 
-	AddMovementInput(Velocity, 1.0f);
+	AddMovementInput(Velocity, DeltaTime);
+	AddMovementInput(Force, DeltaTime);
+
+	FVector direction = FVector::ZeroVector - Force;
+
+	Force += direction * DeltaTime * 5.0f;
 
 	USkeletalMeshComponent* MeshComponent = GetMesh();
 	if (MeshComponent && Velocity.Size() >= 0.1f)
@@ -74,6 +79,11 @@ FVector AFloorIsLavaPlayerCharacter::GetAnimVelocity() const
 	return Velocity * 10.0f;
 }
 
+void AFloorIsLavaPlayerCharacter::AddForceVelocity(FVector _Force)
+{
+	Force += _Force;
+}
+
 void AFloorIsLavaPlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
@@ -81,6 +91,7 @@ void AFloorIsLavaPlayerCharacter::OnOverlapBegin(UPrimitiveComponent* Overlapped
 		AFloorIsLavaPlayerCharacter* victim = Cast<AFloorIsLavaPlayerCharacter>(OtherActor);
 		if (victim)
 		{
+			victim->AddForceVelocity(Velocity * 5.0f);
 		}
 	}
 }
