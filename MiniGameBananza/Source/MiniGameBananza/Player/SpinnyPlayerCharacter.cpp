@@ -3,16 +3,16 @@
 
 #include "SpinnyPlayerCharacter.h"
 #include "SpinnyPlayerController.h"
-#include "MiniGameBananza/Gamemode/MiniGameBananzaGameModeBase.h"
+#include "MiniGameBananza/Spinny/SpinnyPole.h"
+#include "MiniGameBananza/Gamemode/SpinnyGamemode.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/WorldSettings.h"
-#include "GameFramework/CharacterMovementComponent.h"
+
 
 ASpinnyPlayerCharacter::ASpinnyPlayerCharacter()
 {
-	bHasRecentlyRespawned = true;
-	RespawnProtectionTimer = MaxRespawnProtectionTime;
+	bPoleHasPassed = false;
 }
 
 void ASpinnyPlayerCharacter::Tick(float DeltaTime)
@@ -54,6 +54,16 @@ void ASpinnyPlayerCharacter::Destroyed()
 	}
 }
 
+bool ASpinnyPlayerCharacter::HasRespawnProtection() const
+{
+	ASpinnyGamemode* gamemode = Cast<ASpinnyGamemode>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (gamemode && gamemode->PoleIsFast())
+	{
+		return !bPoleHasPassed;
+	}
+	return Super::HasRespawnProtection();
+}
+
 void ASpinnyPlayerCharacter::OnJump()
 {
 	if (GetJump()) return;
@@ -67,35 +77,23 @@ void ASpinnyPlayerCharacter::OnJump()
 
 void ASpinnyPlayerCharacter::HandleRespawnProtection(float DeltaTime)
 {
-	// TODO: Remove protection when spinny bar has just passed us
+	Super::HandleRespawnProtection(DeltaTime);
 
-	// Placeholder implementation using timers (like bombman)
-	if (bHasRecentlyRespawned)
+}
+
+bool ASpinnyPlayerCharacter::IsCollidingWithPole() const
+{
+	TArray<AActor*> overlappingActors;
+	GetOverlappingActors(overlappingActors, ASpinnyPole::StaticClass());
+	if (overlappingActors.Num() > 0)
 	{
-		RespawnProtectionTimer -= DeltaTime;
-		if (RespawnProtectionTimer <= 0)
-		{
-			bHasRecentlyRespawned = false;
-		}
+		return true;
 	}
+	return false;
 }
 
 void ASpinnyPlayerCharacter::Die(FVector force)
 {
 	// Push into killZ
 	Ragdoll(force);
-}
-
-void ASpinnyPlayerCharacter::Ragdoll(FVector force)
-{
-	USkeletalMeshComponent* MeshLocal = GetMesh();
-	if (MeshLocal)
-	{
-		GetCharacterMovement()->DisableMovement();
-		MeshLocal->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-		MeshLocal->SetAllBodiesSimulatePhysics(true);
-		MeshLocal->AddForceToAllBodiesBelow(force);
-
-		bIsRagdoll = true;
-	}
 }

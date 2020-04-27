@@ -73,9 +73,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 		float PlayerMovementSpeed = 500.0f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Respawn Protection")
-		float MaxRespawnProtectionTime = 3.0f;
-
 protected:
 	float p_PlayerMovementSpeed;
 

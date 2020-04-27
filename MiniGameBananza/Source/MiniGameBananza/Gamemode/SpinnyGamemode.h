@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MiniGameBananza/Spinny/SpinnyPole.h"
 #include "MiniGameBananza/Gamemode/MiniGameBananzaGameModeBase.h"
 #include "SpinnyGamemode.generated.h"
 
@@ -13,5 +14,25 @@ UCLASS()
 class MINIGAMEBANANZA_API ASpinnyGamemode : public AMiniGameBananzaGameModeBase
 {
 	GENERATED_BODY()
-	
+public:
+	ASpinnyGamemode();
+
+public:
+	virtual void Tick(float DeltaTime) override;
+
+	int GetSpeedLevel() const;
+
+	bool PoleIsFast() const;
+
+private:
+	void IncrementSpeedLevel();
+
+public:
+	UPROPERTY(EditDefaultsOnly)
+	int SpeedPerLevelIncrement;
+
+private:
+	ASpinnyPole* SpinnyPole;
+	int SpeedLevel;
+
 };

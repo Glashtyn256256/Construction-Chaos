@@ -22,16 +22,16 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-		virtual void OnInteract();
+	virtual void OnInteract();
 
 	UFUNCTION()
-		virtual void OnJump();
+	virtual void OnJump();
 
 	UFUNCTION()
-		virtual void MoveForward(float value);
+	virtual void MoveForward(float value);
 
 	UFUNCTION()
-		virtual void MoveRight(float Value);
+	virtual void MoveRight(float Value);
 
 	virtual void HandleRespawnProtection(float DeltaTime);
 
@@ -49,6 +49,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual bool CanDie() const;
+
+	UFUNCTION(BlueprintCallable)
+	virtual bool HasRespawnProtection() const;
 
 	UFUNCTION(BlueprintCallable)
 	void SetVictory(bool bVictory);
@@ -75,9 +78,18 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	float PlayerSpeed = 10.0f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Respawn Protection")
+	float MaxRespawnProtectionTime = 3.0f;
+
+	UPROPERTY(EditDefaultsOnly)
+	UMaterial* OpacityMaskedMaterial;
+	UMaterial* DefaultMaterial;
+
 protected:
 	float InputForward;
 	float InputRight;
+	float RespawnProtectionTimer;
+
 	bool bDeath;
 	bool bJump;
 	bool bVictory;

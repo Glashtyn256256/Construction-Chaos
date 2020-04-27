@@ -20,9 +20,6 @@ ABombManPlayerCharacter::ABombManPlayerCharacter() : Velocity(FVector::ZeroVecto
 	}
 
 	ResetPlayerMovementSpeed();
-
-	bHasRecentlyRespawned = true;
-	RespawnProtectionTimer = MaxRespawnProtectionTime;
 }
 
 void ABombManPlayerCharacter::BeginPlay()
@@ -126,15 +123,9 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 
 void ABombManPlayerCharacter::HandleRespawnProtection(float DeltaTime)
 {
-	// Remove protection after RespawnProtectionTimer amount of time
-	if (bHasRecentlyRespawned)
-	{
-		RespawnProtectionTimer -= DeltaTime;
-		if (RespawnProtectionTimer <= 0)
-		{
-			bHasRecentlyRespawned = false;
-		}
-	}
+	Super::HandleRespawnProtection(DeltaTime);
+
+
 }
 
 float ABombManPlayerCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

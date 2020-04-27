@@ -2,11 +2,14 @@
 
 
 #include "SpinnyPole.h"
+#include "MiniGameBananza/Gamemode/SpinnyGamemode.h"
 #include "MiniGameBananza/Player/SpinnyPlayerController.h"
 #include "MiniGameBananza/Player/SpinnyPlayerCharacter.h"
 
+#include "Kismet/GameplayStatics.h"
+
 // Sets default values
-ASpinnyPole::ASpinnyPole()
+ASpinnyPole::ASpinnyPole() : PreviousRotationSpeed(CurrentRotationSpeed)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -15,7 +18,7 @@ ASpinnyPole::ASpinnyPole()
 	if (MeshComponent)
 	{
 		MeshComponent->AttachTo(RootComponent);
-		MeshComponent->OnComponentBeginOverlap.AddDynamic(this,&ASpinnyPole::OnOverlapBegin);
+		MeshComponent->OnComponentBeginOverlap.AddDynamic(this, &ASpinnyPole::OnOverlapBegin);
 	}
 }
 
@@ -38,7 +41,6 @@ void ASpinnyPole::Tick(float DeltaTime)
 	SetActorRotation(CurrentRotation);
 
 	CurrentRotationSpeed += DeltaTime * RotationSpeedIncrementModifier;
-
 }
 
 void ASpinnyPole::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -51,6 +53,10 @@ void ASpinnyPole::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 		if (Character->CanDie())
 		{
 			Character->Die(Force);
+		}
+		else if (Character->HasRespawnProtection())
+		{
+			Character->bPoleHasPassed = true;
 		}
 	}
 }
