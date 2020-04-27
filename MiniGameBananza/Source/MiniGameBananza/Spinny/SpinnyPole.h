@@ -37,7 +37,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	float PoleImpactForceModifier = 100.0f;
 
-private:
+	UPROPERTY(EditDefaultsOnly)
 	float CurrentRotationSpeed = 20.0f;
+
+	float PreviousRotationSpeed;
 
 };

@@ -4,15 +4,28 @@
 #include "MiniGamePlayerCharacter.h"
 
 #include "Components/InputComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 #include "Engine/Engine.h"
+#include "Materials/Material.h"
+
 
 // Sets default values
-AMiniGamePlayerCharacter::AMiniGamePlayerCharacter() : bHasRecentlyRespawned(false)
+AMiniGamePlayerCharacter::AMiniGamePlayerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	USkeletalMeshComponent* MeshLocal = GetMesh();
+	if (MeshLocal && MeshLocal->GetMaterial(0))
+	{
+		DefaultMaterial = MeshLocal->GetMaterial(0)->GetMaterial();
+	}
+
+	bHasRecentlyRespawned = true;
+	RespawnProtectionTimer = MaxRespawnProtectionTime;
 }
 
 // Called when the game starts or when spawned
@@ -46,6 +59,16 @@ void AMiniGamePlayerCharacter::Tick(float DeltaTime)
 
 void AMiniGamePlayerCharacter::Ragdoll(FVector force)
 {
+	USkeletalMeshComponent* MeshLocal = GetMesh();
+	if (MeshLocal)
+	{
+		GetCharacterMovement()->DisableMovement();
+		MeshLocal->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		MeshLocal->SetAllBodiesSimulatePhysics(true);
+		MeshLocal->AddForceToAllBodiesBelow(force);
+
+		bIsRagdoll = true;
+	}
 }
 
 // This is bound to the PlayerInputComponent
@@ -106,6 +129,31 @@ void AMiniGamePlayerCharacter::MoveRight(float Value)
 
 void AMiniGamePlayerCharacter::HandleRespawnProtection(float DeltaTime)
 {
+	if (bHasRecentlyRespawned)
+	{
+		RespawnProtectionTimer -= DeltaTime;
+		if (RespawnProtectionTimer <= 0)
+		{
+			bHasRecentlyRespawned = false;
+		}
+	}
+
+	if (HasRespawnProtection())
+	{
+		USkeletalMeshComponent* MeshLocal = GetMesh();
+		if (MeshLocal)
+		{
+			MeshLocal->SetMaterial(0, OpacityMaskedMaterial);
+		}
+	}
+	else
+	{
+		USkeletalMeshComponent* MeshLocal = GetMesh();
+		if (MeshLocal)
+		{
+			MeshLocal->SetMaterial(0, DefaultMaterial);
+		}
+	}
 }
 
 FVector AMiniGamePlayerCharacter::GetAnimVelocity() const
@@ -115,7 +163,12 @@ FVector AMiniGamePlayerCharacter::GetAnimVelocity() const
 
 bool AMiniGamePlayerCharacter::CanDie() const
 {
-	return !bHasRecentlyRespawned;
+	return !HasRespawnProtection();
+}
+
+bool AMiniGamePlayerCharacter::HasRespawnProtection() const
+{
+	return bHasRecentlyRespawned;
 }
 
 void AMiniGamePlayerCharacter::SetVictory(bool _bVictory)

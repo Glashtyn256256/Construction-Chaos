@@ -21,20 +21,24 @@ public:
 
 	virtual void Die(FVector force);
 
-	virtual void Ragdoll(FVector force = FVector::ZeroVector) override;
-
 	virtual void Destroyed() override;
+
+	
+	virtual bool HasRespawnProtection() const override;
 protected:
 
 	virtual void OnJump() override;
 
 	virtual void HandleRespawnProtection(float DeltaTime) override;
 
+private:
+
+	bool IsCollidingWithPole() const;
+
 public:
-	UPROPERTY(EditDefaultsOnly, Category = "Respawn Protection")
-		float MaxRespawnProtectionTime = 5.0f;
+	bool bPoleHasPassed; // Used to check if the pole has passed through the player during respawn protection
 
 private:
-	float RespawnProtectionTimer;
 	float jumpAnimTime;
+	
 };
