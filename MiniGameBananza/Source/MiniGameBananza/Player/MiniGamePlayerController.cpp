@@ -2,35 +2,24 @@
 
 
 #include "MiniGamePlayerController.h"
-#include "MiniGameBananza//UI/HUD/MiniGameHUD.h"
 #include "MiniGameBananza/Gamemode/MiniGameBananzaGameModeBase.h"
+#include "MiniGameBananza//UI/HUD/MiniGameHUD.h"
 #include "Kismet/GameplayStatics.h"
 
 void AMiniGamePlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	AMiniGameHUD* MiniGameHUD = GetMiniGameHUD();
-	if (MiniGameHUD)
-	{
-		MiniGamePlayerUI = MiniGameHUD->GetMiniGamePlayerUI(this);
-	}
-
-	if (MiniGamePlayerUI)
-	{
-		MiniGamePlayerUI->InitializeUI(this);
-
-		MiniGamePlayerUI->SetLives(NumLives);
-	}
 }
 
 AMiniGameHUD* AMiniGamePlayerController::GetMiniGameHUD()
 {
-	return Cast<AMiniGameHUD>(GetHUD());
+	return GetHUD<AMiniGameHUD>();
 }
 
 void AMiniGamePlayerController::Tick(float DeltaTime)
 {
+	CheckHUD();
+
 	if (bIsRespawning)
 	{
 		RespawnCountdownTimer -= DeltaTime * RespawnCountdownModifier;
@@ -41,10 +30,30 @@ void AMiniGamePlayerController::Tick(float DeltaTime)
 	}
 }
 
+void AMiniGamePlayerController::CheckHUD()
+{
+	if (!MiniGamePlayerUI)
+	{
+		AMiniGameHUD* MiniGameHUD = GetMiniGameHUD();
+		if (MiniGameHUD)
+		{
+			MiniGamePlayerUI = MiniGameHUD->GetMiniGamePlayerUI(this);
+		}
+
+		if (MiniGamePlayerUI)
+		{
+			MiniGamePlayerUI->InitializeUI(this);
+
+			MiniGamePlayerUI->SetLives(NumLives);
+		}
+	}
+}
+
 void AMiniGamePlayerController::StartRespawnProcess()
 {
 	if (NumLives > 0)
 	{
+		SetNumLives(--NumLives);
 		RespawnCountdownTimer = MaxRespawnTime;
 		bIsRespawning = true;
 	}
@@ -55,27 +64,51 @@ void AMiniGamePlayerController::Respawn()
 	const UWorld* world = GetWorld();
 	if (world)
 	{
-		AMiniGameBananzaGameModeBase* gamemode = Cast<AMiniGameBananzaGameModeBase>(UGameplayStatics::GetGameMode(world));
-		if (gamemode)
+		if (!HasRanOutOfLives())
 		{
-			gamemode->RestartPlayer(this);
+			AMiniGameBananzaGameModeBase* gamemode = Cast<AMiniGameBananzaGameModeBase>(UGameplayStatics::GetGameMode(world));
+			if (gamemode)
+			{
+				gamemode->RestartPlayer(this);
 
-			SetLives(--NumLives);
+			}
+		}
+		else
+		{
+			OnDead();
 		}
 	}
 	bIsRespawning = false;
 }
 
-void AMiniGamePlayerController::SetLives(int lives)
+void AMiniGamePlayerController::OnDead()
 {
-	this->NumLives = lives;
-	if (this->NumLives > MaxLives)
+	TArray<AMiniGamePlayerController*> DeadControllers;
+
+	for (FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; ++Iterator)
 	{
-		this->NumLives = MaxLives;
+		AMiniGamePlayerController* PlayerController = Cast<AMiniGamePlayerController>(Iterator->Get());
+		if (PlayerController && PlayerController->HasRanOutOfLives() && PlayerController != this)
+		{
+			DeadControllers.Add(PlayerController);
+		}
 	}
-	else if (this->NumLives < 0)
+
+	int DeadCount = DeadControllers.Num();
+
+	UpdateScore(DeadCount);
+}
+
+void AMiniGamePlayerController::SetNumLives(int lives)
+{
+	NumLives = lives;
+	if (NumLives > MaxLives)
 	{
-		this->NumLives = 0;
+		NumLives = MaxLives;
+	}
+	else if (NumLives < 0)
+	{
+		NumLives = 0;
 	}
 
 	if (MiniGamePlayerUI)
@@ -87,4 +120,42 @@ void AMiniGamePlayerController::SetLives(int lives)
 int AMiniGamePlayerController::GetLives() const
 {
 	return NumLives;
+}
+
+bool AMiniGamePlayerController::HasRanOutOfLives() const
+{
+	return NumLives <= 0;
+}
+
+void AMiniGamePlayerController::UpdateScore(int score) const
+{
+	UMiniGameBananzaGameInstance* MiniGameInstance = Cast< UMiniGameBananzaGameInstance>(GetGameInstance());
+	if (MiniGameInstance)
+	{
+		ULocalPlayer* LocalPlayer = GetLocalPlayer();
+		if (LocalPlayer)
+		{
+			int PlayerID = LocalPlayer->GetControllerId();
+
+			MiniGameInstance->UpdateScore(PlayerID, score);
+		}
+	}
+}
+int AMiniGamePlayerController::GetScore() const
+{
+	int Score = 0;
+
+	UMiniGameBananzaGameInstance* MiniGameInstance = Cast< UMiniGameBananzaGameInstance>(GetGameInstance());
+	if (MiniGameInstance)
+	{
+		ULocalPlayer* LocalPlayer = GetLocalPlayer();
+		if (LocalPlayer)
+		{
+			int PlayerID = LocalPlayer->GetControllerId();
+
+			Score = MiniGameInstance->GetScore(PlayerID);
+		}
+	}
+
+	return Score;
 }
