@@ -6,8 +6,9 @@
 #include "GameFramework/HUD.h"
 #include "MiniGameBananza/UI/Generic/MiniGamePlayersUI.h"
 #include "MiniGameBananza/UI/Generic/MiniGamePlayerUI.h"
-#include "MiniGameBananza/Player/MiniGamePlayerController.h"
 #include "MiniGameHUD.generated.h"
+
+class AMiniGamePlayerController;
 
 /**
  * 

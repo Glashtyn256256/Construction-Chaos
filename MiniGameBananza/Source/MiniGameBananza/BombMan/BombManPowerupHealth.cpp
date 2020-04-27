@@ -12,7 +12,7 @@ void ABombManPowerupHealth::PowerupStart(ABombManPlayerCharacter* Character)
 	ABombManPlayerController* Controller = Cast< ABombManPlayerController>(Character->GetController());
 	if (Controller)
 	{
-		Controller->SetLives(Controller->GetLives() + Lives);
+		Controller->SetNumLives(Controller->GetLives() + Lives);
 	}
 
 	Super::PowerupEnd();

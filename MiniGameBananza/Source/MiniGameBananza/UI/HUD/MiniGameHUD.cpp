@@ -3,6 +3,8 @@
 
 #include "MiniGameHUD.h"
 #include "Engine/World.h"
+#include "MiniGameBananza/Player/MiniGamePlayerController.h"
+#include "GameFramework/PlayerController.h"
 
 static AMiniGameHUD* HUDInstance = nullptr;
 
