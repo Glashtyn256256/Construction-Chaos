@@ -59,9 +59,13 @@ void UMiniGameBananzaGameInstance::NextGameMode()
 
 		switch (CurrentLevel)
 		{
-		case Bomberman: UGameplayStatics::OpenLevel(World, FName(TEXT("FloorIsLava")));
+		case Bomberman: 
+			CurrentLevel = FloorIsLava;
+			UGameplayStatics::OpenLevel(World, FName(TEXT("FloorIsLava")));
 			break;
-		case FloorIsLava:  UGameplayStatics::OpenLevel(World, FName(TEXT("SpinnyPole")));
+		case FloorIsLava:
+			CurrentLevel = GirderWipeout;
+			UGameplayStatics::OpenLevel(World, FName(TEXT("SpinnyPole")));
 			break;
 		//GirderWipeout:  UGameplayStatics::OpenLevel(World, FName(TEXT("PodiumScoreboard etc")));
 		case GirderWipeout:  UGameplayStatics::OpenLevel(World, FName(TEXT("Main_Menu")));
