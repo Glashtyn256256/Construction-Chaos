@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Engine/World.h"
+#include "MiniGameBananza/Utils/MiniGameBananzaGameInstance.h"
 #include "Components/Button.h"
 #include "UI_MainMenu.generated.h"
 
@@ -28,4 +29,7 @@ public:
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	UButton* GameModeSelectionButton;
+
+	UPROPERTY(EditDefaultsOnly)
+		UMiniGameBananzaGameInstance* MiniGameInstance;
 };
