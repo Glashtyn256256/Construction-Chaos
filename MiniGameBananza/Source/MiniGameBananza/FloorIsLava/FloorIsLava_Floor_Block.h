@@ -26,12 +26,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* MeshComponent;
-	
-	int test = 0;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	//virtual void SetSimulatePhysics();
-
 };
