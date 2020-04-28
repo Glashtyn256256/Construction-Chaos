@@ -9,6 +9,8 @@
 void AMiniGamePlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+
+	bAutoManageActiveCameraTarget = false;
 }
 
 AMiniGameHUD* AMiniGamePlayerController::GetMiniGameHUD()
@@ -55,7 +57,15 @@ void AMiniGamePlayerController::StartRespawnProcess()
 	{
 		SetNumLives(--NumLives);
 		RespawnCountdownTimer = MaxRespawnTime;
-		bIsRespawning = true;
+
+		if (HasRanOutOfLives())
+		{
+			OnDead();
+		}
+		else
+		{
+			bIsRespawning = true;
+		}
 	}
 }
 
@@ -73,30 +83,17 @@ void AMiniGamePlayerController::Respawn()
 
 			}
 		}
-		else
-		{
-			OnDead();
-		}
 	}
 	bIsRespawning = false;
 }
 
 void AMiniGamePlayerController::OnDead()
 {
-	TArray<AMiniGamePlayerController*> DeadControllers;
-
-	for (FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; ++Iterator)
+	AMiniGameBananzaGameModeBase* GameMode = Cast<AMiniGameBananzaGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (GameMode)
 	{
-		AMiniGamePlayerController* PlayerController = Cast<AMiniGamePlayerController>(Iterator->Get());
-		if (PlayerController && PlayerController->HasRanOutOfLives() && PlayerController != this)
-		{
-			DeadControllers.Add(PlayerController);
-		}
+		GameMode->OnDead(this);
 	}
-
-	int DeadCount = DeadControllers.Num();
-
-	UpdateScore(DeadCount);
 }
 
 void AMiniGamePlayerController::SetNumLives(int lives)

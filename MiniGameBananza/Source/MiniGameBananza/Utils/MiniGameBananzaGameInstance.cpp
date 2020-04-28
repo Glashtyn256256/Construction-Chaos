@@ -28,22 +28,23 @@ int UMiniGameBananzaGameInstance::GetScore(int playerid) const
 	return score;
 }
 
-void UMiniGameBananzaGameInstance::SetGameMode(int gamemode) 
+void UMiniGameBananzaGameInstance::SetGameMode(GameModeLevels gamemode)
 {
 
-	const UWorld* World = GetWorld();
+	UWorld* World = GetWorld();
 	//UGameplayStatics::OpenLevel(World, FName(TEXT("Bomberman_New")));
 	if (World)
 	{
-		CurrentLevel = static_cast<GameModeLevels>(gamemode);
+		CurrentLevel = gamemode;
 		GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::FromInt(CurrentLevel));
 		switch (CurrentLevel)
 		{
-		case Bomberman: UGameplayStatics::OpenLevel(World, FName(TEXT("Bomberman_New")));
+			
+		case Bomberman: World->ServerTravel("Bomberman_New");
 			break;
-		case FloorIsLava: UGameplayStatics::OpenLevel(World, FName(TEXT("FloorIsLava")));
+		case FloorIsLava:  World->ServerTravel("FloorIsLava");
 			break;
-		case GirderWipeout: UGameplayStatics::OpenLevel(World, FName(TEXT("SpinnyPole")));
+		case GirderWipeout: World->ServerTravel("SpinnyPole");
 			break;
 		}
 	}
@@ -51,7 +52,7 @@ void UMiniGameBananzaGameInstance::SetGameMode(int gamemode)
 
 void UMiniGameBananzaGameInstance::NextGameMode()
 {
-	const UWorld* World = GetWorld();
+	UWorld* World = GetWorld();
 
 	if (World)
 	{
@@ -60,15 +61,13 @@ void UMiniGameBananzaGameInstance::NextGameMode()
 		switch (CurrentLevel)
 		{
 		case Bomberman: 
-			CurrentLevel = FloorIsLava;
-			UGameplayStatics::OpenLevel(World, FName(TEXT("FloorIsLava")));
+			SetGameMode(FloorIsLava);
 			break;
 		case FloorIsLava:
-			CurrentLevel = GirderWipeout;
-			UGameplayStatics::OpenLevel(World, FName(TEXT("SpinnyPole")));
+			SetGameMode(GirderWipeout);
 			break;
 		//GirderWipeout:  UGameplayStatics::OpenLevel(World, FName(TEXT("PodiumScoreboard etc")));
-		case GirderWipeout:  UGameplayStatics::OpenLevel(World, FName(TEXT("Main_Menu")));
+		case GirderWipeout:  World->ServerTravel("Main_Menu");
 		break;
 		}
 	}

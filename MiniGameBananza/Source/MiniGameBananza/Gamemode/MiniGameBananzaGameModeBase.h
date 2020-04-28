@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "MiniGameBananza/UI/HUD/MiniGameHUD.h"
 #include "MiniGameBananza/Player/MiniGamePlayerCharacter.h"
+#include "MiniGameBananza/Player/MiniGamePlayerController.h"
 #include "MiniGameBananzaGameModeBase.generated.h"
 
 /**
@@ -17,13 +18,18 @@ class MINIGAMEBANANZA_API AMiniGameBananzaGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 	
 public:
+	AMiniGameBananzaGameModeBase();
 	virtual void BeginPlay() override;
 
 public:
 
 	virtual void RestartPlayer(AController * NewPlayer) override;
 
+	virtual void OnDead(AMiniGamePlayerController* Controller);
+	virtual void Tick(float DeltaSeconds) override;
+
 protected:
+	virtual void OnGamemodeFinished();
 	virtual void FinishRestartPlayer(AController* NewPlayer, const FRotator& StartRotation) override;
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Local Multiplayer")
