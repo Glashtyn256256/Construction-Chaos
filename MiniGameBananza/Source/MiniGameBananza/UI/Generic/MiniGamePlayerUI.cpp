@@ -18,10 +18,10 @@ void UMiniGamePlayerUI::InitializeUI(AMiniGamePlayerController* _Controller)
 	Hearts.Add(PlayerHeart2);
 	Hearts.Add(PlayerHeart3);
 
-	SetLives(Controller->MaxLives);
+	SetLivesUI(Controller->MaxLives);
 }
 
-void UMiniGamePlayerUI::SetLives(int lives)
+void UMiniGamePlayerUI::SetLivesUI(int lives)
 {
 	if (!Controller) return;
 
@@ -37,4 +37,11 @@ void UMiniGamePlayerUI::SetLives(int lives)
 	{
 		Hearts[i]->SetVisibility(ESlateVisibility::Hidden);
 	}
+}
+
+void UMiniGamePlayerUI::SetScoreUI(int score)
+{
+	if (!Controller) return;
+
+	PlayerScore->SetText(FText::FromString(FString::FromInt(score)));
 }

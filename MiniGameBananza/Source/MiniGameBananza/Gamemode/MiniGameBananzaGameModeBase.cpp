@@ -10,6 +10,7 @@
 #include "MiniGameBananza/Player/MiniGamePlayerCharacter.h"
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
+#include "TimerManager.h"
 #include "MiniGameBananza/Utils/MiniGameBananzaGameInstance.h"
 
 AMiniGameBananzaGameModeBase::AMiniGameBananzaGameModeBase()
@@ -166,9 +167,17 @@ void AMiniGameBananzaGameModeBase::OnDead(AMiniGamePlayerController* Controller)
 		if (AliveController)
 		{
 			AliveController->UpdateScore(DeadCount + 1);
+			for (FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; ++Iterator)
+			{
+				AMiniGamePlayerController* PlayerController = Cast<AMiniGamePlayerController>(Iterator->Get());
+				if (PlayerController)
+				{
+					PlayerController->MiniGamePlayerUI->SetScoreUI(PlayerController->GetScore());
+				}
+			}
 		}
-
-		OnGamemodeFinished();
+		FTimerHandle GamemodeTimeHandle;
+		GetWorldTimerManager().SetTimer(GamemodeTimeHandle, this, &AMiniGameBananzaGameModeBase::OnGamemodeFinished, 5.0f, false);
 	}
 }
 
