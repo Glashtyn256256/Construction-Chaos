@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "Kismet//GameplayStatics.h"
 #include "MiniGameBananzaGameInstance.generated.h"
 
 struct FPlayerScore
@@ -11,9 +12,14 @@ struct FPlayerScore
 	int score;
 };
 
-/**
- * 
- */
+enum GameModeLevels
+{
+	Bomberman,
+	FloorIsLava,
+	GirderWipeout,
+};
+
+
 UCLASS()
 class MINIGAMEBANANZA_API UMiniGameBananzaGameInstance : public UGameInstance
 {
@@ -23,8 +29,11 @@ public:
 	void UpdateScore(int playerid,int score);
 	void ResetScores();
 	int GetScore(int playerid) const;
-
+	void SetGameMode(int gamemode);
+	void NextGameMode();
 
 private:
 	TMap<int, FPlayerScore> Scores;
+	GameModeLevels CurrentLevel;
+	//bool IsSelection;
 };

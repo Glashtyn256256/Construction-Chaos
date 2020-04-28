@@ -7,6 +7,12 @@
 void UUI_MainMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
+	
+	MiniGameInstance = Cast< UMiniGameBananzaGameInstance>(GetGameInstance());
+	if (MiniGameInstance)
+	{
+		MiniGameInstance->ResetScores();
+	}
 
 	if (StartGameButton) 
 	{
@@ -20,12 +26,7 @@ void UUI_MainMenu::NativeConstruct()
 
 void UUI_MainMenu::OnClickStartButton() 
 {
-	const UWorld* World = GetWorld();
-
-	if (World)
-	{
-		UGameplayStatics::OpenLevel(World, FName(TEXT("Bomberman_New")));
-	}
+		MiniGameInstance->SetGameMode(0);
 }
 
 void UUI_MainMenu::OnClickGameModeSelectionButton()

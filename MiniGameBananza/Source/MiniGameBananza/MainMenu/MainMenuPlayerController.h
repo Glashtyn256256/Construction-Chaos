@@ -13,5 +13,6 @@ UCLASS()
 class MINIGAMEBANANZA_API AMainMenuPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
+
+	virtual void BeginPlay();
 };
