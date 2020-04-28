@@ -45,6 +45,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
 	int MaxLives = 3;
 
+	UPROPERTY()
+	UMiniGamePlayerUI* MiniGamePlayerUI;
 protected:
 
 
@@ -56,9 +58,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
 	int NumLives = MaxLives;
-
-	UPROPERTY()
-	UMiniGamePlayerUI* MiniGamePlayerUI;
 
 private:
 	float RespawnCountdownTimer;

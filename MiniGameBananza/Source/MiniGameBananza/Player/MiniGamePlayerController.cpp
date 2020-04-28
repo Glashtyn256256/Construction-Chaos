@@ -46,7 +46,7 @@ void AMiniGamePlayerController::CheckHUD()
 		{
 			MiniGamePlayerUI->InitializeUI(this);
 
-			MiniGamePlayerUI->SetLives(NumLives);
+			MiniGamePlayerUI->SetLivesUI(NumLives);
 		}
 	}
 }
@@ -110,7 +110,7 @@ void AMiniGamePlayerController::SetNumLives(int lives)
 
 	if (MiniGamePlayerUI)
 	{
-		MiniGamePlayerUI->SetLives(NumLives);
+		MiniGamePlayerUI->SetLivesUI(NumLives);
 	}
 
 }

@@ -6,15 +6,13 @@
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/PlayerController.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/TextBlock.h"
 #include "Containers/Array.h"
 #include "Components/HorizontalBox.h"
 #include "MiniGamePlayerUI.generated.h"
 
 class AMiniGamePlayerController;
 
-/**
- * 
- */
 UCLASS()
 class MINIGAMEBANANZA_API UMiniGamePlayerUI : public UUserWidget
 {
@@ -22,7 +20,8 @@ class MINIGAMEBANANZA_API UMiniGamePlayerUI : public UUserWidget
 	
 public:
 	virtual void InitializeUI(AMiniGamePlayerController* Controller);
-	virtual void SetLives(int lives);
+	virtual void SetLivesUI(int lives);
+	virtual void SetScoreUI(int score);
 
 
 public:
@@ -35,6 +34,10 @@ public:
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	UUserWidget* PlayerHeart3;
 
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	//UEditableTextBox* ScorePlayer;
+	UTextBlock* PlayerScore;
+		
 protected:
 	UPROPERTY()
 	AMiniGamePlayerController* Controller;
