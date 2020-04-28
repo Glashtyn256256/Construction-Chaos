@@ -21,6 +21,8 @@ ASpinnyGamemode::ASpinnyGamemode() : SpeedLevel(1)
 
 void ASpinnyGamemode::Tick(float DeltaTime)
 {
+	Super::Tick(DeltaTime);
+
 	if (SpinnyPole)
 	{
 		if (SpinnyPole->CurrentRotationSpeed >= SpinnyPole->PreviousRotationSpeed + SpeedPerLevelIncrement)

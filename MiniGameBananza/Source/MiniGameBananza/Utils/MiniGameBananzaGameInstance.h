@@ -29,7 +29,7 @@ public:
 	void UpdateScore(int playerid,int score);
 	void ResetScores();
 	int GetScore(int playerid) const;
-	void SetGameMode(int gamemode);
+	void SetGameMode(GameModeLevels gamemode);
 	void NextGameMode();
 
 private:

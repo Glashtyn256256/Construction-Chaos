@@ -26,7 +26,7 @@ void UUI_MainMenu::NativeConstruct()
 
 void UUI_MainMenu::OnClickStartButton() 
 {
-		MiniGameInstance->SetGameMode(0);
+		MiniGameInstance->SetGameMode(GameModeLevels::Bomberman);
 }
 
 void UUI_MainMenu::OnClickGameModeSelectionButton()

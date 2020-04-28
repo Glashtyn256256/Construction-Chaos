@@ -10,6 +10,12 @@
 #include "MiniGameBananza/Player/MiniGamePlayerCharacter.h"
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
+#include "MiniGameBananza/Utils/MiniGameBananzaGameInstance.h"
+
+AMiniGameBananzaGameModeBase::AMiniGameBananzaGameModeBase()
+{
+	PrimaryActorTick.bCanEverTick = true;
+}
 
 void AMiniGameBananzaGameModeBase::BeginPlay()
 {
@@ -62,6 +68,20 @@ void AMiniGameBananzaGameModeBase::BeginPlay()
 	}
 }
 
+void AMiniGameBananzaGameModeBase::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	for (FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; ++Iterator)
+	{
+		APlayerController* PlayerController = Iterator->Get();
+		if (PlayerController && CameraActor)
+		{
+			PlayerController->SetViewTargetWithBlend(CameraActor);
+		}
+	}
+}
+
 void AMiniGameBananzaGameModeBase::RestartPlayer(AController * NewPlayer)
 {
 	APlayerController* PlayerController = Cast<APlayerController>(NewPlayer);
@@ -109,6 +129,55 @@ void AMiniGameBananzaGameModeBase::RestartPlayer(AController * NewPlayer)
 			}
 			FinishRestartPlayer(NewPlayer, spawnRotation);
 		}
+	}
+}
+
+void AMiniGameBananzaGameModeBase::OnDead(AMiniGamePlayerController* Controller)
+{
+	if (!Controller) return;
+
+	TArray<AMiniGamePlayerController*> DeadControllers;
+	TArray<AMiniGamePlayerController*> AliveControllers;
+
+	for (FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; ++Iterator)
+	{
+		AMiniGamePlayerController* PlayerController = Cast<AMiniGamePlayerController>(Iterator->Get());
+		if (PlayerController && PlayerController != Controller)
+		{
+			if (PlayerController->HasRanOutOfLives())
+			{
+				DeadControllers.Add(PlayerController);
+			}
+			else
+			{
+				AliveControllers.Add(PlayerController);
+			}
+		}
+	}
+
+	int DeadCount = DeadControllers.Num();
+
+	Controller->UpdateScore(DeadCount);
+
+	// Update last person alive score
+	if (AliveControllers.Num() == 1)
+	{
+		AMiniGamePlayerController* AliveController = AliveControllers[0];
+		if (AliveController)
+		{
+			AliveController->UpdateScore(DeadCount + 1);
+		}
+
+		OnGamemodeFinished();
+	}
+}
+
+void AMiniGameBananzaGameModeBase::OnGamemodeFinished()
+{
+	UMiniGameBananzaGameInstance* GameInstance = Cast< UMiniGameBananzaGameInstance>(GetGameInstance());
+	if (GameInstance)
+	{
+		GameInstance->NextGameMode();
 	}
 }
 
