@@ -29,12 +29,6 @@ void AFloorIsLava_Floor_Block::BeginPlay()
 void AFloorIsLava_Floor_Block::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	/*if (test > 1000) {
-		TogglePhysicsSimulation();
-	}
-	++test;
-	GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::FromInt(test));*/
 }
 
 void AFloorIsLava_Floor_Block::TogglePhysicsSimulation()
