@@ -41,7 +41,7 @@ void AFloorIsLavaPlayerCharacter::Tick(float DeltaTime)
 
 	FVector direction = FVector::ZeroVector - Force;
 
-	Force += direction * DeltaTime * 5.0f;
+	Force += direction * DeltaTime * 12.0f;
 
 	USkeletalMeshComponent* MeshComponent = GetMesh();
 	if (MeshComponent && Velocity.Size() >= 0.1f)
