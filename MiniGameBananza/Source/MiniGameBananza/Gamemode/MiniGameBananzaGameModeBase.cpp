@@ -169,7 +169,7 @@ void AMiniGameBananzaGameModeBase::OnDead(AMiniGamePlayerController* Controller)
 		if (AliveController)
 		{
 			AliveController->UpdateScore(DeadCount + 1);
-			DisplayAllPlayersScore(Controller);
+			DisplayAllPlayersScore();
 		}
 		FTimerHandle GamemodeTimeHandle;
 		GetWorldTimerManager().SetTimer(GamemodeTimeHandle, this, &AMiniGameBananzaGameModeBase::OnGamemodeFinished, 5.0f, false);
@@ -197,7 +197,7 @@ void AMiniGameBananzaGameModeBase::FinishRestartPlayer(AController* NewPlayer, c
 	}
 }
 
-void AMiniGameBananzaGameModeBase::DisplayAllPlayersScore(AMiniGamePlayerController* Controller) {
+void AMiniGameBananzaGameModeBase::DisplayAllPlayersScore() {
 	FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator();
 	if (Iterator)
 	{
