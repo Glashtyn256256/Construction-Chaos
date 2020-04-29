@@ -39,4 +39,5 @@ public:
 	TArray<TSubclassOf<AMiniGamePlayerCharacter>> CharacterClasses;
 
 	AActor* CameraActor;
+	bool bGamemodeEnded;
 };

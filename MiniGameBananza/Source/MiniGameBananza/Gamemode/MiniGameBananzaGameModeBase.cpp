@@ -135,7 +135,7 @@ void AMiniGameBananzaGameModeBase::RestartPlayer(AController* NewPlayer)
 
 void AMiniGameBananzaGameModeBase::OnDead(AMiniGamePlayerController* Controller)
 {
-	if (!Controller) return;
+	if (!Controller || bGamemodeEnded) return;
 
 	TArray<AMiniGamePlayerController*> DeadControllers;
 	TArray<AMiniGamePlayerController*> AliveControllers;
@@ -165,6 +165,7 @@ void AMiniGameBananzaGameModeBase::OnDead(AMiniGamePlayerController* Controller)
 	// Update last person alive score
 	if (AliveControllers.Num() == 1)
 	{
+		bGamemodeEnded = true;
 		AMiniGamePlayerController* AliveController = AliveControllers[0];
 		if (AliveController)
 		{
