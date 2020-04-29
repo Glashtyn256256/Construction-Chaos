@@ -83,7 +83,7 @@ void AMiniGameBananzaGameModeBase::Tick(float DeltaSeconds)
 	}
 }
 
-void AMiniGameBananzaGameModeBase::RestartPlayer(AController * NewPlayer)
+void AMiniGameBananzaGameModeBase::RestartPlayer(AController* NewPlayer)
 {
 	APlayerController* PlayerController = Cast<APlayerController>(NewPlayer);
 
@@ -116,7 +116,7 @@ void AMiniGameBananzaGameModeBase::RestartPlayer(AController * NewPlayer)
 				{
 					PlayerPrefab = CharacterClasses[localPlayerid % CharacterClasses.Num()];
 				}
-				else if(localPlayerid < CharacterClasses.Num())
+				else if (localPlayerid < CharacterClasses.Num())
 				{
 					PlayerPrefab = CharacterClasses[localPlayerid];
 				}
@@ -139,23 +139,25 @@ void AMiniGameBananzaGameModeBase::OnDead(AMiniGamePlayerController* Controller)
 
 	TArray<AMiniGamePlayerController*> DeadControllers;
 	TArray<AMiniGamePlayerController*> AliveControllers;
-
-	for (FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; ++Iterator)
+	FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator();
+	if (Iterator)
 	{
-		AMiniGamePlayerController* PlayerController = Cast<AMiniGamePlayerController>(Iterator->Get());
-		if (PlayerController && PlayerController != Controller)
+		for (Iterator; Iterator; ++Iterator)
 		{
-			if (PlayerController->HasRanOutOfLives())
+			AMiniGamePlayerController* PlayerController = Cast<AMiniGamePlayerController>(Iterator->Get());
+			if (PlayerController && PlayerController != Controller)
 			{
-				DeadControllers.Add(PlayerController);
-			}
-			else
-			{
-				AliveControllers.Add(PlayerController);
+				if (PlayerController->HasRanOutOfLives())
+				{
+					DeadControllers.Add(PlayerController);
+				}
+				else
+				{
+					AliveControllers.Add(PlayerController);
+				}
 			}
 		}
 	}
-
 	int DeadCount = DeadControllers.Num();
 
 	Controller->UpdateScore(DeadCount);
@@ -167,14 +169,7 @@ void AMiniGameBananzaGameModeBase::OnDead(AMiniGamePlayerController* Controller)
 		if (AliveController)
 		{
 			AliveController->UpdateScore(DeadCount + 1);
-			for (FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; ++Iterator)
-			{
-				AMiniGamePlayerController* PlayerController = Cast<AMiniGamePlayerController>(Iterator->Get());
-				if (PlayerController)
-				{
-					PlayerController->MiniGamePlayerUI->SetScoreUI(PlayerController->GetScore());
-				}
-			}
+			DisplayAllPlayersScore(Controller);
 		}
 		FTimerHandle GamemodeTimeHandle;
 		GetWorldTimerManager().SetTimer(GamemodeTimeHandle, this, &AMiniGameBananzaGameModeBase::OnGamemodeFinished, 5.0f, false);
@@ -199,5 +194,20 @@ void AMiniGameBananzaGameModeBase::FinishRestartPlayer(AController* NewPlayer, c
 	if (PlayerController && CameraActor)
 	{
 		PlayerController->SetViewTargetWithBlend(CameraActor);
+	}
+}
+
+void AMiniGameBananzaGameModeBase::DisplayAllPlayersScore(AMiniGamePlayerController* Controller) {
+	FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator();
+	if (Iterator)
+	{
+		for (Iterator; Iterator; ++Iterator)
+		{
+			AMiniGamePlayerController* PlayerController = Cast<AMiniGamePlayerController>(Iterator->Get());
+			if (PlayerController)
+			{
+				PlayerController->MiniGamePlayerUI->SetScoreUI(PlayerController->GetScore());
+			}
+		}
 	}
 }

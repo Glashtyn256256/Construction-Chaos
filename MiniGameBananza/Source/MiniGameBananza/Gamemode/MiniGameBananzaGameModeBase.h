@@ -24,7 +24,7 @@ public:
 public:
 
 	virtual void RestartPlayer(AController * NewPlayer) override;
-
+	virtual void DisplayAllPlayersScore(AMiniGamePlayerController* Controller);
 	virtual void OnDead(AMiniGamePlayerController* Controller);
 	virtual void Tick(float DeltaSeconds) override;
 
