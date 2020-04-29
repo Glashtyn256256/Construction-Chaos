@@ -12,6 +12,7 @@ void UUI_MainMenu::NativeConstruct()
 	if (MiniGameInstance)
 	{
 		MiniGameInstance->ResetScores();
+		MiniGameInstance->SetIsGamemodeSelection(false);
 	}
 
 	if (StartGameButton) 
