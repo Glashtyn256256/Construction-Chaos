@@ -56,7 +56,10 @@ void UMiniGameBananzaGameInstance::NextGameMode()
 
 	if (World)
 	{
-		CurrentLevel;
+		if (GetIsGamemodeSelection())
+		{
+			CurrentLevel = GamemodeSelection;
+		}
 
 		switch (CurrentLevel)
 		{
@@ -67,8 +70,22 @@ void UMiniGameBananzaGameInstance::NextGameMode()
 			SetGameMode(GirderWipeout);
 			break;
 		//GirderWipeout:  UGameplayStatics::OpenLevel(World, FName(TEXT("PodiumScoreboard etc")));
-		case GirderWipeout:  World->ServerTravel("Main_Menu");
-		break;
+		case GirderWipeout:  
+			World->ServerTravel("Main_Menu");
+			break;
+		case GamemodeSelection: 
+			World->ServerTravel("GameMode_Selection_Menu");
+			break;
 		}
 	}
+}
+
+void UMiniGameBananzaGameInstance::SetIsGamemodeSelection(bool isgamemodeselection) 
+{
+	isGamemodeSelection = isgamemodeselection;
+}
+
+bool UMiniGameBananzaGameInstance::GetIsGamemodeSelection() 
+{
+	return isGamemodeSelection;
 }

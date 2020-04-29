@@ -17,6 +17,8 @@ enum GameModeLevels
 	Bomberman,
 	FloorIsLava,
 	GirderWipeout,
+	Podium,
+	GamemodeSelection,
 };
 
 
@@ -31,9 +33,12 @@ public:
 	int GetScore(int playerid) const;
 	void SetGameMode(GameModeLevels gamemode);
 	void NextGameMode();
+	void SetIsGamemodeSelection(bool isgamemodeselection);
+	bool GetIsGamemodeSelection();
 
 private:
 	TMap<int, FPlayerScore> Scores;
 	GameModeLevels CurrentLevel;
+	bool isGamemodeSelection;
 	//bool IsSelection;
 };
