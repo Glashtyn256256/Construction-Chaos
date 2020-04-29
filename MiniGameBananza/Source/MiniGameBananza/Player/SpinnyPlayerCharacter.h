@@ -39,6 +39,8 @@ public:
 	bool bPoleHasPassed; // Used to check if the pole has passed through the player during respawn protection
 
 private:
+	bool bDead;
+	float deadTime;
 	float jumpAnimTime;
 	
 };

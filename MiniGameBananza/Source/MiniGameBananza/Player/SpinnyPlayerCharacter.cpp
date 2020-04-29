@@ -8,6 +8,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/WorldSettings.h"
+#include "MiniGameBananza/Gamemode/MiniGameBananzaGameModeBase.h"
 
 
 ASpinnyPlayerCharacter::ASpinnyPlayerCharacter()
@@ -37,6 +38,17 @@ void ASpinnyPlayerCharacter::Tick(float DeltaTime)
 			SetJump(false);
 		}
 	}
+
+	if (bDead)
+	{
+		deadTime += DeltaTime;
+
+		if (deadTime >= 2.5f && GetWorld())
+		{
+			deadTime = 0.0f;
+			Destroy();
+		}
+	}
 }
 
 void ASpinnyPlayerCharacter::Destroyed()
@@ -45,7 +57,7 @@ void ASpinnyPlayerCharacter::Destroyed()
 	ASpinnyPlayerController* thisController = Cast<ASpinnyPlayerController>(this->GetController());
 
 	Super::Destroyed();
-	
+
 	AMiniGameBananzaGameModeBase* gamemode = Cast<AMiniGameBananzaGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	if (gamemode && thisController)
 	{
@@ -96,4 +108,6 @@ void ASpinnyPlayerCharacter::Die(FVector force)
 {
 	// Push into killZ
 	Ragdoll(force);
+	bDead = true;
+	deadTime = 0.0f;
 }
