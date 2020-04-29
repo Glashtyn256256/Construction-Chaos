@@ -34,6 +34,7 @@ public:
 
 	void UpdateScore(int score) const;
 	int GetScore() const;
+	//UMiniGamePlayerUI* GetMiniGamePlayerUI();
 
 protected:
 	virtual void Respawn();
@@ -48,7 +49,6 @@ public:
 	UPROPERTY()
 	UMiniGamePlayerUI* MiniGamePlayerUI;
 protected:
-
 
 	UPROPERTY(EditDefaultsOnly, Category = "Respawning")
 	float MaxRespawnTime = 5.0f;
