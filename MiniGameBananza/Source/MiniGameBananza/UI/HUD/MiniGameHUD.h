@@ -21,6 +21,7 @@ class MINIGAMEBANANZA_API AMiniGameHUD : public AHUD
 public:
 	virtual void BeginPlay() override;
 	virtual void CreateInstance();
+	virtual void CreateUI();
 	virtual void BeginDestroy() override;
 
 	UMiniGamePlayerUI* GetMiniGamePlayerUI(AMiniGamePlayerController* Controller);

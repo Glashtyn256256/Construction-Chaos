@@ -41,6 +41,17 @@ void AMiniGameHUD::CreateInstance()
 	{
 		GamePlayersUI->AddToViewport();
 	}
+
+	if (HUDInstance)
+	{
+		CreateUI();
+	}
+
+}
+
+void AMiniGameHUD::CreateUI()
+{
+
 }
 
 UMiniGamePlayerUI* AMiniGameHUD::GetMiniGamePlayerUI(AMiniGamePlayerController* Controller)
