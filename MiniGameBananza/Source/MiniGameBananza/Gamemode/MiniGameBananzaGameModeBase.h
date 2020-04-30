@@ -7,6 +7,7 @@
 #include "MiniGameBananza/UI/HUD/MiniGameHUD.h"
 #include "MiniGameBananza/Player/MiniGamePlayerCharacter.h"
 #include "MiniGameBananza/Player/MiniGamePlayerController.h"
+#include "MiniGameBananza/UI/HUD/MiniGameHUD.h"
 #include "MiniGameBananzaGameModeBase.generated.h"
 
 /**
@@ -27,6 +28,8 @@ public:
 	virtual void DisplayAllPlayersScore();
 	virtual void OnDead(AMiniGamePlayerController* Controller);
 	virtual void Tick(float DeltaSeconds) override;
+	void CountdownTick(float DeltaSeconds);
+	bool IsCountdownActive() const;
 
 protected:
 	virtual void OnGamemodeFinished();
@@ -39,5 +42,12 @@ public:
 	TArray<TSubclassOf<AMiniGamePlayerCharacter>> CharacterClasses;
 
 	AActor* CameraActor;
+
+protected:
 	bool bGamemodeEnded;
+	bool bCountdownEnded;
+	float countdownTime;
+	ECountdownState countdownState;
+
+	AMiniGameHUD* GameHUD;
 };

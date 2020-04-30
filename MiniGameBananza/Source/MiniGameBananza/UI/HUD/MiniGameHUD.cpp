@@ -33,13 +33,7 @@ void AMiniGameHUD::CreateInstance()
 		if (PlayerController && !HUDInstance)
 		{
 			HUDInstance = this;
-			GamePlayersUI = CreateWidget<UMiniGamePlayersUI>(GetWorld(), MiniGamePlayersClass, FName(TEXT("MiniGamePlayers")));
 		}
-	}
-
-	if (GamePlayersUI)
-	{
-		GamePlayersUI->AddToViewport();
 	}
 
 	if (HUDInstance)
@@ -51,7 +45,19 @@ void AMiniGameHUD::CreateInstance()
 
 void AMiniGameHUD::CreateUI()
 {
+	GamePlayersUI = CreateWidget<UMiniGamePlayersUI>(GetWorld(), MiniGamePlayersClass, FName(TEXT("MiniGamePlayers")));
 
+	if (GamePlayersUI)
+	{
+		GamePlayersUI->AddToViewport(0);
+	}
+
+	ReadyCountdown = CreateWidget<UMiniGameReadyCountdown>(GetWorld(), MiniGameReadyCountdownClass, FName(TEXT("MiniGameReadyCountdown")));
+
+	if (ReadyCountdown)
+	{
+		ReadyCountdown->AddToViewport(1);
+	}
 }
 
 UMiniGamePlayerUI* AMiniGameHUD::GetMiniGamePlayerUI(AMiniGamePlayerController* Controller)
@@ -71,6 +77,11 @@ UMiniGamePlayerUI* AMiniGameHUD::GetMiniGamePlayerUI(AMiniGamePlayerController* 
 	}
 
 	return nullptr;
+}
+
+UMiniGameReadyCountdown* AMiniGameHUD::GetMiniGameCountdown() const
+{
+	return ReadyCountdown;
 }
 
 AMiniGameHUD * AMiniGameHUD::GetInstance()

@@ -12,6 +12,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "TimerManager.h"
 #include "MiniGameBananza/Utils/MiniGameBananzaGameInstance.h"
+#include "MiniGameBananza/UI/Generic/MiniGameReadyCountdown.h"
 
 AMiniGameBananzaGameModeBase::AMiniGameBananzaGameModeBase()
 {
@@ -44,6 +45,7 @@ void AMiniGameBananzaGameModeBase::BeginPlay()
 			}
 		}
 
+
 		TArray<AActor*> foundActors;
 		UGameplayStatics::GetAllActorsOfClass(world, ACameraActor::StaticClass(), foundActors);
 		for (AActor* actor : foundActors)
@@ -67,6 +69,10 @@ void AMiniGameBananzaGameModeBase::BeginPlay()
 			}
 		}
 	}
+
+	countdownState = ECountdownState::None;
+
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
 }
 
 void AMiniGameBananzaGameModeBase::Tick(float DeltaSeconds)
@@ -80,6 +86,44 @@ void AMiniGameBananzaGameModeBase::Tick(float DeltaSeconds)
 		{
 			PlayerController->SetViewTargetWithBlend(CameraActor);
 		}
+	}
+
+	if (!GameHUD)
+	{
+		GameHUD = AMiniGameHUD::GetInstance();
+	}
+
+	if (GameHUD)
+	{
+		if (!bCountdownEnded)
+		{
+			CountdownTick(DeltaSeconds);
+		}
+	}
+}
+
+void AMiniGameBananzaGameModeBase::CountdownTick(float DeltaSeconds)
+{
+	if (!GetWorld()) return;
+
+	UMiniGameReadyCountdown* Countdown = GameHUD->GetMiniGameCountdown();
+
+	if (!Countdown)
+		return;
+
+	float undilatedDeltaTime = DeltaSeconds / UGameplayStatics::GetGlobalTimeDilation(GetWorld());
+
+	countdownTime += undilatedDeltaTime;
+
+	if (countdownTime >= 1.0)
+	{
+		countdownTime = 0.0f;
+		bCountdownEnded = Countdown->NextCountdownState(countdownState);
+	}
+
+	if (bCountdownEnded)
+	{
+		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1.0f);
 	}
 }
 
@@ -211,4 +255,9 @@ void AMiniGameBananzaGameModeBase::DisplayAllPlayersScore() {
 			}
 		}
 	}
+}
+
+bool AMiniGameBananzaGameModeBase::IsCountdownActive() const
+{
+	return !bCountdownEnded;
 }

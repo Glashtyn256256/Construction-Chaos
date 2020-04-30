@@ -15,7 +15,7 @@ AFloorIsLavaPlayerCharacter::AFloorIsLavaPlayerCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	SphereRadius = 30.0f;
 	Timer = 0.0f;
-	MaxTimer = 300.0f;
+	MaxTimer = 3.0f;
 	SphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Collider"));
 	PreviousHitBlock = nullptr;
 	if (SphereCollider)
@@ -118,7 +118,7 @@ void AFloorIsLavaPlayerCharacter::PreventCharacterStandingStill(float DeltaTime)
 			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, OutHit.GetActor()->GetName());
 			if (PreviousHitBlock == hitBlock)
 			{
-				Timer++;
+				Timer += DeltaTime;
 				if (Timer > MaxTimer)
 				{
 					hitBlock->TogglePhysicsSimulation();
