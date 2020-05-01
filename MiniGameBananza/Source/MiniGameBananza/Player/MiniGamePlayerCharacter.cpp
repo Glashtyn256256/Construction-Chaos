@@ -191,6 +191,11 @@ void AMiniGamePlayerCharacter::SetRespawn(bool _bRespawn)
 	this->bRespawn = _bRespawn;
 }
 
+void AMiniGamePlayerCharacter::SetDefeat(bool _bDefeat)
+{
+	this->bDefeat = _bDefeat;
+}
+
 bool AMiniGamePlayerCharacter::GetVictory() const
 {
 	return bVictory;
@@ -209,5 +214,10 @@ bool AMiniGamePlayerCharacter::GetJump() const
 bool AMiniGamePlayerCharacter::GetRespawn() const
 {
 	return bRespawn;
+}
+
+bool AMiniGamePlayerCharacter::GetDefeat() const
+{
+	return bDefeat;
 }
 
