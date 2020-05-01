@@ -46,6 +46,8 @@ void UMiniGameBananzaGameInstance::SetGameMode(GameModeLevels gamemode)
 			break;
 		case GirderWipeout: World->ServerTravel("SpinnyPole");
 			break;
+		case Podium: World->ServerTravel("Win");
+			break;
 		}
 	}
 }
@@ -71,7 +73,7 @@ void UMiniGameBananzaGameInstance::NextGameMode()
 			break;
 		//GirderWipeout:  UGameplayStatics::OpenLevel(World, FName(TEXT("PodiumScoreboard etc")));
 		case GirderWipeout:  
-			World->ServerTravel("Main_Menu");
+			SetGameMode(Podium);
 			break;
 		case GamemodeSelection: 
 			World->ServerTravel("GameMode_Selection_Menu");
@@ -88,4 +90,19 @@ void UMiniGameBananzaGameInstance::SetIsGamemodeSelection(bool isgamemodeselecti
 bool UMiniGameBananzaGameInstance::GetIsGamemodeSelection() 
 {
 	return isGamemodeSelection;
+}
+
+TArray<int> UMiniGameBananzaGameInstance::GetPlayersIDInOrderBasedOnScore() const
+{
+	TArray<int> order;
+	Scores.GetKeys(order);
+
+		order.Sort([this](const int& lhs, const int& rhs)
+			{
+				int lscore = Scores[lhs].score;
+				int rscore = Scores[rhs].score;
+				return lscore > rscore;
+			});
+
+	return order;
 }

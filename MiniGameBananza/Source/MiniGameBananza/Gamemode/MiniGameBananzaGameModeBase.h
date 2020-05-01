@@ -32,14 +32,19 @@ public:
 	bool IsCountdownActive() const;
 
 protected:
+	virtual AActor* GetSpawnPoint(AMiniGamePlayerController* Controller);
 	virtual void OnGamemodeFinished();
 	virtual void FinishRestartPlayer(AController* NewPlayer, const FRotator& StartRotation) override;
+	virtual void OnCharacterSpawned(AController* Controller, APawn* Pawn);
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Local Multiplayer")
 	int PlayerCount = 4;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Local Multiplayer")
 	TArray<TSubclassOf<AMiniGamePlayerCharacter>> CharacterClasses;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Override")
+	bool bOverrideCountdown;
 
 	AActor* CameraActor;
 
