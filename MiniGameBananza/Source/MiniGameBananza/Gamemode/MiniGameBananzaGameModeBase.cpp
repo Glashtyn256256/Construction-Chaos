@@ -261,3 +261,8 @@ bool AMiniGameBananzaGameModeBase::IsCountdownActive() const
 {
 	return !bCountdownEnded;
 }
+
+bool AMiniGameBananzaGameModeBase::IsGamemodeActive() const
+{
+	return !bGamemodeEnded;
+}
