@@ -29,7 +29,7 @@ private:
 
 public:
 	UPROPERTY(EditDefaultsOnly)
-	int SpeedPerLevelIncrement;
+	int SpeedPerLevelIncrement = 15.0f;
 
 private:
 	ASpinnyPole* SpinnyPole;
