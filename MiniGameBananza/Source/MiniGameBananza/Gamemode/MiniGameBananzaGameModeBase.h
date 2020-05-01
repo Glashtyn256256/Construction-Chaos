@@ -30,6 +30,7 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 	void CountdownTick(float DeltaSeconds);
 	bool IsCountdownActive() const;
+	bool IsGamemodeActive() const;
 
 protected:
 	virtual AActor* GetSpawnPoint(AMiniGamePlayerController* Controller);

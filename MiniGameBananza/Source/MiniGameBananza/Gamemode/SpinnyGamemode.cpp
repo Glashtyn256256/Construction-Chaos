@@ -2,6 +2,8 @@
 
 
 #include "SpinnyGamemode.h"
+#include "MiniGameBananza/Player/SpinnyPlayerController.h"
+#include "MiniGameBananza/UI/HUD/SpinnyMiniGameHUD.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 
@@ -40,12 +42,22 @@ int ASpinnyGamemode::GetSpeedLevel() const
 
 void ASpinnyGamemode::IncrementSpeedLevel()
 {
-	SpeedLevel++;
-
-	// TODO: UI Update
+	const UWorld* world = GetWorld();
+	if (world)
+	{
+		ASpinnyPlayerController* controller = Cast<ASpinnyPlayerController>(world->GetFirstPlayerController());
+		if (controller)
+		{
+			ASpinnyMiniGameHUD* hud = Cast<ASpinnyMiniGameHUD>(controller->GetHUD());
+			if (hud)
+			{
+				hud->SetSpeedLevel(++SpeedLevel);
+			}
+		}
+	}
 }
 
 bool ASpinnyGamemode::PoleIsFast() const
 {
-	return SpeedLevel > 10;
+	return SpeedLevel > 15;
 }

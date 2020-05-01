@@ -5,7 +5,6 @@
 #include "MiniGameBananza/Gamemode/SpinnyGamemode.h"
 #include "MiniGameBananza/Player/SpinnyPlayerController.h"
 #include "MiniGameBananza/Player/SpinnyPlayerCharacter.h"
-
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -40,7 +39,19 @@ void ASpinnyPole::Tick(float DeltaTime)
 	CurrentRotation *= RotationOffset;
 	SetActorRotation(CurrentRotation);
 
-	CurrentRotationSpeed += DeltaTime * RotationSpeedIncrementModifier;
+	const UWorld* world = GetWorld();
+	if (world)
+	{
+		AMiniGameBananzaGameModeBase* gamemode = Cast<AMiniGameBananzaGameModeBase>(UGameplayStatics::GetGameMode(world));
+		if (gamemode->IsGamemodeActive())
+		{
+			CurrentRotationSpeed += DeltaTime * RotationSpeedIncrementModifier;
+		}
+		else if (CurrentRotationSpeed >= 0.0f)
+		{
+			CurrentRotationSpeed -= DeltaTime * 15;
+		}
+	}
 }
 
 void ASpinnyPole::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
