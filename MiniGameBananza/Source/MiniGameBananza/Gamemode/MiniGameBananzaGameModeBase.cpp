@@ -70,9 +70,16 @@ void AMiniGameBananzaGameModeBase::BeginPlay()
 		}
 	}
 
-	countdownState = ECountdownState::None;
+	if (bOverrideCountdown)
+	{
+		bCountdownEnded = true;
+	}
+	else
+	{
+		countdownState = ECountdownState::None;
 
-	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.0f);
+	}
 }
 
 void AMiniGameBananzaGameModeBase::Tick(float DeltaSeconds)
@@ -129,12 +136,12 @@ void AMiniGameBananzaGameModeBase::CountdownTick(float DeltaSeconds)
 
 void AMiniGameBananzaGameModeBase::RestartPlayer(AController* NewPlayer)
 {
-	APlayerController* PlayerController = Cast<APlayerController>(NewPlayer);
+	AMiniGamePlayerController* PlayerController = Cast<AMiniGamePlayerController>(NewPlayer);
 
 	UWorld* world = GetWorld();
 	if (PlayerController && world)
 	{
-		const AActor* playerStart = FindPlayerStart(PlayerController);
+		const AActor* playerStart = GetSpawnPoint(PlayerController);
 		if (playerStart)
 		{
 			const FVector spawnLocation = playerStart->GetTransform().GetLocation();
@@ -171,10 +178,21 @@ void AMiniGameBananzaGameModeBase::RestartPlayer(AController* NewPlayer)
 			if (actor)
 			{
 				PlayerController->SetPawn(actor);
+				OnCharacterSpawned(PlayerController, actor);
 			}
 			FinishRestartPlayer(NewPlayer, spawnRotation);
 		}
 	}
+}
+
+void AMiniGameBananzaGameModeBase::OnCharacterSpawned(AController* Controller, APawn* Pawn)
+{
+
+}
+
+AActor* AMiniGameBananzaGameModeBase::GetSpawnPoint(AMiniGamePlayerController* Controller)
+{
+	return FindPlayerStart(Controller);
 }
 
 void AMiniGameBananzaGameModeBase::OnDead(AMiniGamePlayerController* Controller)
