@@ -35,6 +35,7 @@ public:
 	void NextGameMode();
 	void SetIsGamemodeSelection(bool isgamemodeselection);
 	bool GetIsGamemodeSelection();
+	TArray<int> GetPlayersIDInOrderBasedOnScore() const;
 
 private:
 	TMap<int, FPlayerScore> Scores;
