@@ -7,6 +7,8 @@
 #include "Engine/World.h"
 #include "MiniGameBananza/Utils/MiniGameBananzaGameInstance.h"
 #include "Components/Button.h"
+#include "Components/AudioComponent.h"
+#include "Engine/Classes/Sound/SoundCue.h"
 #include "UI_MainMenu.generated.h"
 
 
@@ -17,19 +19,41 @@ class MINIGAMEBANANZA_API UUI_MainMenu : public UUserWidget
 	
 public:
 	virtual void NativeConstruct() override;
+	virtual void InitializeComponents();
+
+#pragma region Events
+
 	UFUNCTION()
 	void OnClickStartButton();
 	UFUNCTION()
 	void OnClickGameModeSelectionButton();
+	UFUNCTION()
+	void OnHoverButton();
+
+#pragma endregion
 public:
-	//TSubclassOf<class UUserWidget> 
+#pragma region Sound Cues
+
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	USoundCue* scHover;
+
+#pragma endregion
 
 	UPROPERTY(EditAnywhere,meta = (BindWidget))
-	UButton* StartGameButton;
+	UButton* ButtonStart;
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
-	UButton* GameModeSelectionButton;
+	UButton* ButtonGameModes;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UButton* ButtonInstructions;
+
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UButton* ButtonSettings;
+	
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	UButton* ButtonExit;
 
 	UPROPERTY(EditDefaultsOnly)
-		UMiniGameBananzaGameInstance* MiniGameInstance;
+	UMiniGameBananzaGameInstance* MiniGameInstance;
 };
