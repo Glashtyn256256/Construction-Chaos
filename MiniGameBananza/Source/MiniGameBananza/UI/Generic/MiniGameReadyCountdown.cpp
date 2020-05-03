@@ -31,6 +31,15 @@ void UMiniGameReadyCountdown::SetCountdownState(ECountdownState state)
 	case ECountdownState::Go:		uGoWidget->SetVisibility(ESlateVisibility::Visible);
 		break;
 	}
+
+	if (state == ECountdownState::Go && scGo)
+	{
+		PlaySound(scGo);
+	}
+	else if (state != ECountdownState::None && scTick)
+	{
+		PlaySound(scTick);
+	}
 }
 
 bool UMiniGameReadyCountdown::NextCountdownState(ECountdownState& state)
