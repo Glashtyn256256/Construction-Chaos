@@ -8,26 +8,52 @@ void UUI_MainMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
 	
-	MiniGameInstance = Cast< UMiniGameBananzaGameInstance>(GetGameInstance());
+	MiniGameInstance = Cast<UMiniGameBananzaGameInstance>(GetGameInstance());
 	if (MiniGameInstance)
 	{
 		MiniGameInstance->ResetScores();
 		MiniGameInstance->SetIsGamemodeSelection(false);
 	}
 
-	if (StartGameButton) 
+	InitializeComponents();
+}
+
+void UUI_MainMenu::InitializeComponents()
+{
+	if (ButtonStart)
 	{
-		StartGameButton->OnClicked.AddDynamic(this, &UUI_MainMenu::OnClickStartButton);
+		ButtonStart->OnClicked.AddDynamic(this, &UUI_MainMenu::OnClickStartButton);
+		ButtonStart->OnHovered.AddDynamic(this, &UUI_MainMenu::OnHoverButton);
 	}
 
-	if (GameModeSelectionButton) {
-		GameModeSelectionButton->OnClicked.AddDynamic(this, &UUI_MainMenu::OnClickGameModeSelectionButton);
+	if (ButtonGameModes)
+	{
+		ButtonGameModes->OnClicked.AddDynamic(this, &UUI_MainMenu::OnClickGameModeSelectionButton);
+		ButtonGameModes->OnHovered.AddDynamic(this, &UUI_MainMenu::OnHoverButton);
+	}
+
+	if (ButtonInstructions)
+	{
+		//ButtonStart->OnClicked.AddDynamic(this, &UUI_MainMenu::OnClickStartButton);
+		ButtonInstructions->OnHovered.AddDynamic(this, &UUI_MainMenu::OnHoverButton);
+	}
+
+	if (ButtonSettings)
+	{
+		//ButtonGameModes->OnClicked.AddDynamic(this, &UUI_MainMenu::OnClickGameModeSelectionButton);
+		ButtonSettings->OnHovered.AddDynamic(this, &UUI_MainMenu::OnHoverButton);
+	}
+
+	if (ButtonExit)
+	{
+		//ButtonGameModes->OnClicked.AddDynamic(this, &UUI_MainMenu::OnClickGameModeSelectionButton);
+		ButtonExit->OnHovered.AddDynamic(this, &UUI_MainMenu::OnHoverButton);
 	}
 }
 
-void UUI_MainMenu::OnClickStartButton() 
+void UUI_MainMenu::OnClickStartButton()
 {
-		MiniGameInstance->SetGameMode(GameModeLevels::Bomberman);
+	MiniGameInstance->SetGameMode(GameModeLevels::Bomberman);
 }
 
 void UUI_MainMenu::OnClickGameModeSelectionButton()
@@ -39,4 +65,12 @@ void UUI_MainMenu::OnClickGameModeSelectionButton()
 		UGameplayStatics::OpenLevel(World, FName(TEXT("GameMode_Selection_Menu")));
 	}
 
+}
+
+void UUI_MainMenu::OnHoverButton()
+{
+	if (scHover)
+	{
+		PlaySound(scHover);
+	}
 }
