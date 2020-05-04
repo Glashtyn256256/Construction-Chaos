@@ -15,7 +15,7 @@ AFloorIsLavaPlayerCharacter::AFloorIsLavaPlayerCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	SphereRadius = 30.0f;
 	Timer = 0.0f;
-	MaxTimer = 3.0f;
+	MaxTimer = 5.0f;
 	SphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Collider"));
 	PreviousHitBlock = nullptr;
 	if (SphereCollider)
