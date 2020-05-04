@@ -19,6 +19,7 @@ enum GameModeLevels
 	GirderWipeout,
 	Podium,
 	GamemodeSelection,
+	MainMenu,
 };
 
 
