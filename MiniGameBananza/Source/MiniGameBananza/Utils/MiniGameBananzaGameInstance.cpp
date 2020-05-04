@@ -48,6 +48,8 @@ void UMiniGameBananzaGameInstance::SetGameMode(GameModeLevels gamemode)
 			break;
 		case Podium: World->ServerTravel("Win");
 			break;
+		case MainMenu: World->ServerTravel("Main_Menu");
+			break;
 		}
 	}
 }
