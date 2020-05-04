@@ -17,6 +17,11 @@ void UWinScreenUI::NativeConstruct()
 	{
 		ButtonMainMenu->OnClicked.AddDynamic(this, &UWinScreenUI::OnMainMenu);
 	}
+
+	if (ButtonPlayAgain)
+	{
+		ButtonPlayAgain->OnClicked.AddDynamic(this, &UWinScreenUI::OnPlayAgain);
+	}
 }
 
 void UWinScreenUI::OnMainMenu()
