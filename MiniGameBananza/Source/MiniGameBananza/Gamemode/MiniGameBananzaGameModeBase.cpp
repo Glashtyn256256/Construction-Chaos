@@ -66,6 +66,11 @@ void AMiniGameBananzaGameModeBase::BeginPlay()
 			if (playerController && CameraActor)
 			{
 				playerController->SetViewTargetWithBlend(CameraActor);
+				AMiniGamePlayerCharacter* character = Cast<AMiniGamePlayerCharacter>(playerController->GetCharacter());	
+				if (character)
+				{
+					character->RemoveRespawnProtection();
+				}
 			}
 		}
 	}

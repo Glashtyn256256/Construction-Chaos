@@ -44,10 +44,11 @@ public:
 	virtual void SetCanBeDestroyed(bool _bCanBeDestroyed);
 	virtual void OnPlayerCollision(ABombManPlayerCharacter* Character);
 #pragma endregion
+
 protected:
 	virtual void OnInteract() override;
 	virtual void OnPlayerCollision(IIBombManCollision* Collision);
-	virtual void HandleRespawnProtection(float DeltaTime) override;
+
 private:
 	bool CannotPass(FVector direction, float size);
 
@@ -77,8 +78,6 @@ protected:
 	float p_PlayerMovementSpeed;
 
 private:
-	float RespawnProtectionTimer;
-
 	TArray<ABombManBomb*> PlacedBombs;
 	FVector TargetPosition;
 	FVector PreviousPosition;
@@ -87,4 +86,5 @@ private:
 	bool bCanBeDestroyed = false;
 	FVector Velocity;
 	FVector LastDirection;
+
 };

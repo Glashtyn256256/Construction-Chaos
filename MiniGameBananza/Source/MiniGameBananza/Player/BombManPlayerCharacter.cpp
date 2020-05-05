@@ -121,13 +121,6 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 	}
 }
 
-void ABombManPlayerCharacter::HandleRespawnProtection(float DeltaTime)
-{
-	Super::HandleRespawnProtection(DeltaTime);
-
-
-}
-
 float ABombManPlayerCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	ABombManPlayerController* instigatorController = Cast<ABombManPlayerController>(EventInstigator);
@@ -201,7 +194,7 @@ void ABombManPlayerCharacter::OnInteract()
 {
 	Super::OnInteract();
 
-	if (PlacedBombs.Num() < BombPlacementLimit)
+	if (PlacedBombs.Num() < BombPlacementLimit && !HasRespawnProtection())
 	{
 		PlantBomb();
 	}

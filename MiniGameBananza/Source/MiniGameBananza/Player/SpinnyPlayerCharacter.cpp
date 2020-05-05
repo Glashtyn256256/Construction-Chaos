@@ -76,6 +76,13 @@ bool ASpinnyPlayerCharacter::HasRespawnProtection() const
 	return Super::HasRespawnProtection();
 }
 
+void ASpinnyPlayerCharacter::RemoveRespawnProtection()
+{
+	Super::RemoveRespawnProtection();
+
+	bPoleHasPassed = true;
+}
+
 void ASpinnyPlayerCharacter::OnJump()
 {
 	if (GetJump()) return;

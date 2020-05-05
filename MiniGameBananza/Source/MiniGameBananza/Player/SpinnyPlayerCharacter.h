@@ -22,9 +22,10 @@ public:
 	virtual void Die(FVector force);
 
 	virtual void Destroyed() override;
-
 	
 	virtual bool HasRespawnProtection() const override;
+
+	virtual void RemoveRespawnProtection() override;
 protected:
 
 	virtual void OnJump() override;
