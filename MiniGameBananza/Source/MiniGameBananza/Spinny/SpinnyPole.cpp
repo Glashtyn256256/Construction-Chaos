@@ -59,7 +59,7 @@ void ASpinnyPole::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 	ASpinnyPlayerCharacter* Character = Cast<ASpinnyPlayerCharacter>(OtherActor);
 	if (Character)
 	{
-		FVector Force = SweepResult.ImpactNormal * PoleImpactForceModifier;
+		FVector Force = Character->GetActorRightVector() * (PoleImpactForceModifier * CurrentRotationSpeed);
 
 		if (Character->CanDie())
 		{
