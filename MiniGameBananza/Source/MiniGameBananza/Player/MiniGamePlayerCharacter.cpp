@@ -64,7 +64,7 @@ void AMiniGamePlayerCharacter::Ragdoll(FVector force)
 		GetCharacterMovement()->DisableMovement();
 		MeshLocal->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		MeshLocal->SetAllBodiesSimulatePhysics(true);
-		MeshLocal->AddForceToAllBodiesBelow(force);
+		MeshLocal->AddImpulseToAllBodiesBelow(force, EName::NAME_None, true);
 
 		bIsRagdoll = true;
 	}
