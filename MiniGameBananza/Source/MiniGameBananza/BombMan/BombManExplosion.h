@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h"
+#include "Components/AudioComponent.h"
+#include "Engine/Classes/Sound/SoundCue.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "BombManCollision.h"
 #include "BombManExplosion.generated.h"
@@ -53,10 +55,14 @@ private:
 	UPROPERTY()
 	ABombManPlayerController* BombPlanter;
 
+	UAudioComponent* AudioComponent;
+
+	UPROPERTY(EditAnywhere, Category = "Audio")
+	TArray<USoundCue*> ExplosionSoundCues;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	void SetBombPlanter(ABombManPlayerController* _BombPlanter);
-	const ABombManPlayerController* GetBombPlanter();
 };

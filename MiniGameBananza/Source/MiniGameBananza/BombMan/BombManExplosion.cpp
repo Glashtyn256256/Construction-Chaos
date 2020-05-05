@@ -4,7 +4,7 @@
 #include "Engine/World.h"
 #include "Engine/Engine.h"
 #include "GameFramework/DamageType.h"
-
+#include "Math/UnrealMathUtility.h"
 #include "MiniGameBananza/Player/BombManPlayerController.h"
 #include "BombManBomb.h"
 
@@ -31,6 +31,12 @@ ABombManExplosion::ABombManExplosion()
 	if (ParticleSystem) {
 		ParticleSystem->AttachTo(RootComponent);
 	}
+
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio Component"));
+	if (AudioComponent)
+	{
+		AudioComponent->AttachTo(RootComponent);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -39,6 +45,13 @@ void ABombManExplosion::BeginPlay()
 	Super::BeginPlay();
 
 	StartLocation = GetActorLocation();
+
+	if (AudioComponent)
+	{
+		USoundCue* sc = ExplosionSoundCues[FMath::RandRange(0, ExplosionSoundCues.Num() - 1)];
+		AudioComponent->SetSound(sc);
+		AudioComponent->Play();
+	}
 }
 
 void ABombManExplosion::OnBeginOverlap(UPrimitiveComponent* Component, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
