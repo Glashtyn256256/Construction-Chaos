@@ -54,6 +54,9 @@ public:
 	virtual bool HasRespawnProtection() const;
 
 	UFUNCTION(BlueprintCallable)
+	virtual void RemoveRespawnProtection();
+
+	UFUNCTION(BlueprintCallable)
 	void SetVictory(bool bVictory);
 	UFUNCTION(BlueprintCallable)
 	void SetDeath(bool bDeath);
