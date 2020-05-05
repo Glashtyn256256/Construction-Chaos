@@ -23,9 +23,6 @@ AMiniGamePlayerCharacter::AMiniGamePlayerCharacter()
 	{
 		DefaultMaterial = MeshLocal->GetMaterial(0)->GetMaterial();
 	}
-
-	bHasRecentlyRespawned = true;
-	RespawnProtectionTimer = MaxRespawnProtectionTime;
 }
 
 // Called when the game starts or when spawned
@@ -33,6 +30,8 @@ void AMiniGamePlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	bHasRecentlyRespawned = true;
+	RespawnProtectionTimer = MaxRespawnProtectionTime;
 }
 
 // Called to bind functionality to input
@@ -154,6 +153,12 @@ void AMiniGamePlayerCharacter::HandleRespawnProtection(float DeltaTime)
 			MeshLocal->SetMaterial(0, DefaultMaterial);
 		}
 	}
+}
+
+void AMiniGamePlayerCharacter::RemoveRespawnProtection()
+{
+	bHasRecentlyRespawned = false;
+	RespawnProtectionTimer = 0;
 }
 
 FVector AMiniGamePlayerCharacter::GetAnimVelocity() const
