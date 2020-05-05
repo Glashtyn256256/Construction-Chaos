@@ -13,16 +13,10 @@ void UWinScreenUI::NativeConstruct()
 		MiniGameInstance->SetIsGamemodeSelection(false);
 	}
 
-	if(ButtonMainMenu)
-	{
-		ButtonMainMenu->OnClicked.AddDynamic(this, &UWinScreenUI::OnMainMenu);
-	}
-
-	if (ButtonPlayAgain)
-	{
-		ButtonPlayAgain->OnClicked.AddDynamic(this, &UWinScreenUI::OnPlayAgain);
-	}
+	InitializeUIComponents();
 }
+
+	
 
 void UWinScreenUI::OnMainMenu()
 {
@@ -40,5 +34,38 @@ void UWinScreenUI::OnPlayAgain()
 	{
 		MiniGameInstance->ResetScores();
 		MiniGameInstance->SetGameMode(GameModeLevels::Bomberman);
+	}
+}
+
+void UWinScreenUI::InitializeUIComponents() 
+{
+	if (ButtonMainMenu)
+	{
+		ButtonMainMenu->OnClicked.AddDynamic(this, &UWinScreenUI::OnMainMenu);
+	}
+
+	if (ButtonPlayAgain)
+	{
+		ButtonPlayAgain->OnClicked.AddDynamic(this, &UWinScreenUI::OnPlayAgain);
+	}
+
+	if (TextPlayer1)
+	{
+		TextPlayer1->SetText(FText::FromString(FString::FromInt(MiniGameInstance->GetScore(0))));
+	}
+
+	if (TextPlayer2)
+	{
+		TextPlayer2->SetText(FText::FromString(FString::FromInt(MiniGameInstance->GetScore(1))));
+	}
+
+	if (TextPlayer3)
+	{
+		TextPlayer3->SetText(FText::FromString(FString::FromInt(MiniGameInstance->GetScore(2))));
+	}
+
+	if (TextPlayer4)
+	{
+		TextPlayer4->SetText(FText::FromString(FString::FromInt(MiniGameInstance->GetScore(3))));
 	}
 }
