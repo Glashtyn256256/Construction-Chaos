@@ -32,7 +32,6 @@ void UMiniGameBananzaGameInstance::SetGameMode(GameModeLevels gamemode)
 {
 
 	UWorld* World = GetWorld();
-	//UGameplayStatics::OpenLevel(World, FName(TEXT("Bomberman_New")));
 	if (World)
 	{
 		CurrentLevel = gamemode;
@@ -62,7 +61,8 @@ void UMiniGameBananzaGameInstance::NextGameMode()
 	{
 		if (GetIsGamemodeSelection())
 		{
-			CurrentLevel = GamemodeSelection;
+			World->ServerTravel("GameMode_Selection_Menu");
+			return;
 		}
 
 		switch (CurrentLevel)
@@ -73,12 +73,8 @@ void UMiniGameBananzaGameInstance::NextGameMode()
 		case FloorIsLava:
 			SetGameMode(GirderWipeout);
 			break;
-		//GirderWipeout:  UGameplayStatics::OpenLevel(World, FName(TEXT("PodiumScoreboard etc")));
 		case GirderWipeout:  
 			SetGameMode(Podium);
-			break;
-		case GamemodeSelection: 
-			World->ServerTravel("GameMode_Selection_Menu");
 			break;
 		}
 	}
@@ -107,4 +103,13 @@ TArray<int> UMiniGameBananzaGameInstance::GetPlayersIDInOrderBasedOnScore() cons
 			});
 
 	return order;
+}
+
+GameModeLevels UMiniGameBananzaGameInstance::GetCurrentLevel() 
+{
+	return CurrentLevel;
+}
+
+void UMiniGameBananzaGameInstance::SetCurrentLevel(GameModeLevels gamemode) {
+	CurrentLevel = gamemode;
 }

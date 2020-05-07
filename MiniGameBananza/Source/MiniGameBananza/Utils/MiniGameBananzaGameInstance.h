@@ -36,11 +36,12 @@ public:
 	void NextGameMode();
 	void SetIsGamemodeSelection(bool isgamemodeselection);
 	bool GetIsGamemodeSelection();
+	GameModeLevels GetCurrentLevel();
+	void SetCurrentLevel(GameModeLevels gamemode);
 	TArray<int> GetPlayersIDInOrderBasedOnScore() const;
 
 private:
 	TMap<int, FPlayerScore> Scores;
 	GameModeLevels CurrentLevel;
 	bool isGamemodeSelection;
-	//bool IsSelection;
 };
