@@ -29,8 +29,6 @@ void UGameSelectionModeUI::NativeConstruct()
 		}
 	}
 
-	SetVisibilityOfAllImagesToHidden();
-
 	InitializeComponents();
 
 	DisplayMiniGameImageAndTitle(SelectLevel[ArrayIndex]);
