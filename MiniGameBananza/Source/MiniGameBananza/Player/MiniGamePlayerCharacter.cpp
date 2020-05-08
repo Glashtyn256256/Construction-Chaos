@@ -168,7 +168,7 @@ FVector AMiniGamePlayerCharacter::GetAnimVelocity() const
 
 bool AMiniGamePlayerCharacter::CanDie() const
 {
-	return !HasRespawnProtection();
+	return !HasRespawnProtection() && !GetDeath();
 }
 
 bool AMiniGamePlayerCharacter::HasRespawnProtection() const
