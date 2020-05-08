@@ -118,6 +118,7 @@ void UUI_MainMenu::OnGameModeSelection()
 				const UWorld* World = This->GetWorld();
 				if (World)
 				{
+					This->MiniGameInstance->SetCurrentLevel(GameModeLevels::Bomberman);
 					UGameplayStatics::OpenLevel(World, FName(TEXT("GameMode_Selection_Menu")));
 				}
 			});
