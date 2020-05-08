@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "MiniGameBananza/Player/MiniGamePlayerCharacter.h"
+#include "Components/AudioComponent.h"
+#include "Engine/Classes/Sound/SoundCue.h"
 #include "SpinnyPlayerCharacter.generated.h"
 
 /**
@@ -37,10 +39,14 @@ private:
 	bool IsCollidingWithPole() const;
 
 public:
+	UPROPERTY(EditDefaultsOnly)
+	USoundCue* scHit;
+
 	bool bPoleHasPassed; // Used to check if the pole has passed through the player during respawn protection
 
 private:
-	bool bDead;
+	UAudioComponent* AudioComponent;
+
 	float deadTime;
 	float jumpAnimTime;
 	

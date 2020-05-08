@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
+#include "Components/AudioComponent.h"
+#include "Engine/Classes/Sound/SoundCue.h"
 #include "SpinnyPole.generated.h"
 
 UCLASS()
@@ -29,6 +31,9 @@ public:
 
 public:
 	UPROPERTY(EditDefaultsOnly)
+	USoundCue* scSpin;
+
+	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* MeshComponent;
 
 	UPROPERTY(EditDefaultsOnly)
@@ -41,5 +46,8 @@ public:
 	float CurrentRotationSpeed = 20.0f;
 
 	float PreviousRotationSpeed;
+
+private:
+	UAudioComponent* AudioComponent;
 
 };

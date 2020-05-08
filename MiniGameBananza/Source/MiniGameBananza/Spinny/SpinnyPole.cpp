@@ -19,13 +19,18 @@ ASpinnyPole::ASpinnyPole() : PreviousRotationSpeed(CurrentRotationSpeed)
 		MeshComponent->AttachTo(RootComponent);
 		MeshComponent->OnComponentBeginOverlap.AddDynamic(this, &ASpinnyPole::OnOverlapBegin);
 	}
+
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio Component"));
+	if (AudioComponent)
+	{
+		AudioComponent->AttachTo(RootComponent);
+	}
 }
 
 // Called when the game starts or when spawned
 void ASpinnyPole::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame

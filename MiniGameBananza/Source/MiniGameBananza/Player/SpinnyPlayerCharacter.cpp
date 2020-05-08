@@ -14,6 +14,12 @@
 ASpinnyPlayerCharacter::ASpinnyPlayerCharacter()
 {
 	bPoleHasPassed = false;
+
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio Component"));
+	if (AudioComponent)
+	{
+		AudioComponent->AttachTo(RootComponent);
+	}
 }
 
 void ASpinnyPlayerCharacter::Tick(float DeltaTime)
@@ -39,7 +45,7 @@ void ASpinnyPlayerCharacter::Tick(float DeltaTime)
 		}
 	}
 
-	if (bDead)
+	if (GetDeath())
 	{
 		deadTime += DeltaTime;
 
@@ -113,8 +119,14 @@ bool ASpinnyPlayerCharacter::IsCollidingWithPole() const
 
 void ASpinnyPlayerCharacter::Die(FVector force)
 {
+	if (AudioComponent && scHit)
+	{
+		AudioComponent->SetSound(scHit);
+		AudioComponent->Play();
+	}
+
 	// Push into killZ
 	Ragdoll(force);
-	bDead = true;
+	SetDeath(true);
 	deadTime = 0.0f;
 }
