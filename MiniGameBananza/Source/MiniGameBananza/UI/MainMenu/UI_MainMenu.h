@@ -12,6 +12,8 @@
 #include "Layout/Geometry.h"
 #include "UI_MainMenu.generated.h"
 
+DECLARE_DELEGATE(FOnAction);
+
 UCLASS()
 class MINIGAMEBANANZA_API UUI_MainMenu : public UUserWidget
 {
@@ -24,7 +26,7 @@ public:
 
 	// Used for when the button changes the map and terminates the sound early - waits until sound is finished then performs action
 	// otherwise just use PlaySound() as the sound should persist if on the same map
-	void PlaySoundAndActionWhenFinished(USoundBase* SoundBase, void (*action)(UUI_MainMenu*));
+	void PlaySoundAndActionWhenFinished(USoundBase* SoundBase, FOnAction action);
 	void HandleAction(float DeltaTime);
 
 	void HandleMusicLoop(float DeltaTime);
@@ -96,8 +98,8 @@ public:
 	UMiniGameBananzaGameInstance* MiniGameInstance;
 
 private:
+	FOnAction OnUIAction;
 	float ActionTimer = 0.0f;
-	void (*Action)(UUI_MainMenu*);
 
 	float MusicLoopTimer = 0.0f;
 };
