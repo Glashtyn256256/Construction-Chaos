@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/Button.h"
 #include "MiniGameBananza/Utils/MiniGameBananzaGameInstance.h"
+#include "MiniGameBananza/UI/Generic/MiniGameBananzaUI_Base.h"
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
 #include "Blueprint/UserWidget.h"
@@ -14,14 +15,12 @@
  * 
  */
 UCLASS()
-class MINIGAMEBANANZA_API UWinScreenUI : public UUserWidget
+class MINIGAMEBANANZA_API UWinScreenUI : public UMiniGameBananzaUI_Base
 {
 	GENERATED_BODY()
 public:
 
-	virtual void NativeConstruct() override;
-
-	virtual void InitializeUIComponents();
+	virtual void InitializeComponents() override;
 
 #pragma region Events
 
@@ -51,7 +50,4 @@ public:
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	UTextBlock* TextPlayer4;
-
-	UPROPERTY(EditDefaultsOnly)
-	UMiniGameBananzaGameInstance* MiniGameInstance;
 };

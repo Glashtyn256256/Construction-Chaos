@@ -8,22 +8,11 @@
 void UUI_MainMenu::NativeConstruct()
 {
 	Super::NativeConstruct();
-	
-	MiniGameInstance = Cast<UMiniGameBananzaGameInstance>(GetGameInstance());
+
 	if (MiniGameInstance)
 	{
 		MiniGameInstance->ResetScores();
-		MiniGameInstance->SetIsGamemodeSelection(false);
 	}
-
-	InitializeComponents();
-}
-
-void UUI_MainMenu::NativeTick(const FGeometry& MyGeometry, float DeltaTime)
-{
-	HandleAction(DeltaTime);
-
-	HandleMusicLoop(DeltaTime);
 }
 
 void UUI_MainMenu::InitializeComponents()
@@ -59,50 +48,10 @@ void UUI_MainMenu::InitializeComponents()
 	}
 }
 
-void UUI_MainMenu::HandleAction(float DeltaTime)
-{
-	if (OnUIAction.IsBound())
-	{
-		if (ActionTimer <= 0)
-		{
-			OnUIAction.Execute();
-			OnUIAction.Unbind();
-		}
-		else
-		{
-			ActionTimer -= DeltaTime;
-		}
-	}
-}
-
-void UUI_MainMenu::HandleMusicLoop(float DeltaTime)
-{
-	if (MusicLoopTimer <= 0 && scMusic)
-	{
-		MusicLoopTimer = scMusic->GetDuration();
-		PlaySound(scMusic);
-	}
-	else
-	{
-		MusicLoopTimer -= DeltaTime;
-	}
-}
-
-void UUI_MainMenu::PlaySoundAndActionWhenFinished(USoundBase* SoundBase, FOnAction action)
-{
-	if (SoundBase && !OnUIAction.IsBound())
-	{
-		ActionTimer = SoundBase->GetDuration();
-		OnUIAction = action;
-		PlaySound(SoundBase);
-	}
-}
-
 void UUI_MainMenu::OnStart()
 {
 	if (scStart)
 	{
-		
 		PlaySoundAndActionWhenFinished(scStart, FOnAction::CreateLambda([this]()
 			{
 				MiniGameInstance->SetGameMode(GameModeLevels::Bomberman);
@@ -145,29 +94,5 @@ void UUI_MainMenu::OnExit()
 				TEnumAsByte<EQuitPreference::Type> pref = TEnumAsByte<EQuitPreference::Type>(EQuitPreference::Quit);
 				UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, pref, false);
 			}));
-	}
-}
-
-void UUI_MainMenu::OnHoverButton()
-{
-	if (scHover)
-	{
-		PlaySound(scHover);
-	}
-}
-
-void UUI_MainMenu::OnClickButton()
-{
-	if (scClick_High)
-	{
-		PlaySound(scClick_High);
-	}
-}
-
-void UUI_MainMenu::OnClickBackButton()
-{
-	if (scClick_Low)
-	{
-		PlaySound(scClick_Low);
 	}
 }
