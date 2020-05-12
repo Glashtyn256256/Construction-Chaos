@@ -201,6 +201,16 @@ void AMiniGamePlayerCharacter::SetDefeat(bool _bDefeat)
 	this->bDefeat = _bDefeat;
 }
 
+void AMiniGamePlayerCharacter::SetVictory2(bool _bVictory2)
+{
+	this->bVictory2 = _bVictory2;
+}
+
+void AMiniGamePlayerCharacter::SetExcited(bool _bExcited)
+{
+	this->bExcited = _bExcited;
+}
+
 bool AMiniGamePlayerCharacter::GetVictory() const
 {
 	return bVictory;
@@ -224,5 +234,15 @@ bool AMiniGamePlayerCharacter::GetRespawn() const
 bool AMiniGamePlayerCharacter::GetDefeat() const
 {
 	return bDefeat;
+}
+
+bool AMiniGamePlayerCharacter::GetExcited() const
+{
+	return bExcited;
+}
+
+bool AMiniGamePlayerCharacter::GetVictory2() const
+{
+	return bVictory2;
 }
 
