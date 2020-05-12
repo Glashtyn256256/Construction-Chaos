@@ -35,16 +35,10 @@ void AMiniGameBananzaGameModeBase::BeginPlay()
 			}
 		}
 
-		TArray<APlayerController*> playerControllers;
 		for (int i = 0; i <= PlayerCount; ++i)
 		{
 			APlayerController* PlayerController = UGameplayStatics::CreatePlayer(world, i);
-			if (PlayerController)
-			{
-				playerControllers.Add(PlayerController);
-			}
 		}
-
 
 		TArray<AActor*> foundActors;
 		UGameplayStatics::GetAllActorsOfClass(world, ACameraActor::StaticClass(), foundActors);
@@ -61,16 +55,12 @@ void AMiniGameBananzaGameModeBase::BeginPlay()
 			}
 		}
 
-		for (APlayerController* playerController : playerControllers)
+		for (FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; ++Iterator)
 		{
+			APlayerController* playerController = Iterator->Get();
 			if (playerController && CameraActor)
 			{
 				playerController->SetViewTargetWithBlend(CameraActor);
-				AMiniGamePlayerCharacter* character = Cast<AMiniGamePlayerCharacter>(playerController->GetCharacter());	
-				if (character)
-				{
-					character->RemoveRespawnProtection();
-				}
 			}
 		}
 	}
