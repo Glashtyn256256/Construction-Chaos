@@ -67,6 +67,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetDefeat(bool bDefeat);
 	UFUNCTION(BlueprintCallable)
+	void SetVictory2(bool bVictory2);
+	UFUNCTION(BlueprintCallable)
+	void SetExcited(bool bExcited);
+	UFUNCTION(BlueprintCallable)
 	bool GetVictory() const;
 	UFUNCTION(BlueprintCallable)
 	bool GetDeath() const;
@@ -76,6 +80,10 @@ public:
 	bool GetRespawn() const;
 	UFUNCTION(BlueprintCallable)
 	bool GetDefeat() const;
+	UFUNCTION(BlueprintCallable)
+	bool GetVictory2() const;
+	UFUNCTION(BlueprintCallable)
+	bool GetExcited() const;
 
 private:
 	void Interact();
@@ -104,4 +112,6 @@ protected:
 	bool bIsRagdoll;
 	bool bHasRecentlyRespawned;
 	bool bDefeat;
+	bool bVictory2;
+	bool bExcited;
 };

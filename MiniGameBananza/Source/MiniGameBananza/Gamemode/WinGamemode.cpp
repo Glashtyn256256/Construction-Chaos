@@ -27,13 +27,21 @@ void AWinGamemode::OnCharacterSpawned(AController* Controller, APawn* Pawn)
 
 			int scorePosition = scoreOrders.Find(id);
 
-			if (scoreOrders.Num() - 1 == scorePosition)
+			if(scorePosition == 0)
 			{
-				Character->SetDefeat(true);
+				Character->SetVictory(true);
+			}
+			else if(scorePosition == 1)
+			{
+				Character->SetExcited(true);
+			}
+			else if(scorePosition == 2)
+			{
+				Character->SetVictory2(true);
 			}
 			else
 			{
-				Character->SetVictory(true);
+				Character->SetDefeat(true);
 			}
 		}
 	}
