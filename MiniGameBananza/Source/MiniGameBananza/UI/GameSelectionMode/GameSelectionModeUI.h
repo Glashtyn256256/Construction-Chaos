@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "MiniGameBananza/UI/Generic/MiniGameBananzaMenuUI_Base.h"
 #include "MiniGameBananza/Utils/MiniGameBananzaGameInstance.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
@@ -13,7 +14,7 @@
  * 
  */
 UCLASS()
-class MINIGAMEBANANZA_API UGameSelectionModeUI : public UUserWidget
+class MINIGAMEBANANZA_API UGameSelectionModeUI : public UMiniGameBananzaMenuUI_Base
 {
 	GENERATED_BODY()
 	
@@ -29,13 +30,13 @@ public:
 #pragma region Events
 
 	UFUNCTION()
-		void OnRightArrow();
+	void OnRightArrow();
 	UFUNCTION()
-		void OnLeftArrow();
+	void OnLeftArrow();
 	UFUNCTION()
-		void OnPlayMode();
+	void OnPlayMode();
 	UFUNCTION()
-		void OnMainMenu();
+	void OnMainMenu();
 
 #pragma endregion
 
