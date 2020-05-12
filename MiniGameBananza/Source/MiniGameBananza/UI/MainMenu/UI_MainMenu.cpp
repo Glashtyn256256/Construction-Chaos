@@ -61,12 +61,12 @@ void UUI_MainMenu::InitializeComponents()
 
 void UUI_MainMenu::HandleAction(float DeltaTime)
 {
-	if (Action)
+	if (OnUIAction.IsBound())
 	{
 		if (ActionTimer <= 0)
 		{
-			Action(this);
-			Action = nullptr;
+			OnUIAction.Execute();
+			OnUIAction.Unbind();
 		}
 		else
 		{
@@ -88,12 +88,12 @@ void UUI_MainMenu::HandleMusicLoop(float DeltaTime)
 	}
 }
 
-void UUI_MainMenu::PlaySoundAndActionWhenFinished(USoundBase* SoundBase, void(*action)(UUI_MainMenu*))
+void UUI_MainMenu::PlaySoundAndActionWhenFinished(USoundBase* SoundBase, FOnAction action)
 {
-	if (SoundBase && action && !Action)
+	if (SoundBase && !OnUIAction.IsBound())
 	{
 		ActionTimer = SoundBase->GetDuration();
-		Action = action;
+		OnUIAction = action;
 		PlaySound(SoundBase);
 	}
 }
@@ -102,10 +102,11 @@ void UUI_MainMenu::OnStart()
 {
 	if (scStart)
 	{
-		PlaySoundAndActionWhenFinished(scStart, [](UUI_MainMenu* This) 
+		
+		PlaySoundAndActionWhenFinished(scStart, FOnAction::CreateLambda([this]()
 			{
-				This->MiniGameInstance->SetGameMode(GameModeLevels::Bomberman);
-			});
+				MiniGameInstance->SetGameMode(GameModeLevels::Bomberman);
+			}));
 	}
 }
 
@@ -113,15 +114,15 @@ void UUI_MainMenu::OnGameModeSelection()
 {
 	if (scClick_High)
 	{
-		PlaySoundAndActionWhenFinished(scClick_High, [](UUI_MainMenu* This)
+		PlaySoundAndActionWhenFinished(scClick_High, FOnAction::CreateLambda([this]()
 			{
-				const UWorld* World = This->GetWorld();
+				const UWorld* World = GetWorld();
 				if (World)
 				{
-					This->MiniGameInstance->SetCurrentLevel(GameModeLevels::Bomberman);
+					MiniGameInstance->SetCurrentLevel(GameModeLevels::Bomberman);
 					UGameplayStatics::OpenLevel(World, FName(TEXT("GameMode_Selection_Menu")));
 				}
-			});
+			}));
 	}
 }
 
@@ -139,11 +140,11 @@ void UUI_MainMenu::OnExit()
 {
 	if (scExit)
 	{
-		PlaySoundAndActionWhenFinished(scExit, [](UUI_MainMenu* This) 
+		PlaySoundAndActionWhenFinished(scExit, FOnAction::CreateLambda([this]()
 			{
 				TEnumAsByte<EQuitPreference::Type> pref = TEnumAsByte<EQuitPreference::Type>(EQuitPreference::Quit);
-				UKismetSystemLibrary::QuitGame(This->GetWorld(), nullptr, pref, false);
-			});
+				UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, pref, false);
+			}));
 	}
 }
 
