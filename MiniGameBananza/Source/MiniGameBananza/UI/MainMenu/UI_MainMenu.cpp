@@ -12,6 +12,7 @@ void UUI_MainMenu::NativeConstruct()
 	if (MiniGameInstance)
 	{
 		MiniGameInstance->ResetScores();
+		MiniGameInstance->SetIsGamemodeSelection(false);
 	}
 }
 
@@ -54,7 +55,10 @@ void UUI_MainMenu::OnStart()
 	{
 		PlaySoundAndActionWhenFinished(scStart, FOnAction::CreateLambda([this]()
 			{
-				MiniGameInstance->SetGameMode(GameModeLevels::Bomberman);
+				if (MiniGameInstance)
+				{
+					MiniGameInstance->SetGameMode(GameModeLevels::Bomberman);
+				}
 			}));
 	}
 }
@@ -68,8 +72,11 @@ void UUI_MainMenu::OnGameModeSelection()
 				const UWorld* World = GetWorld();
 				if (World)
 				{
-					MiniGameInstance->SetCurrentLevel(GameModeLevels::Bomberman);
-					UGameplayStatics::OpenLevel(World, FName(TEXT("GameMode_Selection_Menu")));
+					if (MiniGameInstance)
+					{
+						MiniGameInstance->SetCurrentLevel(GameModeLevels::Bomberman);
+						UGameplayStatics::OpenLevel(World, FName(TEXT("GameMode_Selection_Menu")));
+					}
 				}
 			}));
 	}

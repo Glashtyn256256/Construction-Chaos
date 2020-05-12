@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/Button.h"
 #include "MiniGameBananza/Utils/MiniGameBananzaGameInstance.h"
-#include "MiniGameBananza/UI/Generic/MiniGameBananzaUI_Base.h"
+#include "MiniGameBananza/UI/Generic/MiniGameBananzaMenuUI_Base.h"
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
 #include "Blueprint/UserWidget.h"
@@ -15,11 +15,11 @@
  * 
  */
 UCLASS()
-class MINIGAMEBANANZA_API UWinScreenUI : public UMiniGameBananzaUI_Base
+class MINIGAMEBANANZA_API UWinScreenUI : public UMiniGameBananzaMenuUI_Base
 {
 	GENERATED_BODY()
 public:
-
+	virtual void NativeConstruct() override;
 	virtual void InitializeComponents() override;
 
 #pragma region Events

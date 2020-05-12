@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Engine/World.h"
-#include "MiniGameBananza/UI/Generic/MiniGameBananzaUI_Base.h"
+#include "MiniGameBananza/UI/Generic/MiniGameBananzaMenuUI_Base.h"
 #include "Components/Button.h"
 #include "Components/AudioComponent.h"
 #include "Engine/Classes/Sound/SoundCue.h"
@@ -14,7 +14,7 @@
 
 
 UCLASS()
-class MINIGAMEBANANZA_API UUI_MainMenu : public UMiniGameBananzaUI_Base
+class MINIGAMEBANANZA_API UUI_MainMenu : public UMiniGameBananzaMenuUI_Base
 {
 	GENERATED_BODY()
 

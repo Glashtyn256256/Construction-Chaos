@@ -11,8 +11,6 @@ void UGameSelectionModeUI::NativeConstruct()
 	SelectLevel.Add(GameModeLevels::FloorIsLava);
 	SelectLevel.Add(GameModeLevels::GirderWipeout);
 
-	MiniGameInstance = Cast<UMiniGameBananzaGameInstance>(GetGameInstance());
-
 	if (MiniGameInstance)
 	{
 		MiniGameInstance->ResetScores();
@@ -29,8 +27,6 @@ void UGameSelectionModeUI::NativeConstruct()
 		}
 	}
 
-	InitializeComponents();
-
 	DisplayMiniGameImageAndTitle(SelectLevel[ArrayIndex]);
 };
 
@@ -40,26 +36,32 @@ void UGameSelectionModeUI::InitializeComponents()
 	if(ButtonPlayMode)
 	{
 		ButtonPlayMode->OnClicked.AddDynamic(this, &UGameSelectionModeUI::OnPlayMode);
+		ButtonPlayMode->OnHovered.AddDynamic(this, &UGameSelectionModeUI::OnHoverButton);
 	}
 
 	if (ButtonMainMenu)
 	{
 		ButtonMainMenu->OnClicked.AddDynamic(this, &UGameSelectionModeUI::OnMainMenu);
+		ButtonMainMenu->OnHovered.AddDynamic(this, &UGameSelectionModeUI::OnHoverButton);
 	}
 
 	if(ButtonLeftArrow)
 	{
 		ButtonLeftArrow->OnClicked.AddDynamic(this, &UGameSelectionModeUI::OnLeftArrow);
+		ButtonLeftArrow->OnHovered.AddDynamic(this, &UGameSelectionModeUI::OnHoverButton);
 	}
 
 	if(ButtonRightArrow)
 	{
 		ButtonRightArrow->OnClicked.AddDynamic(this, &UGameSelectionModeUI::OnRightArrow);
+		ButtonRightArrow->OnHovered.AddDynamic(this, &UGameSelectionModeUI::OnHoverButton);
 	}
 }
 
 void UGameSelectionModeUI::OnLeftArrow()
 {
+	OnClickButton();
+
 	ArrayIndex--;
 	if (ArrayIndex < 0)
 	{
@@ -71,6 +73,8 @@ void UGameSelectionModeUI::OnLeftArrow()
 
 void UGameSelectionModeUI::OnRightArrow()
 {
+	OnClickButton();
+
 	ArrayIndex++;
 
 	if (ArrayIndex > SelectLevel.Num() - 1)
@@ -83,17 +87,29 @@ void UGameSelectionModeUI::OnRightArrow()
 
 void UGameSelectionModeUI::OnMainMenu()
 {
-	if (MiniGameInstance)
+	if (scClick_Low)
 	{
-		MiniGameInstance->SetGameMode(GameModeLevels::MainMenu);
+		PlaySoundAndActionWhenFinished(scClick_Low, FOnAction::CreateLambda([this]()
+			{
+				if (MiniGameInstance)
+				{
+					MiniGameInstance->SetGameMode(GameModeLevels::MainMenu);
+				}
+			}));
 	}
 }
 
 void UGameSelectionModeUI::OnPlayMode()
 {
-	if (MiniGameInstance)
+	if (scStart)
 	{
-		MiniGameInstance->SetGameMode(SelectLevel[ArrayIndex]);
+		PlaySoundAndActionWhenFinished(scStart, FOnAction::CreateLambda([this]()
+			{
+				if (MiniGameInstance)
+				{
+					MiniGameInstance->SetGameMode(SelectLevel[ArrayIndex]);
+				}
+			}));
 	}
 }
 

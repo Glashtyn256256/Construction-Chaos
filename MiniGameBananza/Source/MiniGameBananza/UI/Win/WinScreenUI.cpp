@@ -3,13 +3,26 @@
 
 #include "WinScreenUI.h"
 
+void UWinScreenUI::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	if (MiniGameInstance)
+	{
+		MiniGameInstance->SetIsGamemodeSelection(false);
+	}
+}
+
 void UWinScreenUI::OnMainMenu()
 {
 	if (scClick_Low)
 	{
 		PlaySoundAndActionWhenFinished(scClick_Low, FOnAction::CreateLambda([this]()
 			{
-				MiniGameInstance->SetGameMode(GameModeLevels::MainMenu);
+				if (MiniGameInstance)
+				{
+					MiniGameInstance->SetGameMode(GameModeLevels::MainMenu);
+				}
 			}));
 	}
 }
@@ -20,8 +33,11 @@ void UWinScreenUI::OnPlayAgain()
 	{
 		PlaySoundAndActionWhenFinished(scStart, FOnAction::CreateLambda([this]()
 			{
-				MiniGameInstance->ResetScores();
-				MiniGameInstance->SetGameMode(GameModeLevels::Bomberman);
+				if (MiniGameInstance)
+				{
+					MiniGameInstance->ResetScores();
+					MiniGameInstance->SetGameMode(GameModeLevels::Bomberman);
+				}
 			}));
 	}
 }
