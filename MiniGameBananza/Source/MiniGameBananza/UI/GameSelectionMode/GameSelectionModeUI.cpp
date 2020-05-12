@@ -3,6 +3,7 @@
 
 #include "GameSelectionModeUI.h"
 
+
 void UGameSelectionModeUI::NativeConstruct()
 {
 	Super::NativeConstruct();
