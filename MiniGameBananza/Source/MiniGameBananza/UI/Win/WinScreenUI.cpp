@@ -3,50 +3,41 @@
 
 #include "WinScreenUI.h"
 
-void UWinScreenUI::NativeConstruct()
-{
-	Super::NativeConstruct();
-
-	MiniGameInstance = Cast<UMiniGameBananzaGameInstance>(GetGameInstance());
-	if (MiniGameInstance)
-	{
-		MiniGameInstance->SetIsGamemodeSelection(false);
-	}
-
-	InitializeUIComponents();
-}
-
-	
-
 void UWinScreenUI::OnMainMenu()
 {
-	UWorld* World = this->GetWorld();
-	if (World && MiniGameInstance)
+	if (scClick_Low)
 	{
-		MiniGameInstance->SetGameMode(GameModeLevels::MainMenu);
+		PlaySoundAndActionWhenFinished(scClick_Low, FOnAction::CreateLambda([this]()
+			{
+				MiniGameInstance->SetGameMode(GameModeLevels::MainMenu);
+			}));
 	}
 }
 
 void UWinScreenUI::OnPlayAgain()
 {
-	UWorld* World = this->GetWorld();
-	if (World && MiniGameInstance)
+	if (scStart)
 	{
-		MiniGameInstance->ResetScores();
-		MiniGameInstance->SetGameMode(GameModeLevels::Bomberman);
+		PlaySoundAndActionWhenFinished(scStart, FOnAction::CreateLambda([this]()
+			{
+				MiniGameInstance->ResetScores();
+				MiniGameInstance->SetGameMode(GameModeLevels::Bomberman);
+			}));
 	}
 }
 
-void UWinScreenUI::InitializeUIComponents() 
+void UWinScreenUI::InitializeComponents()
 {
 	if (ButtonMainMenu)
 	{
 		ButtonMainMenu->OnClicked.AddDynamic(this, &UWinScreenUI::OnMainMenu);
+		ButtonMainMenu->OnHovered.AddDynamic(this, &UWinScreenUI::OnHoverButton);
 	}
 
 	if (ButtonPlayAgain)
 	{
 		ButtonPlayAgain->OnClicked.AddDynamic(this, &UWinScreenUI::OnPlayAgain);
+		ButtonPlayAgain->OnHovered.AddDynamic(this, &UWinScreenUI::OnHoverButton);
 	}
 
 	if (TextPlayer1)
