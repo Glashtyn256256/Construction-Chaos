@@ -94,7 +94,7 @@ public:
 	float PlayerSpeed = 10.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Respawn Protection")
-	float MaxRespawnProtectionTime = 3.0f;
+	float MaxRespawnProtectionTime = 2.0f;
 
 	UPROPERTY(EditDefaultsOnly)
 	UMaterial* OpacityMaskedMaterial;
