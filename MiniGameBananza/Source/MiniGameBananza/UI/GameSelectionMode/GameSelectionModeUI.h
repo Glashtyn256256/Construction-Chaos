@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "MiniGameBananza/UI/Generic/MiniGameBananzaMenuUI_Base.h"
-#include "MiniGameBananza/Utils/MiniGameBananzaGameInstance.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "GameSelectionModeUI.generated.h"
@@ -41,7 +40,7 @@ public:
 #pragma endregion
 
 protected:
-	UMiniGameBananzaGameInstance* MiniGameInstance;
+	//UMiniGameBananzaGameInstance* MiniGameInstance;
 
 	TArray<GameModeLevels> SelectLevel;
 
