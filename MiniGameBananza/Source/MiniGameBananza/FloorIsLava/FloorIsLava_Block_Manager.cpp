@@ -52,7 +52,7 @@ void AFloorIsLava_Block_Manager::Tick(float DeltaTime)
 		time = 0;
 	}
 	time += DeltaTime;
-	GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::FromInt(FloorBlocks.Num() - 1));
+	//GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::FromInt(FloorBlocks.Num() - 1));
 }
 
 void AFloorIsLava_Block_Manager::SelectRandomCube()

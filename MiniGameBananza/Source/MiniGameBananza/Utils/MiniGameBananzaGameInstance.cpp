@@ -35,7 +35,7 @@ void UMiniGameBananzaGameInstance::SetGameMode(GameModeLevels gamemode)
 	if (World)
 	{
 		CurrentLevel = gamemode;
-		GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::FromInt(CurrentLevel));
+		//GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::FromInt(CurrentLevel));
 		switch (CurrentLevel)
 		{
 			
