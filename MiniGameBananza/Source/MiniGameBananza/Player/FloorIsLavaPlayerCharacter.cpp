@@ -106,7 +106,7 @@ void AFloorIsLavaPlayerCharacter::PreventCharacterStandingStill(float DeltaTime)
 	FCollisionQueryParams CollisionParams;
 	//DrawDebugLine(GetWorld(), Start, End, FColor::Green, true, -1, 0, 5.0f);
 
-	DrawDebugSphere(GetWorld(), GetActorLocation(), SphereRadius, 20, FColor::Purple, false, -1, 0, 1);
+	//DrawDebugSphere(GetWorld(), GetActorLocation(), SphereRadius, 20, FColor::Purple, false, -1, 0, 1);
 
 	bool isHit = GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_Visibility, CollisionParams);
 
@@ -115,7 +115,7 @@ void AFloorIsLavaPlayerCharacter::PreventCharacterStandingStill(float DeltaTime)
 		AFloorIsLava_Floor_Block* hitBlock = Cast<AFloorIsLava_Floor_Block>(OutHit.GetActor());
 		if (hitBlock)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, OutHit.GetActor()->GetName());
+			//GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Green, OutHit.GetActor()->GetName());
 			if (PreviousHitBlock == hitBlock)
 			{
 				Timer += DeltaTime;
@@ -123,7 +123,7 @@ void AFloorIsLavaPlayerCharacter::PreventCharacterStandingStill(float DeltaTime)
 				{
 					hitBlock->TogglePhysicsSimulation();
 					Timer = 0;
-					GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Red, hitBlock->GetName());
+				//	GEngine->AddOnScreenDebugMessage(-1, -1, FColor::Red, hitBlock->GetName());
 				}
 			}
 			else

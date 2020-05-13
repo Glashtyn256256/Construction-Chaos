@@ -86,20 +86,20 @@ void AMiniGamePlayerCharacter::Jump()
 
 void AMiniGamePlayerCharacter::OnInteract()
 {
-	GEngine->AddOnScreenDebugMessage(
+	/*GEngine->AddOnScreenDebugMessage(
 		-1,
 		0.1f,
 		FColor::Cyan,
-		FString::Printf(TEXT("APlayerCharacter::OnInteract")));
+		FString::Printf(TEXT("APlayerCharacter::OnInteract")));*/
 }
 
 void AMiniGamePlayerCharacter::OnJump()
 {
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		0.1f,
-		FColor::Cyan,
-		FString::Printf(TEXT("APlayerCharacter::OnJump")));
+	//GEngine->AddOnScreenDebugMessage(
+	//	-1,
+	//	0.1f,
+	//	FColor::Cyan,
+	//	FString::Printf(TEXT("APlayerCharacter::OnJump")));
 }
 
 void AMiniGamePlayerCharacter::MoveForward(float Value)
