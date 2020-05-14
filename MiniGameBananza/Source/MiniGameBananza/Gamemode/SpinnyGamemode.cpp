@@ -7,8 +7,10 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 
-ASpinnyGamemode::ASpinnyGamemode() : SpeedLevel(1)
+void ASpinnyGamemode::BeginPlay()
 {
+	SpeedLevel = 1;
+
 	const UWorld* world = GetWorld();
 	if (world)
 	{

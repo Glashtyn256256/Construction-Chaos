@@ -38,10 +38,10 @@ void ASpinnyPole::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FQuat RotationOffset = FQuat::MakeFromEuler(FVector::UpVector * CurrentRotationSpeed * DeltaTime);
+	FQuat RotationOffset = FQuat::MakeFromEuler(FVector::UpVector * CurrentRotationSpeed);
 
 	FQuat CurrentRotation = GetActorQuat();
-	CurrentRotation *= RotationOffset;
+	CurrentRotation *= RotationOffset * DeltaTime;
 	SetActorRotation(CurrentRotation);
 
 	const UWorld* world = GetWorld();
