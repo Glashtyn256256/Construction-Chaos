@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Components/StaticMeshComponent.h"
+#include "MiniGameBananza/Utils/MiniGameBananzaGameInstance.h"
 #include "Components/BoxComponent.h"
 #include "MiniGamePlayerCharacter.generated.h"
 
@@ -26,6 +27,9 @@ protected:
 
 	UFUNCTION()
 	virtual void OnJump();
+
+	UFUNCTION()
+	virtual void OnEscape();
 
 	UFUNCTION()
 	virtual void MoveForward(float value);
@@ -88,6 +92,7 @@ public:
 private:
 	void Interact();
 	void Jump();
+	void Escape();
 
 public:
 	UPROPERTY(EditDefaultsOnly)
