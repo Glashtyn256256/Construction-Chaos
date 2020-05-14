@@ -46,6 +46,8 @@ void AMiniGamePlayerCharacter::SetupPlayerInputComponent(UInputComponent* Player
 	// Bind axis mappings to movement functions
 	PlayerInputComponent->BindAxis("PlayerForward", this, &AMiniGamePlayerCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("PlayerRight", this, &AMiniGamePlayerCharacter::MoveRight);
+
+	PlayerInputComponent->BindAction("PlayerEscape", EInputEvent::IE_Pressed, this, &AMiniGamePlayerCharacter::Escape);
 }
 
 // Called every frame
@@ -82,6 +84,20 @@ void AMiniGamePlayerCharacter::Jump()
 {
 	// Virtual function call
 	OnJump();
+}
+void AMiniGamePlayerCharacter::Escape()
+{
+	OnEscape();
+}
+
+void AMiniGamePlayerCharacter::OnEscape()
+{
+	UMiniGameBananzaGameInstance* MiniGameInstance = Cast<UMiniGameBananzaGameInstance>(GetGameInstance());
+	if (MiniGameInstance)
+	{
+		MiniGameInstance->SetGameMode(GameModeLevels::MainMenu);
+	}
+	
 }
 
 void AMiniGamePlayerCharacter::OnInteract()
