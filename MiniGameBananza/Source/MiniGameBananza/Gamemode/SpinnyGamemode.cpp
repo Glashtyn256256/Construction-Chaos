@@ -9,6 +9,8 @@
 
 void ASpinnyGamemode::BeginPlay()
 {
+	Super::BeginPlay();
+
 	SpeedLevel = 1;
 
 	const UWorld* world = GetWorld();
