@@ -15,7 +15,7 @@ class MINIGAMEBANANZA_API ASpinnyGamemode : public AMiniGameBananzaGameModeBase
 {
 	GENERATED_BODY()
 public:
-	ASpinnyGamemode();
+	virtual void BeginPlay() override;
 
 public:
 	virtual void Tick(float DeltaTime) override;
