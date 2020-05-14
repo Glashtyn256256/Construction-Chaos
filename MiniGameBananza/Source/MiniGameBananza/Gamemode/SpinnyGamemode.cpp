@@ -49,14 +49,10 @@ void ASpinnyGamemode::IncrementSpeedLevel()
 	const UWorld* world = GetWorld();
 	if (world)
 	{
-		ASpinnyPlayerController* controller = Cast<ASpinnyPlayerController>(world->GetFirstPlayerController());
-		if (controller)
+		ASpinnyMiniGameHUD* hud = Cast<ASpinnyMiniGameHUD>(AMiniGameHUD::GetInstance());
+		if (hud)
 		{
-			ASpinnyMiniGameHUD* hud = Cast<ASpinnyMiniGameHUD>(controller->GetHUD());
-			if (hud)
-			{
-				hud->SetSpeedLevel(++SpeedLevel);
-			}
+			hud->SetSpeedLevel(++SpeedLevel);
 		}
 	}
 }
