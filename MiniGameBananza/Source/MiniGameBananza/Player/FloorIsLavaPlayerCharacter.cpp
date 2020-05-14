@@ -36,8 +36,8 @@ void AFloorIsLavaPlayerCharacter::Tick(float DeltaTime)
 	Velocity = (GetActorForwardVector() * InputForward) + (GetActorRightVector() * InputRight);
 	Velocity *= MovementSpeed;
 
-	AddMovementInput(Velocity, DeltaTime);
-	AddMovementInput(Force, DeltaTime);
+	AddMovementInput(Velocity, 1.0f);
+	AddMovementInput(Force, 1.0f);
 
 	FVector direction = FVector::ZeroVector - Force;
 
