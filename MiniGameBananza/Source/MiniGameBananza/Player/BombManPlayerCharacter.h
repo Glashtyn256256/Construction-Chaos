@@ -87,4 +87,7 @@ private:
 	FVector Velocity;
 	FVector LastDirection;
 
+	float time;
+	float timeTake;
+
 };
