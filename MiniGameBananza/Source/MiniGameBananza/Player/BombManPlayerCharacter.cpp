@@ -88,11 +88,18 @@ void ABombManPlayerCharacter::Tick(float DeltaTime)
 		{
 			SetActorLocation(TargetPosition);
 		}
+		else
+		{
+			timeTake = FVector::Dist(GetActorLocation(), TargetPosition) / p_PlayerMovementSpeed;
+			time = 0.0f;
+		}
 
 	}
 	else
 	{
-		if (FVector::Dist(GetActorLocation(), TargetPosition) <= 5.0f)
+		time += DeltaTime;
+
+		if (time >= timeTake)
 		{
 			bIsMoving = false;
 			SetActorLocation(TargetPosition);
